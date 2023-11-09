@@ -4,7 +4,94 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="" />
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/Constants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/InputListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/Window.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/background.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/background/background.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/background/hills.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/background/sky.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/background/trees.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/mute.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard02.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard03.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard05.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard06.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard07.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard08.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard09.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/boulder1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/boulder2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/boulder3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/bush1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/bush2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/cactus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/car01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/car02.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/car03.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/car04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/column.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/dead_tree1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/dead_tree2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/palm_tree.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_straight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_uphill_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_uphill_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_uphill_straight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/semi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/stump.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/tree1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/tree2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/truck.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/music/racer.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/music/racer.ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard02.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard03.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard05.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard06.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard07.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard08.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard09.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/boulder1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/boulder2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/boulder3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/bush1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/bush2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/cactus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/car01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/car02.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/car03.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/car04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/column.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/dead_tree1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/dead_tree2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/palm_tree.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_straight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_uphill_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_uphill_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_uphill_straight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/semi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/stump.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/tree1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/tree2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sprites/truck.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/AppTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +103,17 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -34,7 +132,8 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/bitco/OneDrive/Desktop/SPM/GIT&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;gameloop&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/GIT/Java-Client-Racer/src/main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -43,6 +142,12 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\GIT\Java-Client-Racer\src\main" />
+      <recent name="D:\GIT\Java-Client-Racer\src\main\commons" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -53,10 +158,44 @@
       <updated>1698918156622</updated>
       <workItem from="1698918157571" duration="1311000" />
       <workItem from="1698919524285" duration="329000" />
+      <workItem from="1698920968355" duration="60000" />
+      <workItem from="1698921054002" duration="667000" />
+      <workItem from="1698921855626" duration="10400000" />
+      <workItem from="1698947716227" duration="838000" />
+      <workItem from="1698949501386" duration="614000" />
+      <workItem from="1699003405323" duration="4628000" />
+      <workItem from="1699220893725" duration="260000" />
+      <workItem from="1699285765574" duration="16000" />
+      <workItem from="1699425608614" duration="700000" />
+      <workItem from="1699440538768" duration="18711000" />
+      <workItem from="1699519075556" duration="3409000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="gameloop" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
