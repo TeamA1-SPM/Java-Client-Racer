@@ -1,8 +1,7 @@
 package main;
 
-import javax.swing.JFrame;
-import java.awt.Graphics2D;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Window extends JFrame implements Runnable{
@@ -10,7 +9,9 @@ public class Window extends JFrame implements Runnable{
     private Graphics2D g2;
     private InputListener keyListener = new InputListener();
 
-
+    private Image skyImage = null;
+    private Image hillsImage = null;
+    private Image treesImage = null;
 
     public Window(){
         this.setSize(Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT);
@@ -22,6 +23,10 @@ public class Window extends JFrame implements Runnable{
         this.addKeyListener(keyListener);
 
         g2 = (Graphics2D)this.getGraphics();
+
+        loadImages();
+
+        run();
     }
 
     @Override
@@ -37,16 +42,18 @@ public class Window extends JFrame implements Runnable{
     private long last = System.currentTimeMillis();
     private double dt = 0;
     private double gdt = 0;
-    private final double step = 1/60;
+    private final double step = (double) 1 /60;
 
     private void frame(){
         now = System.currentTimeMillis();
-        dt = Math.min(1, (now - last) / 1000);
+        dt = Math.min(1, (double)(now - last)/ 1000);
         gdt = gdt + dt;
         while (gdt > step) {
             gdt = gdt - step;
-            update(step);
+            update(gdt);
         }
+
+
         render();
         last = now;
 
@@ -63,7 +70,7 @@ public class Window extends JFrame implements Runnable{
     private double playerX = 0;
     private double speed = 0;
     private int segmentLength = 200;
-    private int trackLength = 0;
+    private double trackLength = 500 * 200/step;
     private double maxSpeed = segmentLength/step;
     private double accel =  maxSpeed/5;
     private double breaking      = -maxSpeed;
@@ -72,8 +79,7 @@ public class Window extends JFrame implements Runnable{
     private double offRoadLimit  =  maxSpeed/4;
 
 
-    private void update(double step){
-
+    private void update(double dt){
         position = increase(position, dt * speed, trackLength);
 
         double dx = dt * 2 * (speed/maxSpeed);
@@ -96,22 +102,15 @@ public class Window extends JFrame implements Runnable{
         playerX = limit(playerX, -2, 2);
         speed   = limit(speed, 0, maxSpeed);
 
-
-
-
-        //g2.setColor(Color.BLACK);
-        //g2.fillRect(0,0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-
-
     }
 
     // Util
     private double increase(double start, double increment, double max) { // with looping
         double result = start + increment;
         while (result >= max)
-            result -= max;
+            result =- max;
         while (result < 0)
-            result += max;
+            result =+ max;
         return result;
     }
 
@@ -125,9 +124,33 @@ public class Window extends JFrame implements Runnable{
     }
 
 
-    private void render(){
+    private  void loadImages(){
+        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("images/background/sky.png"));
+        skyImage = imageIcon.getImage();
+        imageIcon = new ImageIcon(this.getClass().getResource("images/background/hills.png"));
+        hillsImage = imageIcon.getImage();
+        imageIcon = new ImageIcon(this.getClass().getResource("images/background/trees.png"));
+        treesImage = imageIcon.getImage();
 
     }
+
+    private void render(){
+        this.removeAll();
+        renderBackground();
+
+
+    }
+
+
+
+    private void renderBackground(){
+        g2.drawImage(skyImage,0,0,1280,480,null);
+        g2.drawImage(hillsImage,0,0,1280,480,null);
+        g2.drawImage(treesImage,0,0,1280,480,null);
+    }
+
+
+
 
 
 }

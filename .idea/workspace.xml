@@ -4,93 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/Constants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/InputListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/Window.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/background.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/background/background.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/background/hills.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/background/sky.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/background/trees.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/mute.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard01.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard03.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard04.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard05.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard06.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard07.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard08.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/billboard09.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/boulder1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/boulder2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/boulder3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/bush1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/bush2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/cactus.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/car01.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/car02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/car03.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/car04.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/column.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/dead_tree1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/dead_tree2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/palm_tree.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_straight.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_uphill_left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_uphill_right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/player_uphill_straight.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/semi.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/stump.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/tree1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/tree2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/images/sprites/truck.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/music/racer.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/music/racer.ogg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard01.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard03.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard04.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard05.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard06.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard07.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard08.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/billboard09.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/boulder1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/boulder2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/boulder3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/bush1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/bush2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/cactus.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/car01.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/car02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/car03.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/car04.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/column.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/dead_tree1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/dead_tree2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/palm_tree.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_straight.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_uphill_left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_uphill_right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/player_uphill_straight.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/semi.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/stump.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/tree1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/tree2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/sprites/truck.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/AppTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Window.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,8 +85,20 @@
       <workItem from="1699285765574" duration="16000" />
       <workItem from="1699425608614" duration="700000" />
       <workItem from="1699440538768" duration="18711000" />
-      <workItem from="1699519075556" duration="3409000" />
+      <workItem from="1699519075556" duration="5419000" />
+      <workItem from="1699525203617" duration="3340000" />
+      <workItem from="1699529115056" duration="5011000" />
+      <workItem from="1699534200312" duration="1903000" />
     </task>
+    <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
+      <option name="closed" value="true" />
+      <created>1699523180163</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1699523180163</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -197,5 +126,20 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/Window.java</url>
+          <line>83</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
