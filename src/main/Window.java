@@ -9,30 +9,34 @@ public class Window extends JFrame implements Runnable{
     private Graphics2D g2;
     private InputListener keyListener = new InputListener();
 
-    private Image skyImage = null;
-    private Image hillsImage = null;
-    private Image treesImage = null;
+    private Background background;
+    private Road road;
+
+    private boolean isRunning = true;
+
+
 
     public Window(){
-        this.setSize(Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT);
-        this.setTitle(Constants.SCREEN_TITLE);
-        this.setResizable(Constants.SCREEN_RESIZABLE);
-        this.setVisible(Constants.SCREEN_VISIBLE);
+        this.setSize(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
+        this.setTitle(Settings.SCREEN_TITLE);
+        this.setResizable(Settings.SCREEN_RESIZABLE);
+        this.setVisible(Settings.SCREEN_VISIBLE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.addKeyListener(keyListener);
 
         g2 = (Graphics2D)this.getGraphics();
-
-        loadImages();
+        background = new Background();
+        road = new Road(createRoad(Settings.segmentLength, Settings.segmentSize));
 
         run();
     }
 
+
     @Override
     public void run() {
         // game loop
-        while(true){
+        while(isRunning ){
             frame();
         }
 
@@ -42,9 +46,13 @@ public class Window extends JFrame implements Runnable{
     private long last = System.currentTimeMillis();
     private double dt = 0;
     private double gdt = 0;
-    private final double step = (double) 1 /60;
+    private final double step = Settings.STEP;
+
+    //
+
 
     private void frame(){
+
         now = System.currentTimeMillis();
         dt = Math.min(1, (double)(now - last)/ 1000);
         gdt = gdt + dt;
@@ -52,7 +60,6 @@ public class Window extends JFrame implements Runnable{
             gdt = gdt - step;
             update(gdt);
         }
-
 
         render();
         last = now;
@@ -63,15 +70,17 @@ public class Window extends JFrame implements Runnable{
 
         }
 
+        System.out.println("Speed: " + speed);
+
     }
 
 
     private double position = 0;
     private double playerX = 0;
+    private double playerZ = Settings.cameraHeight * Settings.cameraDepth;
     private double speed = 0;
-    private int segmentLength = 200;
-    private double trackLength = 500 * 200/step;
-    private double maxSpeed = segmentLength/step;
+
+    private double maxSpeed = Settings.segmentLength/step;
     private double accel =  maxSpeed/5;
     private double breaking      = -maxSpeed;
     private double decel         = -maxSpeed/5;
@@ -80,7 +89,7 @@ public class Window extends JFrame implements Runnable{
 
 
     private void update(double dt){
-        position = increase(position, dt * speed, trackLength);
+        position = increase(position, dt * speed, Settings.trackLength);
 
         double dx = dt * 2 * (speed/maxSpeed);
 
@@ -108,9 +117,9 @@ public class Window extends JFrame implements Runnable{
     private double increase(double start, double increment, double max) { // with looping
         double result = start + increment;
         while (result >= max)
-            result =- max;
+            result -= max;
         while (result < 0)
-            result =+ max;
+            result += max;
         return result;
     }
 
@@ -123,34 +132,46 @@ public class Window extends JFrame implements Runnable{
         return Math.max(min, Math.min(value, max));
     }
 
+    // Create Road
+    private Segment[] createRoad(int segmentLength, int segmentSize){
+        Segment[] segments = new Segment[segmentSize];
 
-    private  void loadImages(){
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("images/background/sky.png"));
-        skyImage = imageIcon.getImage();
-        imageIcon = new ImageIcon(this.getClass().getResource("images/background/hills.png"));
-        hillsImage = imageIcon.getImage();
-        imageIcon = new ImageIcon(this.getClass().getResource("images/background/trees.png"));
-        treesImage = imageIcon.getImage();
+        for(int index = 0; index < segmentLength; index++){
+            Segment seg = new Segment(index);
 
+            seg.setP1World(new Point(0,0,index*segmentLength));
+            seg.setP2World(new Point(0,0,(index+1)*segmentLength));
+
+            if (Math.floorMod(index, Settings.rumbleLength) % 2 == 1) {
+                seg.setColorMode(ColorMode.DARK);
+            } else {
+                seg.setColorMode(ColorMode.LIGHT);
+            }
+
+            segments[index] = seg;
+        }
+
+        // TODO Paint start and finish line
+        //segments[findSegment(playerZ).index + 2].color = COLORS.START;
+        //segments[findSegment(playerZ).index + 3].color = COLORS.START;
+        //for(var n = 0 ; n < rumbleLength ; n++)
+        //    segments[segments.length-1-n].color = COLORS.FINISH;
+
+        return segments;
     }
 
     private void render(){
-        this.removeAll();
-        renderBackground();
 
+        g2.clearRect(0,0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
+
+        background.render(g2);
+        road.render(g2, position, playerX);
+        renderPlayer();
 
     }
 
+    private void renderPlayer(){
 
-
-    private void renderBackground(){
-        g2.drawImage(skyImage,0,0,1280,480,null);
-        g2.drawImage(hillsImage,0,0,1280,480,null);
-        g2.drawImage(treesImage,0,0,1280,480,null);
     }
-
-
-
-
 
 }
