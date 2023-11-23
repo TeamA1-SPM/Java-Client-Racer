@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 
 public class Window extends JFrame implements Runnable{
 
-    private Graphics2D g2;
+    private Graphics2D g2D;
     private InputListener keyListener = new InputListener();
 
     private Background background;
@@ -17,6 +17,11 @@ public class Window extends JFrame implements Runnable{
 
 
     public Window(){
+        init();
+        run();
+    }
+
+    private void init(){
         this.setSize(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
         this.setTitle(Settings.SCREEN_TITLE);
         this.setResizable(Settings.SCREEN_RESIZABLE);
@@ -25,11 +30,10 @@ public class Window extends JFrame implements Runnable{
 
         this.addKeyListener(keyListener);
 
-        g2 = (Graphics2D)this.getGraphics();
+        gD2 = (Graphics2D)this.getGraphics();
+
         background = new Background();
         road = new Road(createRoad(Settings.segmentLength, Settings.segmentSize));
-
-        run();
     }
 
 
@@ -65,12 +69,10 @@ public class Window extends JFrame implements Runnable{
         last = now;
 
         try{
-            Thread.sleep(1000 / 60);
+            Thread.sleep(1000 / 59);
         }catch(Exception e){
 
         }
-
-        System.out.println("Speed: " + speed);
 
     }
 
@@ -162,11 +164,16 @@ public class Window extends JFrame implements Runnable{
 
     private void render(){
 
-        g2.clearRect(0,0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
+        // Create Image then draw
+        Image i = createImage(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
+        Graphics2D g2Dnext = (Graphics2D)i.getGraphics();
 
-        background.render(g2);
-        road.render(g2, position, playerX);
+        background.render(g2Dnext);
+        road.render(g2Dnext, position, playerX);
         renderPlayer();
+
+
+        g2D.drawImage(i,0,0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, null);
 
     }
 
