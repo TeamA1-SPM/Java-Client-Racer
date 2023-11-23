@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// new feaures:&#10;Draw Road V1&#10;&#10;// refactoring&#10;put rendering in extra classes&#10;renamed Consatants in Settings&#10;added values to settings&#10;&#10;// known bugs&#10;flickering">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Constants.java" beforeDir="false" />
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// bugs removal&#10;flickering - added image buffer&#10;&#10;// bugs&#10;- road segment wrong size&#10;- background render wrong size">
       <change beforePath="$PROJECT_DIR$/src/main/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/AppTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +102,7 @@
       <workItem from="1700588133915" duration="6201000" />
       <workItem from="1700644161848" duration="31273000" />
       <workItem from="1700682688244" duration="1517000" />
-      <workItem from="1700733711508" duration="5551000" />
+      <workItem from="1700733711508" duration="5968000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -131,7 +128,23 @@
       <option name="project" value="LOCAL" />
       <updated>1700683827124</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="// bugs removal&#10;flickering - added image buffer">
+      <option name="closed" value="true" />
+      <created>1700746429723</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1700746429723</updated>
+    </task>
+    <task id="LOCAL-00005" summary="// bugs removal&#10;flickering - added image buffer&#10;&#10;// bugs&#10;- road segment wrong size&#10;- background render wrong size">
+      <option name="closed" value="true" />
+      <created>1700746704036</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1700746704036</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,7 +177,9 @@
     <MESSAGE value="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!" />
     <MESSAGE value="Background added&#10;&#10;BUG FIX:&#10;gameloop starts now, run() is used&#10;trackLength = 0 endless loop in increase() fix" />
     <MESSAGE value="// new feaures:&#10;Draw Road V1&#10;&#10;// refactoring&#10;put rendering in extra classes&#10;renamed Consatants in Settings&#10;added values to settings&#10;&#10;// known bugs&#10;flickering" />
-    <option name="LAST_COMMIT_MESSAGE" value="// new feaures:&#10;Draw Road V1&#10;&#10;// refactoring&#10;put rendering in extra classes&#10;renamed Consatants in Settings&#10;added values to settings&#10;&#10;// known bugs&#10;flickering" />
+    <MESSAGE value="// bugs removal&#10;flickering - added image buffer" />
+    <MESSAGE value="// bugs removal&#10;flickering - added image buffer&#10;&#10;// bugs&#10;- road segment wrong size&#10;- background render wrong size" />
+    <option name="LAST_COMMIT_MESSAGE" value="// bugs removal&#10;flickering - added image buffer&#10;&#10;// bugs&#10;- road segment wrong size&#10;- background render wrong size" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

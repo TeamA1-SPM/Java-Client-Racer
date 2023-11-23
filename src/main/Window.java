@@ -30,7 +30,7 @@ public class Window extends JFrame implements Runnable{
 
         this.addKeyListener(keyListener);
 
-        gD2 = (Graphics2D)this.getGraphics();
+        g2D = (Graphics2D)this.getGraphics();
 
         background = new Background();
         road = new Road(createRoad(Settings.segmentLength, Settings.segmentSize));
