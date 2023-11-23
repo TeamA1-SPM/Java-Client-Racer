@@ -6,10 +6,10 @@ enum ColorMode {LIGHT,DARK,START, FINISH}
 
 public class Segment {
 
-
     private int index;
 
     private boolean isLooped = false;
+    private boolean isLane = false;
     private Color colorRoad;
     private Color colorGrass;
     private Color colorRumble;
@@ -42,6 +42,7 @@ public class Segment {
                 colorRoad = Colors.ROAD_LIGHT;
                 colorGrass = Colors.GRASS_LIGHT;
                 colorRumble = Colors.RUMBLE_DARK;
+                isLane = true;
                 break;
             case DARK:
                 colorRoad = Colors.ROAD_DARK;
@@ -131,5 +132,9 @@ public class Segment {
 
     public void setLooped(boolean looped) {
         isLooped = looped;
+    }
+
+    public boolean isLane(){
+        return isLane;
     }
 }

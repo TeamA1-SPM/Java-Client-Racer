@@ -39,6 +39,7 @@ public class Background {
     }
 
     public void render(Graphics2D g2D){
+
         g2D.drawImage(sky,0,0,1280,480,null);
         g2D.drawImage(hills,0,0,1280,480,null);
         g2D.drawImage(trees,0,0,1280,480,null);

@@ -5,6 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// bugs removal&#10;flickering - added image buffer&#10;&#10;// bugs&#10;- road segment wrong size&#10;- background render wrong size">
+      <change afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Background.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Background.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Road.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/RoadReset.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Segment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Segment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Settings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Window.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -102,7 +112,7 @@
       <workItem from="1700588133915" duration="6201000" />
       <workItem from="1700644161848" duration="31273000" />
       <workItem from="1700682688244" duration="1517000" />
-      <workItem from="1700733711508" duration="5968000" />
+      <workItem from="1700733711508" duration="14794000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -144,7 +154,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700746704036</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="// bugs removal&#10;flickering - added image buffer&#10;&#10;// bugs&#10;- road segment wrong size&#10;- background render wrong size">
+      <option name="closed" value="true" />
+      <created>1700746791722</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1700746791722</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

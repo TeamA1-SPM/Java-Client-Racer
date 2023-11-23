@@ -11,7 +11,10 @@ public class Road {
     }
 
 
-    public void render(Graphics2D g2 , double position, double playerX){
+    public void render(Graphics2D g2 , Player player){
+        double position = player.getPosition();
+        double playerX = player.getPlayerX();
+
         Segment baseSegment = findSegment(position);
         double maxy = Settings.SCREEN_HEIGHT;
 
@@ -35,7 +38,7 @@ public class Road {
         }
     }
 
-    private Segment findSegment(double position) {
+    public Segment findSegment(double position) {
         return segments[(int)Math.floor(position/Settings.segmentLength) % Settings.segmentSize];
     }
 
@@ -70,7 +73,6 @@ public class Road {
         int r1 = w1/Math.max(6,  2*Settings.lanes);
         int r2 = w2/Math.max(6,  2*Settings.lanes);
         g2.setColor(segment.getColorRumble());
-
         Polygon pRumbleLeft = createPolygon(x1-w1-r1, y1, x1-w1, y1, x2-w2, y2, x2-w2-r2, y2);
         g2.fillPolygon(pRumbleLeft);
         Polygon pRumbleRight = createPolygon(x1+w1+r1, y1, x1+w1, y1, x2+w2, y2, x2+w2+r2, y2);
@@ -82,14 +84,24 @@ public class Road {
         g2.fillPolygon(pRoad);
 
         // render lanes
-        //int l1 = w1/Math.max(32, 8*lanes);
-        //int l2 = w2/Math.max(32, 8*lanes);
+        if(segment.isLane()){
+            int lanes = Settings.lanes;
+            int l1 = w1/Math.max(32, 8*lanes);
+            int l2 = w2/Math.max(32, 8*lanes);
 
-        int lanew1;
-        int lanew2;
-        int lanex1;
-        int lanex2;
-        int lane;
+            int lanew1 = w1*2/lanes;
+            int lanew2 = w2*2/lanes;
+            int lanex1 = x1 - w1 + lanew1;
+            int lanex2 = x2 - w2 + lanew2;
+
+            for(int lane = 1 ; lane < lanes ; lanex1 += lanew1, lanex2 += lanew2, lane++){
+                Polygon pLane = createPolygon(lanex1 - l1/2, y1, lanex1 + l1/2, y1, lanex2 + l2/2, y2, lanex2 - l2/2, y2);
+                g2.setColor(Colors.LANE);
+                g2.fillPolygon(pLane);
+            }
+
+
+        }
 
     }
 
