@@ -74,21 +74,29 @@ public class Game implements Runnable {
     private void update(double dt){
         player.increase(dt);
 
-        if (keyListener.isKeyPressed(KeyEvent.VK_LEFT))
+        if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
             player.pressLeft();
-        else if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT))
-            player.pressRight();
+        } else {
+            player.releaseLeft();
+        }
 
-        if (keyListener.isKeyPressed(KeyEvent.VK_UP))
-            player.pressUp();
-        else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN))
-            player.pressDown();
-        else
-            player.idle();
+        if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
+           player.pressRight();
+        } else {
+           player.releaseRight();
+        }
 
-        player.offRoad();
-        player.xLimit();
-        player.speedLimit();
+        if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
+           player.pressUp();
+        } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
+           player.pressDown();
+        } else {
+           player.idle();
+        }
+
+       player.offRoad();
+       player.xLimit();
+       player.speedLimit();
     }
 
     private void render(){
