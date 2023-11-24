@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Refactoring&#10;- restructure packages">
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Bug Fix&#10;- background path correction">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/constants/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Settings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/Background.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Background.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Road.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +69,15 @@
       <recent name="D:\GIT\Java-Client-Racer\src\main\commons" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="Race" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="main.Main" />
+      <module name="Java-Client-Racer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -104,7 +119,7 @@
       <workItem from="1700682688244" duration="1517000" />
       <workItem from="1700733711508" duration="16868000" />
       <workItem from="1700759206411" duration="2543000" />
-      <workItem from="1700810507629" duration="5533000" />
+      <workItem from="1700810507629" duration="26485000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -170,7 +185,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700817569282</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="// Bug Fix&#10;- background path correction">
+      <option name="closed" value="true" />
+      <created>1700817908237</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1700817908237</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -207,7 +230,8 @@
     <MESSAGE value="// bugs removal&#10;flickering - added image buffer&#10;&#10;// bugs&#10;- road segment wrong size&#10;- background render wrong size" />
     <MESSAGE value="// refactoring&#10;- added Player Class&#10;- added Game Class&#10;- seperated Window and Game logic&#10;&#10;// Features&#10;- added Lanes" />
     <MESSAGE value="// Refactoring&#10;- restructure packages" />
-    <option name="LAST_COMMIT_MESSAGE" value="// Refactoring&#10;- restructure packages" />
+    <MESSAGE value="// Bug Fix&#10;- background path correction" />
+    <option name="LAST_COMMIT_MESSAGE" value="// Bug Fix&#10;- background path correction" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
