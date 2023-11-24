@@ -4,6 +4,7 @@ package main;
 import main.constants.ColorMode;
 import main.game.Background;
 import main.game.Player;
+import main.game.Race;
 import main.game.Road;
 import main.helper.InputListener;
 import main.helper.Point;
@@ -11,6 +12,7 @@ import main.helper.Segment;
 import main.constants.Settings;
 
 import javax.swing.*;
+import javax.swing.text.Style;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -22,6 +24,8 @@ public class Game implements Runnable {
     private Player player;
     private Background background;
     private Road road;
+
+    private Race race;
     private boolean isRunning;
 
     private long now = 0;
@@ -39,7 +43,7 @@ public class Game implements Runnable {
     private void init(){
         context.addKeyListener(keyListener);
         g2D = (Graphics2D)context.getGraphics();
-        player = new Player();
+        player = new Player("TestDrive");
         background = new Background();
         road = new Road(createRoad(Settings.segmentLength, Settings.segmentQuantity));
     }
@@ -89,7 +93,20 @@ public class Game implements Runnable {
         player.offRoad();
         player.xLimit();
         player.speedLimit();
+
+        playerLap();
     }
+
+
+    private void playerLap() {
+        if (player.getPosition() < player.getPlayerZ()) {
+            System.out.println(player.getCurrentLapTime());
+            player.setCurrentLapTime(0);
+        } else {
+            player.addTime();
+        }
+    }
+
 
     private void render(){
         // Create Image then draw

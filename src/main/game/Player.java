@@ -1,6 +1,7 @@
 package main.game;
 
 import main.constants.Settings;
+import main.helper.Timer;
 
 import java.awt.*;
 
@@ -17,8 +18,19 @@ public class Player {
     private double offRoadDecel  = -maxSpeed/2;
     private double offRoadLimit  =  maxSpeed/4;
 
+    private String name;
+
+    private double currentLapTime = 0;
+    private double lastLapTime = 0;
+    private double bestLapTime = 0;
+
     private double dx;
     private double dt;
+
+
+    public Player(String name){
+        this.name = name;
+    }
 
     public void increase(double dt) {
         this.dt = dt;
@@ -70,7 +82,7 @@ public class Player {
 
 
     public void xLimit(){
-        playerX = limit(playerX, -2, 2);
+        playerX = limit(playerX, -3, 3);
     }
 
     public void speedLimit(){
@@ -91,6 +103,34 @@ public class Player {
     public void renderPlayer(Graphics2D g2D){
 
         //TODO render player
+    }
+
+    public double getCurrentLapTime() {
+        return currentLapTime;
+    }
+
+    public void setCurrentLapTime(double currentLapTime) {
+        this.currentLapTime = currentLapTime;
+    }
+
+    public double getLastLapTime() {
+        return lastLapTime;
+    }
+
+    public void setLastLapTime(double lastLapTime) {
+        this.lastLapTime = lastLapTime;
+    }
+
+    public double getBestLapTime() {
+        return bestLapTime;
+    }
+
+    public void setBestLapTime(double bestLapTime) {
+        this.bestLapTime = bestLapTime;
+    }
+
+    public void addTime(){
+        currentLapTime += dt;
     }
 
 }
