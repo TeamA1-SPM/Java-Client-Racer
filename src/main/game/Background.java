@@ -6,9 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Background {
-    private String skyPath = "images/background/sky.png";
-    private String hillsPath = "images/background/hills.png";
-    private String treesskyPath = "images/background/trees.png";
+    private String skyPath = "../images/background/sky.png";
+    private String hillsPath = "../images/background/hills.png";
+    private String treesskyPath = "../images/background/trees.png";
 
     private Image sky;
     private Image hills;

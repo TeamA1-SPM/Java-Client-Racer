@@ -4,55 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// refactoring&#10;- added Player Class&#10;- added Game Class&#10;- seperated Window and Game logic&#10;&#10;// Features&#10;- added Lanes">
-      <change afterPath="$PROJECT_DIR$/src/main/constants/ColorMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Background.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Background.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Colors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Colors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/InputListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/InputListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Point.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Road.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Segment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Segment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/billboard01.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/billboard02.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/billboard03.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/billboard04.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/billboard05.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/billboard06.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/billboard07.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/billboard08.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/billboard09.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/boulder1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/boulder2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/boulder3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/bush1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/bush2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/cactus.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/car01.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/car02.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/car03.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/car04.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/column.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/dead_tree1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/dead_tree2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/palm_tree.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/player_left.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/player_right.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/player_straight.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/player_uphill_left.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/player_uphill_right.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/player_uphill_straight.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/semi.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/stump.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/tree1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/tree2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/sprites/truck.png" beforeDir="false" />
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Refactoring&#10;- restructure packages">
+      <change beforePath="$PROJECT_DIR$/src/main/game/Background.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Background.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +104,7 @@
       <workItem from="1700682688244" duration="1517000" />
       <workItem from="1700733711508" duration="16868000" />
       <workItem from="1700759206411" duration="2543000" />
-      <workItem from="1700810507629" duration="5213000" />
+      <workItem from="1700810507629" duration="5533000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -209,7 +162,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700757153020</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="// Refactoring&#10;- restructure packages">
+      <option name="closed" value="true" />
+      <created>1700817569282</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1700817569282</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -245,7 +206,8 @@
     <MESSAGE value="// bugs removal&#10;flickering - added image buffer" />
     <MESSAGE value="// bugs removal&#10;flickering - added image buffer&#10;&#10;// bugs&#10;- road segment wrong size&#10;- background render wrong size" />
     <MESSAGE value="// refactoring&#10;- added Player Class&#10;- added Game Class&#10;- seperated Window and Game logic&#10;&#10;// Features&#10;- added Lanes" />
-    <option name="LAST_COMMIT_MESSAGE" value="// refactoring&#10;- added Player Class&#10;- added Game Class&#10;- seperated Window and Game logic&#10;&#10;// Features&#10;- added Lanes" />
+    <MESSAGE value="// Refactoring&#10;- restructure packages" />
+    <option name="LAST_COMMIT_MESSAGE" value="// Refactoring&#10;- restructure packages" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
