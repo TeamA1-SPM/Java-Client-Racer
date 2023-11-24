@@ -4,7 +4,6 @@ package main;
 import main.constants.ColorMode;
 import main.game.Background;
 import main.game.Player;
-import main.game.Race;
 import main.game.Road;
 import main.helper.InputListener;
 import main.helper.Point;
@@ -12,7 +11,6 @@ import main.helper.Segment;
 import main.constants.Settings;
 
 import javax.swing.*;
-import javax.swing.text.Style;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -24,9 +22,10 @@ public class Game implements Runnable {
     private Player player;
     private Background background;
     private Road road;
-
-    private Race race;
     private boolean isRunning;
+
+    private int lap = 1;
+    private int maxLaps = 4;
 
     private long now = 0;
     private long last = System.currentTimeMillis();
@@ -70,7 +69,6 @@ public class Game implements Runnable {
         }
     }
 
-
     public void stop() {
         isRunning = false;
     }
@@ -94,14 +92,22 @@ public class Game implements Runnable {
         player.xLimit();
         player.speedLimit();
 
-        playerLap();
+        lapCounter();
     }
 
 
-    private void playerLap() {
+    private void lapCounter() {
         if (player.getPosition() < player.getPlayerZ()) {
-            System.out.println(player.getCurrentLapTime());
-            player.setCurrentLapTime(0);
+            double currentTime = player.getCurrentLapTime();
+            if(currentTime > 0){
+                player.setBestLapTime(currentTime);
+                System.out.println("Lap: " + lap + " Laptime: " + player.getCurrentLapTime() + " BestTime: " + player.getBestLapTime());
+                lap++;
+                player.setCurrentLapTime(0);
+                if(lap > maxLaps){
+                    isRunning = false;
+                }
+            }
         } else {
             player.addTime();
         }

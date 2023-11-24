@@ -125,8 +125,10 @@ public class Player {
         return bestLapTime;
     }
 
-    public void setBestLapTime(double bestLapTime) {
-        this.bestLapTime = bestLapTime;
+    public void setBestLapTime(double currentTime) {
+        if(bestLapTime == 0 || currentTime < bestLapTime){
+            this.bestLapTime = currentTime;
+        }
     }
 
     public void addTime(){
