@@ -1,6 +1,15 @@
 package main;
 
 
+import main.constants.ColorMode;
+import main.game.Background;
+import main.game.Player;
+import main.game.Road;
+import main.helper.InputListener;
+import main.helper.Point;
+import main.helper.Segment;
+import main.constants.Settings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -32,7 +41,7 @@ public class Game implements Runnable {
         g2D = (Graphics2D)context.getGraphics();
         player = new Player();
         background = new Background();
-        road = new Road(createRoad(Settings.segmentLength, Settings.segmentSize));
+        road = new Road(createRoad(Settings.segmentLength, Settings.segmentQuantity));
     }
 
     // main.Game loop single frame
@@ -91,20 +100,19 @@ public class Game implements Runnable {
         road.render(g2Dnext, player);
         player.renderPlayer(g2Dnext);
 
-        g2D.clearRect(0,0,Settings.SCREEN_WIDTH,Settings.SCREEN_HEIGHT);
         g2D.drawImage(i,0,0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, null);
     }
 
 
 
     // Create Road
-    private Segment[] createRoad(int segmentLength, int segmentSize){
-        Segment[] segments = new Segment[segmentSize];
+    private Segment[] createRoad(int segmentLength, int segmentQuantity){
+        Segment[] segments = new Segment[segmentQuantity];
 
-        for(int index = 0; index < segmentLength; index++){
+        for(int index = 0; index < segmentQuantity; index++){
             Segment seg = new Segment(index);
 
-            seg.setP1World(new main.Point(0,0,index*segmentLength));
+            seg.setP1World(new Point(0,0,index*segmentLength));
             seg.setP2World(new Point(0,0,(index+1)*segmentLength));
 
             if (Math.floorMod(index, Settings.rumbleLength) % 2 == 1) {
@@ -116,13 +124,16 @@ public class Game implements Runnable {
             segments[index] = seg;
         }
 
-        int index = (int)Math.floor(0/Settings.segmentLength) % Settings.segmentSize;
-        // TODO Paint start and finish line
-        segments[index + 4].setColorMode(ColorMode.START);
-        segments[index + 5].setColorMode(ColorMode.START);
+        int index = (int)Math.floor(player.getPlayerZ()/segmentLength) % segmentQuantity;
 
-        //for(int n = 0 ; n < Settings.rumbleLength ; n++)
-        //   segments[Settings.segmentSize-1-n].setColorMode(ColorMode.FINISH);
+        // Start line
+        segments[index + 2].setColorMode(ColorMode.START);
+        segments[index + 3].setColorMode(ColorMode.START);
+
+        // Finish line
+        for(int n = 0 ; n < Settings.rumbleLength ; n++){
+            segments[Settings.segmentQuantity -1-n].setColorMode(ColorMode.FINISH);
+        }
 
         return segments;
     }

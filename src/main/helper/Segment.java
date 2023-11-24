@@ -1,8 +1,10 @@
-package main;
+package main.helper;
+
+import main.constants.ColorMode;
+import main.constants.Colors;
+import main.helper.Point;
 
 import java.awt.*;
-
-enum ColorMode {LIGHT,DARK,START, FINISH}
 
 public class Segment {
 
@@ -14,25 +16,25 @@ public class Segment {
     private Color colorGrass;
     private Color colorRumble;
 
-    private Point p1World;
-    private Point p1Camera;
-    private Point p1Screen;
+    private main.helper.Point p1World;
+    private main.helper.Point p1Camera;
+    private main.helper.Point p1Screen;
 
-    private Point p2World;
-    private Point p2Camera;
-    private Point p2Screen;
+    private main.helper.Point p2World;
+    private main.helper.Point p2Camera;
+    private main.helper.Point p2Screen;
 
 
     public Segment(int index){
         this.index = index;
 
-        p1World = new Point(0,0,0);
-        p1Camera = new Point(0,0,0);
-        p1Screen = new Point(0,0,0);
+        p1World = new main.helper.Point(0,0,0);
+        p1Camera = new main.helper.Point(0,0,0);
+        p1Screen = new main.helper.Point(0,0,0);
 
-        p2World = new Point(0,0,0);
-        p2Camera = new Point(0,0,0);
-        p2Screen = new Point(0,0,0);
+        p2World = new main.helper.Point(0,0,0);
+        p2Camera = new main.helper.Point(0,0,0);
+        p2Screen = new main.helper.Point(0,0,0);
 
     }
 
@@ -78,47 +80,47 @@ public class Segment {
         return colorRumble;
     }
 
-    public Point getP1World() {
+    public main.helper.Point getP1World() {
         return p1World;
     }
 
-    public void setP1World(Point p1World) {
+    public void setP1World(main.helper.Point p1World) {
         this.p1World = p1World;
     }
 
-    public Point getP1Camera() {
+    public main.helper.Point getP1Camera() {
         return p1Camera;
     }
 
-    public void setP1Camera(Point p1Camera) {
+    public void setP1Camera(main.helper.Point p1Camera) {
         this.p1Camera = p1Camera;
     }
 
-    public Point getP1Screen() {
+    public main.helper.Point getP1Screen() {
         return p1Screen;
     }
 
-    public void setP1Screen(Point p1Screen) {
+    public void setP1Screen(main.helper.Point p1Screen) {
         this.p1Screen = p1Screen;
     }
 
-    public Point getP2World() {
+    public main.helper.Point getP2World() {
         return p2World;
     }
 
-    public void setP2World(Point p2World) {
+    public void setP2World(main.helper.Point p2World) {
         this.p2World = p2World;
     }
 
-    public Point getP2Camera() {
+    public main.helper.Point getP2Camera() {
         return p2Camera;
     }
 
-    public void setP2Camera(Point p2Camera) {
+    public void setP2Camera(main.helper.Point p2Camera) {
         this.p2Camera = p2Camera;
     }
 
-    public Point getP2Screen() {
+    public main.helper.Point getP2Screen() {
         return p2Screen;
     }
 

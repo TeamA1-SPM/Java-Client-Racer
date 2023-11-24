@@ -1,5 +1,7 @@
 package main;
 
+import main.constants.Settings;
+
 import javax.swing.*;
 
 public class Window extends JFrame{

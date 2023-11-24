@@ -1,4 +1,9 @@
-package main;
+package main.game;
+
+import main.helper.Point;
+import main.helper.Segment;
+import main.constants.Colors;
+import main.constants.Settings;
 
 import java.awt.*;
 
@@ -24,9 +29,12 @@ public class Road {
 
             segment.setLooped(segment.getIndex() < baseSegment.getIndex());
 
+            int cameraX = (int)(playerX * Settings.roadWidth);
+            int cameraY = (int)Settings.cameraHeight;
             int cameraZ = (int)position - (segment.isLooped() ? Settings.trackLength : 0);
-            project(segment.getP1World(),segment.getP1Camera(),segment.getP1Screen(), (int)(playerX * Settings.roadWidth),(int)Settings.cameraHeight, cameraZ, Settings.cameraDepth, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, Settings.roadWidth );
-            project(segment.getP2World(),segment.getP2Camera(),segment.getP2Screen(), (int)(playerX * Settings.roadWidth),(int)Settings.cameraHeight, cameraZ, Settings.cameraDepth, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, Settings.roadWidth );
+
+            project(segment.getP1World(),segment.getP1Camera(),segment.getP1Screen(), cameraX , cameraY, cameraZ);
+            project(segment.getP2World(),segment.getP2Camera(),segment.getP2Screen(), cameraX , cameraY, cameraZ);
 
             if(segment.getP1Camera().getZ() <= Settings.cameraDepth || segment.getP2Screen().getY() >= maxy){
                 continue;
@@ -39,21 +47,33 @@ public class Road {
     }
 
     public Segment findSegment(double position) {
-        return segments[(int)Math.floor(position/Settings.segmentLength) % Settings.segmentSize];
+        return segments[(int)Math.floor(position/Settings.segmentLength) % Settings.segmentQuantity];
     }
 
-    private void project(Point pWorld, Point pCamera, Point pScreen,int cameraX, int cameraY, int cameraZ, double cameraDepth, int width, int height,int roadWidth){
+    // project from world coordinates to screen coordinates
+    private void project(Point pWorld, Point pCamera, Point pScreen, int cameraX, int cameraY, int cameraZ){
+
+        double width = (double)Settings.SCREEN_WIDTH/2;
+        double height  = (double)Settings.SCREEN_HEIGHT/2;
+        int roadWidth = Settings.roadWidth;
+        double cameraDepth = Settings.cameraDepth;
+
 
         // camera
         pCamera.setX(pWorld.getX() - cameraX);
         pCamera.setY(pWorld.getY() - cameraY);
         pCamera.setZ(pWorld.getZ() - cameraZ);
 
-        double scale = cameraDepth/pCamera.getZ();
+        double scale = 0;
+
+        if(pCamera.getZ() != 0){
+            scale = cameraDepth/pCamera.getZ();
+        }
+
         // screen
-        pScreen.setX((int)Math.round((double)width/2 + (scale * pCamera.getX() * width/2) ) );
-        pScreen.setY((int)Math.round((double)height/2 - (scale * pCamera.getY() * height/2) ) );
-        pScreen.setZ((int)Math.round(scale * roadWidth * ((double)width/2) ));
+        pScreen.setX((int)Math.round(width + (scale * pCamera.getX() * width) ));
+        pScreen.setY((int)Math.round(height - (scale * pCamera.getY() * height) ) );
+        pScreen.setZ((int)Math.round(scale * roadWidth * width ));
     }
 
     private void renderSegment(Graphics2D g2, Segment segment){

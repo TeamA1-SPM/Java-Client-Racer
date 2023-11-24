@@ -1,10 +1,10 @@
-package main;
+package main.constants;
 
 public class Settings {
 
     // Window settings
-    public static final int SCREEN_WIDTH = 1280;
-    public static final int SCREEN_HEIGHT = 960;
+    public static final int SCREEN_WIDTH = 1024;
+    public static final int SCREEN_HEIGHT = 768;
     public static final String SCREEN_TITLE = "Racer Java Client";
     public static final boolean SCREEN_RESIZABLE = false;
     public static final boolean SCREEN_VISIBLE = true;
@@ -24,7 +24,7 @@ public class Settings {
    public static final int roadWidth = 2000;
 
    public static final int segmentLength = 200;
-   public static final int segmentSize = 500;
+   public static final int segmentQuantity = 500;
    public static final int rumbleLength = 3;
    public static final int trackLength = segmentLength * segmentLength;
 

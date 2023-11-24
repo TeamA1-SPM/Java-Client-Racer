@@ -1,4 +1,4 @@
-package main;
+package main.constants;
 
 import java.awt.*;
 

@@ -1,4 +1,6 @@
-package main;
+package main.game;
+
+import main.constants.Settings;
 
 import java.awt.*;
 
