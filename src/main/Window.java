@@ -6,13 +6,8 @@ import javax.swing.*;
 
 public class Window extends JFrame{
 
-
-    private Game racingGame;
-
     public Window(){
         init();
-        racingGame = new Game(this);
-
     }
 
     private void init(){

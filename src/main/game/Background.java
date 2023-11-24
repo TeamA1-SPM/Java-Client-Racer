@@ -42,10 +42,19 @@ public class Background {
 
     public void render(Graphics2D g2D){
 
-        g2D.drawImage(sky, 0, 0, sky.getWidth(null), sky.getHeight(null), 0, 0, Settings.SCREEN_WIDTH/2,Settings.SCREEN_HEIGHT/2,null);
-        g2D.drawImage(hills, 0, 0, sky.getWidth(null), sky.getHeight(null), 0, 0, Settings.SCREEN_WIDTH/2,Settings.SCREEN_HEIGHT/2,null);
-        g2D.drawImage(trees, 0, 0, sky.getWidth(null), sky.getHeight(null), 0, 0, Settings.SCREEN_WIDTH/2,Settings.SCREEN_HEIGHT/2,null);
+        double ratio = (double) Settings.SCREEN_HEIGHT / sky.getHeight(null);
+
+        int x = 0;
+        int y = 0;
+        int width = (int)(Settings.SCREEN_WIDTH * ratio);
+        int height = Settings.SCREEN_HEIGHT;
+
+        g2D.drawImage(sky, x, y, width, height, null);
+        g2D.drawImage(hills, x, y, width, height, null);
+        g2D.drawImage(trees, x, y, width, height, null);
+
 
     }
+
 
 }
