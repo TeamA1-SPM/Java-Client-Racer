@@ -123,10 +123,10 @@ public class Game implements Runnable {
             seg.setP1World(new Point(0,0,index*segmentLength));
             seg.setP2World(new Point(0,0,(index+1)*segmentLength));
 
-            if (Math.floorMod(index, Settings.rumbleLength) % 2 == 1) {
-                seg.setColorMode(ColorMode.DARK);
-            } else {
+            if (Math.floorDiv(index, Settings.rumbleLength) % 2 == 0) {
                 seg.setColorMode(ColorMode.LIGHT);
+            } else {
+                seg.setColorMode(ColorMode.DARK);
             }
 
             segments[index] = seg;
@@ -140,7 +140,7 @@ public class Game implements Runnable {
 
         // Finish line
         for(int n = 0 ; n < Settings.rumbleLength ; n++){
-            segments[Settings.segmentQuantity -1-n].setColorMode(ColorMode.FINISH);
+            segments[Settings.segmentQuantity-1-n].setColorMode(ColorMode.FINISH);
         }
 
         return segments;
