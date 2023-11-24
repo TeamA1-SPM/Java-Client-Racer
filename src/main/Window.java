@@ -6,13 +6,8 @@ import javax.swing.*;
 
 public class Window extends JFrame{
 
-
-    private Game racingGame;
-
     public Window(){
         init();
-        racingGame = new Game(this);
-
     }
 
     private void init(){
@@ -21,7 +16,7 @@ public class Window extends JFrame{
         this.setResizable(Settings.SCREEN_RESIZABLE);
         this.setVisible(Settings.SCREEN_VISIBLE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        this.setLocationRelativeTo(null);
     }
 
 }

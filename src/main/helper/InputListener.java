@@ -18,9 +18,7 @@ public class InputListener implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        keyPressed[e.getKeyCode()] = false;
-    }
+    public void keyReleased(KeyEvent e) { keyPressed[e.getKeyCode()] = false; }
 
     public boolean isKeyPressed(int keyCode) {
         return keyPressed[keyCode];
