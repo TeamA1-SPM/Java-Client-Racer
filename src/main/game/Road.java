@@ -115,10 +115,7 @@ public class Road {
                 g2.setColor(Colors.LANE);
                 g2.fillPolygon(pLane);
             }
-
-
         }
-
     }
 
     private Polygon createPolygon(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
@@ -130,7 +127,4 @@ public class Road {
 
         return p;
     }
-
-
-
 }

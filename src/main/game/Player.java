@@ -165,6 +165,6 @@ public class Player {
     }
 
     public void renderPlayer(Graphics2D g2D){
-        g2D.drawImage(currentPlayerSprite, 440, 550, 180, 120, null);
+        g2D.drawImage(currentPlayerSprite, 430, 550, 180, 120, null);
     }
 }
