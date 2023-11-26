@@ -2,9 +2,20 @@ package main.game;
 
 import main.constants.Settings;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class Player {
+
+    private enum Direction { STRAIGHT, LEFT, RIGHT }
+    private Direction currentDirection = Direction.STRAIGHT;
+    private boolean isLeftKeyPressed = false;
+    private boolean isRightKeyPressed = false;
+    private Image playerStraight;
+    private Image playerLeft;
+    private Image playerRight;
+    private Image currentPlayerSprite;
     private double position = 0;
     private double playerX = -0.5;
     private double playerZ = Settings.cameraHeight * Settings.cameraDepth;
@@ -27,8 +38,10 @@ public class Player {
     private double dt;
 
 
-    public Player(String name){
+    public Player(String name) {
         this.name = name;
+        loadSprites();
+
     }
 
     public void increase(double dt) {
@@ -56,22 +69,55 @@ public class Player {
 
     public void pressUp(){
         speed = accelerate(speed, accel, dt);
+
+        if (isLeftKeyPressed) {
+            adjustCurrentDirection(Direction.LEFT);
+        } else if (isRightKeyPressed) {
+            adjustCurrentDirection(Direction.RIGHT);
+        } else {
+            adjustCurrentDirection(Direction.STRAIGHT);
+        }
     }
 
     public void pressDown(){
         speed = accelerate(speed, breaking, dt);
+
+        if (speed == 0) {
+            adjustCurrentDirection(Direction.STRAIGHT);
+        }
     }
 
     public void pressLeft(){
         playerX = playerX - dx;
+        isLeftKeyPressed = true;
+        adjustCurrentDirection(Direction.LEFT);
     }
 
     public void pressRight(){
         playerX = playerX + dx;
+        isRightKeyPressed = true;
+        adjustCurrentDirection(Direction.RIGHT);
     }
 
+    public void releaseLeft() {
+        isLeftKeyPressed = false;
+        if (!isRightKeyPressed) {
+            adjustCurrentDirection(Direction.STRAIGHT);
+        }
+    }
+
+    public void releaseRight() {
+        isRightKeyPressed = false;
+        if (!isLeftKeyPressed) {
+            adjustCurrentDirection(Direction.STRAIGHT);
+        }
+    }
     public void idle(){
         speed = accelerate(speed, decel, dt);
+
+        if (speed == 0) {
+            adjustCurrentDirection(Direction.STRAIGHT);
+        }
     }
 
     public void offRoad(){
@@ -99,9 +145,20 @@ public class Player {
         return playerZ;
     }
 
-    public void renderPlayer(Graphics2D g2D){
+    private void loadSprites() {
+        String playerStraightPath = "../images/sprites/player_straight.png";
+        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(playerStraightPath)));
+        playerStraight = imageIcon.getImage();
 
-        //TODO render player
+        String playerLeftPath = "../images/sprites/player_left.png";
+        imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(playerLeftPath)));
+        playerLeft = imageIcon.getImage();
+
+        String playerRightPath = "../images/sprites/player_right.png";
+        imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(playerRightPath)));
+        playerRight = imageIcon.getImage();
+
+        currentPlayerSprite = playerStraight;
     }
 
     public double getCurrentLapTime() {
@@ -132,6 +189,21 @@ public class Player {
 
     public void addTime(){
         currentLapTime += dt;
+    }
+
+    public void adjustCurrentDirection(Direction newDirection) {
+        if (newDirection != currentDirection) {
+            switch (newDirection) {
+                case STRAIGHT -> currentPlayerSprite = playerStraight;
+                case LEFT -> currentPlayerSprite = playerLeft;
+                case RIGHT -> currentPlayerSprite = playerRight;
+            }
+            currentDirection = newDirection;
+        }
+    }
+
+    public void renderPlayer(Graphics2D g2D){
+        g2D.drawImage(currentPlayerSprite, 430, 550, 180, 120, null);
     }
 
 }

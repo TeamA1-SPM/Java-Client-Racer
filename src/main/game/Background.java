@@ -4,11 +4,9 @@ import main.constants.Settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class Background {
-    private String skyPath = "../images/background/sky.png";
-    private String hillsPath = "../images/background/hills.png";
-    private String treesskyPath = "../images/background/trees.png";
 
     private Image sky;
     private Image hills;
@@ -18,22 +16,21 @@ public class Background {
 
 
     public Background(){
-        isReady = loadImages();
+       loadImages();
     }
 
-    private boolean loadImages(){
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource(skyPath));
+    private void loadImages(){
+        String skyPath = "../images/background/sky.png";
+        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(skyPath)));
         sky = imageIcon.getImage();
-        imageIcon = new ImageIcon(this.getClass().getResource(hillsPath));
+
+        String hillsPath = "../images/background/hills.png";
+        imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(hillsPath)));
         hills = imageIcon.getImage();
-        imageIcon = new ImageIcon(this.getClass().getResource(treesskyPath));
+
+        String treesPath = "../images/background/trees.png";
+        imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(treesPath)));
         trees = imageIcon.getImage();
-
-        if(sky != null & hills != null & trees != null){
-            return true;
-        }
-
-        return false;
     }
 
     public boolean isReady() {
@@ -52,9 +49,5 @@ public class Background {
         g2D.drawImage(sky, x, y, width, height, null);
         g2D.drawImage(hills, x, y, width, height, null);
         g2D.drawImage(trees, x, y, width, height, null);
-
-
     }
-
-
 }

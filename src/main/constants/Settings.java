@@ -26,8 +26,5 @@ public class Settings {
    public static final int segmentQuantity = 500;
    public static final int rumbleLength = 3;
    public static final int trackLength = segmentLength * segmentQuantity;
-   public static final int fogDensity = 5;
-
-
 
 }
