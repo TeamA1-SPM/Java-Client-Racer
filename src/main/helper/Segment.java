@@ -2,7 +2,6 @@ package main.helper;
 
 import main.constants.ColorMode;
 import main.constants.Colors;
-import main.helper.Point;
 
 import java.awt.*;
 
@@ -16,13 +15,13 @@ public class Segment {
     private Color colorGrass;
     private Color colorRumble;
 
-    private main.helper.Point p1World;
-    private main.helper.Point p1Camera;
-    private main.helper.Point p1Screen;
+    private Point p1World;
+    private Point p1Camera;
+    private Point p1Screen;
 
-    private main.helper.Point p2World;
-    private main.helper.Point p2Camera;
-    private main.helper.Point p2Screen;
+    private Point p2World;
+    private Point p2Camera;
+    private Point p2Screen;
 
 
     public Segment(int index){
@@ -139,4 +138,5 @@ public class Segment {
     public boolean isLane(){
         return isLane;
     }
+
 }

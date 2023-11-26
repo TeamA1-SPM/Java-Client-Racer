@@ -24,6 +24,9 @@ public class Game implements Runnable {
     private Road road;
     private boolean isRunning;
 
+    private int lap = 1;
+    private int maxLaps = 4;
+
     private long now = 0;
     private long last = System.currentTimeMillis();
     private double dt = 0;
@@ -39,7 +42,7 @@ public class Game implements Runnable {
     private void init(){
         context.addKeyListener(keyListener);
         g2D = (Graphics2D)context.getGraphics();
-        player = new Player();
+        player = new Player("TestDrive");
         background = new Background();
         road = new Road(createRoad(Settings.segmentLength, Settings.segmentQuantity));
     }
@@ -65,7 +68,6 @@ public class Game implements Runnable {
             }
         }
     }
-
 
     public void stop() {
         isRunning = false;
@@ -97,7 +99,27 @@ public class Game implements Runnable {
        player.offRoad();
        player.xLimit();
        player.speedLimit();
+       lapCounter();
     }
+
+
+    private void lapCounter() {
+        if (player.getPosition() < player.getPlayerZ()) {
+            double currentTime = player.getCurrentLapTime();
+            if(currentTime > 0){
+                player.setBestLapTime(currentTime);
+                System.out.println("Lap: " + lap + " Laptime: " + player.getCurrentLapTime() + " BestTime: " + player.getBestLapTime());
+                lap++;
+                player.setCurrentLapTime(0);
+                if(lap > maxLaps){
+                    isRunning = false;
+                }
+            }
+        } else {
+            player.addTime();
+        }
+    }
+
 
     private void render(){
         // Create Image then draw

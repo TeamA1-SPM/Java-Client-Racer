@@ -20,8 +20,8 @@ public class Road {
         double position = player.getPosition();
         double playerX = player.getPlayerX();
 
-
         Segment baseSegment = findSegment(position);
+
         double maxy = Settings.SCREEN_HEIGHT;
 
         Segment segment;
@@ -40,7 +40,6 @@ public class Road {
             if(segment.getP1Camera().getZ() <= Settings.cameraDepth || segment.getP2Screen().getY() >= maxy){
                continue;
             }
-
 
             renderSegment(g2, segment);
             maxy = segment.getP2Screen().getY();

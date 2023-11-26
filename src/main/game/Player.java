@@ -17,7 +17,7 @@ public class Player {
     private Image playerRight;
     private Image currentPlayerSprite;
     private double position = 0;
-    private double playerX = 0;
+    private double playerX = -0.5;
     private double playerZ = Settings.cameraHeight * Settings.cameraDepth;
     private double speed = 0;
 
@@ -28,12 +28,20 @@ public class Player {
     private double offRoadDecel  = -maxSpeed/2;
     private double offRoadLimit  =  maxSpeed/4;
 
+    private String name;
+
+    private double currentLapTime = 0;
+    private double lastLapTime = 0;
+    private double bestLapTime = 0;
+
     private double dx;
     private double dt;
 
 
-    public Player() {
+    public Player(String name) {
+        this.name = name;
         loadSprites();
+
     }
 
     public void increase(double dt) {
@@ -119,7 +127,7 @@ public class Player {
 
 
     public void xLimit(){
-        playerX = limit(playerX, -2, 2);
+        playerX = limit(playerX, -3, 3);
     }
 
     public void speedLimit(){
@@ -153,6 +161,36 @@ public class Player {
         currentPlayerSprite = playerStraight;
     }
 
+    public double getCurrentLapTime() {
+        return currentLapTime;
+    }
+
+    public void setCurrentLapTime(double currentLapTime) {
+        this.currentLapTime = currentLapTime;
+    }
+
+    public double getLastLapTime() {
+        return lastLapTime;
+    }
+
+    public void setLastLapTime(double lastLapTime) {
+        this.lastLapTime = lastLapTime;
+    }
+
+    public double getBestLapTime() {
+        return bestLapTime;
+    }
+
+    public void setBestLapTime(double currentTime) {
+        if(bestLapTime == 0 || currentTime < bestLapTime){
+            this.bestLapTime = currentTime;
+        }
+    }
+
+    public void addTime(){
+        currentLapTime += dt;
+    }
+
     public void adjustCurrentDirection(Direction newDirection) {
         if (newDirection != currentDirection) {
             switch (newDirection) {
@@ -167,4 +205,5 @@ public class Player {
     public void renderPlayer(Graphics2D g2D){
         g2D.drawImage(currentPlayerSprite, 430, 550, 180, 120, null);
     }
+
 }

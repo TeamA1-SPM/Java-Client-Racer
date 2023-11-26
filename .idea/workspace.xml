@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Bug Fix&#10;- background path correction">
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Bug Fix&#10;- road length FIX&#10;- road segments have the right size&#10;- Start Finish FIX&#10;- Background formula Temp FIX">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/constants/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Background.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Background.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Road.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/Race.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +30,20 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MasterGrinch&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="242b9f0d-7058-49d3-997f-a002afd34721" />
+        <option name="url" value="https://github.com/TeamA1-SPM/Java-Client-Racer.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -53,7 +64,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;gameloop&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;v2---curves&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/bitco/OneDrive/Desktop/SPM/GIT/javascript-racer-master&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -120,6 +131,8 @@
       <workItem from="1700733711508" duration="16868000" />
       <workItem from="1700759206411" duration="2543000" />
       <workItem from="1700810507629" duration="26485000" />
+      <workItem from="1700842509733" duration="11512000" />
+      <workItem from="1700854262438" duration="696000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
