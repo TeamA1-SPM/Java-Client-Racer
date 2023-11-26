@@ -1,13 +1,12 @@
 package main.game;
 
 import main.constants.Settings;
-import main.helper.Timer;
 
 import java.awt.*;
 
 public class Player {
     private double position = 0;
-    private double playerX = 0;
+    private double playerX = -0.5;
     private double playerZ = Settings.cameraHeight * Settings.cameraDepth;
     private double speed = 0;
 
