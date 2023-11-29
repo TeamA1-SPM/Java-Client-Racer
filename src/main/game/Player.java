@@ -17,10 +17,9 @@ public class Player {
     private Image playerRight;
     private Image currentPlayerSprite;
     private double position = 0;
-    private double playerX = -0.5;
+    private double playerX = 0;
     private double playerZ = Settings.cameraHeight * Settings.cameraDepth;
     private double speed = 0;
-
     private double maxSpeed = Settings.segmentLength/Settings.STEP;
     private double accel =  maxSpeed/5;
     private double breaking      = -maxSpeed;
@@ -143,6 +142,10 @@ public class Player {
     }
     public double getPlayerZ(){
         return playerZ;
+    }
+
+    public double getSpeed() {
+        return speed;
     }
 
     private void loadSprites() {

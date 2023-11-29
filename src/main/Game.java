@@ -5,6 +5,7 @@ import main.constants.ColorMode;
 import main.game.Background;
 import main.game.Player;
 import main.game.Road;
+import main.helper.GameTime;
 import main.helper.InputListener;
 import main.helper.Point;
 import main.helper.Segment;
@@ -25,14 +26,21 @@ public class Game implements Runnable {
     private boolean isRunning;
 
     private int lap = 1;
-    private int maxLaps = 4;
-
+    private int maxLaps = 3;
     private long now = 0;
     private long last = System.currentTimeMillis();
     private double dt = 0;
     private double gdt = 0;
     private final double step = Settings.STEP;
 
+    private GameTime timer = new GameTime();
+    private boolean gameStarted = false;
+    private int countdown = 3;
+    private long lastCountdownUpdate = System.currentTimeMillis();
+    private double lastLapTime = 0;
+    private double bestLapTime = 0;
+    private int helper = 0;
+    private double lastPlayerPosition = 0;
 
     public Game(JFrame context) {
       this.context = context;
@@ -74,32 +82,70 @@ public class Game implements Runnable {
     }
 
     private void update(double dt){
-        player.increase(dt);
-
-        if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
-            player.pressLeft();
+        // Game starts after 3 seconds countdown
+        if (!gameStarted) {
+            long currentTime = System.currentTimeMillis();
+            // 1 second has passed
+            if (currentTime - lastCountdownUpdate >= 1000) {
+                countdown--;
+                lastCountdownUpdate = currentTime;
+                if (countdown <= 0) {
+                    gameStarted = true;
+                    timer.start();
+                }
+            }
         } else {
-            player.releaseLeft();
-        }
+            player.increase(dt);
 
-        if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
-           player.pressRight();
-        } else {
-           player.releaseRight();
-        }
+            if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
+                player.pressLeft();
+            } else {
+                player.releaseLeft();
+            }
 
-        if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
-           player.pressUp();
-        } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
-           player.pressDown();
-        } else {
-           player.idle();
-        }
+            if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
+                player.pressRight();
+            } else {
+                player.releaseRight();
+            }
 
-       player.offRoad();
-       player.xLimit();
-       player.speedLimit();
-       lapCounter();
+            if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
+                player.pressUp();
+            } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
+                player.pressDown();
+            } else {
+                player.idle();
+            }
+
+            player.offRoad();
+            player.xLimit();
+            player.speedLimit();
+            lapCounter();
+
+            if (lapFinished()) {
+                lastLapTime = timer.getTime();
+
+                if (helper == 0) {
+                    bestLapTime = lastLapTime;
+                    helper++;
+                }
+                if (lastLapTime < bestLapTime) {
+                    bestLapTime = lastLapTime;
+                }
+                timer.reset();
+            }
+        }
+    }
+
+    private boolean lapFinished() {
+        double currentPlayerPosition = player.getPosition();
+        // Checks if player crossed the Finish Line
+        if (lastPlayerPosition > currentPlayerPosition && currentPlayerPosition < Settings.segmentLength) {
+            lastPlayerPosition = currentPlayerPosition;
+            return true;
+        }
+        lastPlayerPosition = currentPlayerPosition;
+        return false;
     }
 
 
@@ -113,6 +159,8 @@ public class Game implements Runnable {
                 player.setCurrentLapTime(0);
                 if(lap > maxLaps){
                     isRunning = false;
+                    // Display the correct round number on Screen
+                    lap--;
                 }
             }
         } else {
@@ -142,10 +190,13 @@ public class Game implements Runnable {
 
         // Text for 'Time'
         g2dNext.setColor(Color.BLACK);
-        String textTime = "Time:";
         Font fontTime = new Font("Universal Light", Font.BOLD, 14);
         g2dNext.setFont(fontTime);
-        g2dNext.drawString(textTime, 20, 65);
+        if (gameStarted) {
+            g2dNext.drawString("Time:     " + timer.getTime(), 20, 65);
+        } else {
+            g2dNext.drawString("Time:     0.0", 20, 65);
+        }
 
         // Rectangle for 'Last Lap'
         g2dNext.setColor(new Color(255, 200, 0, 150));
@@ -155,10 +206,9 @@ public class Game implements Runnable {
 
         // Text for 'Last Lap'
         g2dNext.setColor(Color.BLACK);
-        String textLastLap = "Last Lap:";
         Font fontLastLap = new Font("Universal Light", Font.BOLD, 14);
         g2dNext.setFont(fontLastLap);
-        g2dNext.drawString(textLastLap, 150, 65);
+        g2dNext.drawString("Last Lap:               " + lastLapTime, 150, 65);
 
         // Rectangle for 'Fastest Lap'
         g2dNext.setColor(new Color(255, 200, 0, 150));
@@ -168,10 +218,9 @@ public class Game implements Runnable {
 
         // Text for 'Fastest Lap'
         g2dNext.setColor(Color.BLACK);
-        String textFastestLap = "Fastest Lap:";
         Font fontFastestLap = new Font("Universal Light", Font.BOLD, 14);
         g2dNext.setFont(fontFastestLap);
-        g2dNext.drawString(textFastestLap, 340, 65);
+        g2dNext.drawString("Fastest Lap:         " + bestLapTime, 340, 65);
 
         // Rectangle for 'Enemy Lap'
         g2dNext.setColor(new Color(255, 200, 0, 150));
@@ -194,10 +243,9 @@ public class Game implements Runnable {
 
         // Text for 'MPH'
         g2dNext.setColor(Color.BLACK);
-        String textMPH = "MPH:";
         Font fontMPH = new Font("Universal Light", Font.BOLD, 14);
         g2dNext.setFont(fontMPH);
-        g2dNext.drawString(textMPH, 720, 65);
+        g2dNext.drawString("MPH:      " + (player.getSpeed() / 100), 720, 65);
 
         // Rectangle for 'Round'
         g2dNext.setColor(new Color(255, 255, 255, 150));
@@ -207,10 +255,9 @@ public class Game implements Runnable {
 
         // Text for 'Round'
         g2dNext.setColor(Color.BLACK);
-        String textRound = "Round:";
         Font fontRound = new Font("Universal Light", Font.BOLD, 14);
         g2dNext.setFont(fontRound);
-        g2dNext.drawString(textRound, 850, 65);
+        g2dNext.drawString("Round:        " + lap + " / " + maxLaps, 850, 65);
 
         road.render(g2dNext, player);
         player.renderPlayer(g2dNext);
