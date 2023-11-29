@@ -4,11 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Bug Fix&#10;- road length FIX&#10;- road segments have the right size&#10;- Start Finish FIX&#10;- Background formula Temp FIX">
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Features&#10;- Lap Limit&#10;- Lap Time&#10;- Lap Best Time">
+      <change afterPath="$PROJECT_DIR$/src/main/game/HUD.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/helper/Connection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/libs/engine.io-client-2.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/libs/json-20090211.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/libs/okhttp-3.12.12.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/libs/okio-1.15.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/libs/socket.io-client-2.1.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java-Client-Racer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Java-Client-Racer.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/constants/Colors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Colors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/constants/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Settings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Race.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,20 +40,6 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;MasterGrinch&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">
-    <option name="selectedUrlAndAccountId">
-      <UrlAndAccount>
-        <option name="accountId" value="242b9f0d-7058-49d3-997f-a002afd34721" />
-        <option name="url" value="https://github.com/TeamA1-SPM/Java-Client-Racer.git" />
-      </UrlAndAccount>
-    </option>
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -64,13 +60,16 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;v2---curves&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/bitco/OneDrive/Desktop/SPM/GIT/javascript-racer-master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/GIT/Java-Client-Racer/src/main/libs&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/bitco/OneDrive/Desktop/SPM/GIT/Java-Client-Racer/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -80,14 +79,25 @@
       <recent name="D:\GIT\Java-Client-Racer\src\main\commons" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="Race" type="Application" factoryName="Application">
+  <component name="RunManager" selected="Application.Race1">
+    <configuration name="Race1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="Java-Client-Racer" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Race2" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="main.Main" />
+      <module name="Java-Client-Racer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Race1" />
+      <item itemvalue="Application.Race2" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -131,8 +141,15 @@
       <workItem from="1700733711508" duration="16868000" />
       <workItem from="1700759206411" duration="2543000" />
       <workItem from="1700810507629" duration="26485000" />
-      <workItem from="1700842509733" duration="11512000" />
-      <workItem from="1700854262438" duration="696000" />
+      <workItem from="1701023159545" duration="342000" />
+      <workItem from="1701074724248" duration="49000" />
+      <workItem from="1701075028030" duration="928000" />
+      <workItem from="1701104498809" duration="19000" />
+      <workItem from="1701173119358" duration="955000" />
+      <workItem from="1701243059759" duration="1855000" />
+      <workItem from="1701244937005" duration="1277000" />
+      <workItem from="1701246227318" duration="45000" />
+      <workItem from="1701246393733" duration="32172000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -223,7 +240,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="gameloop" />
+                        <option value="main" />
                       </list>
                     </value>
                   </entry>

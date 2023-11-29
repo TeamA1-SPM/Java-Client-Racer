@@ -1,11 +1,14 @@
 package main;
 
 
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import main.constants.ColorMode;
 import main.game.Background;
+import main.game.HUD;
 import main.game.Player;
 import main.game.Road;
-import main.helper.GameTime;
+import main.helper.Connection;
 import main.helper.InputListener;
 import main.helper.Point;
 import main.helper.Segment;
@@ -21,38 +24,71 @@ public class Game implements Runnable {
     private Graphics2D g2D;
     private InputListener keyListener = new InputListener();
     private Player player;
+    private Connection connection;
     private Background background;
     private Road road;
+    private HUD hud;
     private boolean isRunning;
 
-    private int lap = 1;
-    private int maxLaps = 3;
+    private int maxLaps = 6;
+
+    // game loop time variables
+
     private long now = 0;
     private long last = System.currentTimeMillis();
     private double dt = 0;
     private double gdt = 0;
     private final double step = Settings.STEP;
 
-    private GameTime timer = new GameTime();
-    private boolean gameStarted = false;
-    private int countdown = 3;
-    private long lastCountdownUpdate = System.currentTimeMillis();
-    private double lastLapTime = 0;
-    private double bestLapTime = 0;
-    private int helper = 0;
-    private double lastPlayerPosition = 0;
 
-    public Game(JFrame context) {
+    public Game(JFrame context, Connection connection) {
       this.context = context;
+      this.connection = connection;
       init();
     }
 
+    // initialising the game variables
     private void init(){
         context.addKeyListener(keyListener);
         g2D = (Graphics2D)context.getGraphics();
+
         player = new Player("TestDrive");
+        // TODO add maxLaps
+        player.setMaxLaps(maxLaps);
+
         background = new Background();
         road = new Road(createRoad(Settings.segmentLength, Settings.segmentQuantity));
+        hud = new HUD();
+
+
+        connection.login("hans","321");
+        connection.login("blabla","321");
+        connection.findLobby();
+        serverFunctions(connection.getSocket());
+    }
+
+    // Server receive data functions
+    private void serverFunctions(Socket socket){
+
+        // get best laptimes from server
+        socket.on(Settings.GET_BEST_LAP_TIMES, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+
+                // set player best lap time
+                if(args[0] == null){
+                    player.setBestLapTime(0.0);
+                } else{
+                    player.setBestLapTime((double)args[0]);
+                }
+                // set enemies best lap time
+                if(args[1] == null){
+                    player.setBestEnemyTime(0.0);
+                } else{
+                    player.setBestEnemyTime((double)args[1]);
+                }
+            }
+        });
     }
 
     // main.Game loop single frame
@@ -65,8 +101,10 @@ public class Game implements Runnable {
             gdt = gdt + dt;
             while (gdt > step) {
                 gdt = gdt - step;
+                // update game logic
                 update(step);
             }
+            // draw frame
             render();
             last = now;
             try{
@@ -81,194 +119,81 @@ public class Game implements Runnable {
         isRunning = false;
     }
 
+    // Updates the game logic
     private void update(double dt){
-        // Game starts after 3 seconds countdown
-        if (!gameStarted) {
-            long currentTime = System.currentTimeMillis();
-            // 1 second has passed
-            if (currentTime - lastCountdownUpdate >= 1000) {
-                countdown--;
-                lastCountdownUpdate = currentTime;
-                if (countdown <= 0) {
-                    gameStarted = true;
-                    timer.start();
-                }
-            }
+        // increase player world position
+        player.increase(dt);
+
+        if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
+            player.pressLeft();
         } else {
-            player.increase(dt);
-
-            if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
-                player.pressLeft();
-            } else {
-                player.releaseLeft();
-            }
-
-            if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
-                player.pressRight();
-            } else {
-                player.releaseRight();
-            }
-
-            if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
-                player.pressUp();
-            } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
-                player.pressDown();
-            } else {
-                player.idle();
-            }
-
-            player.offRoad();
-            player.xLimit();
-            player.speedLimit();
-            lapCounter();
-
-            if (lapFinished()) {
-                lastLapTime = timer.getTime();
-
-                if (helper == 0) {
-                    bestLapTime = lastLapTime;
-                    helper++;
-                }
-                if (lastLapTime < bestLapTime) {
-                    bestLapTime = lastLapTime;
-                }
-                timer.reset();
-            }
+            player.releaseLeft();
         }
-    }
 
-    private boolean lapFinished() {
-        double currentPlayerPosition = player.getPosition();
-        // Checks if player crossed the Finish Line
-        if (lastPlayerPosition > currentPlayerPosition && currentPlayerPosition < Settings.segmentLength) {
-            lastPlayerPosition = currentPlayerPosition;
-            return true;
-        }
-        lastPlayerPosition = currentPlayerPosition;
-        return false;
-    }
-
-
-    private void lapCounter() {
-        if (player.getPosition() < player.getPlayerZ()) {
-            double currentTime = player.getCurrentLapTime();
-            if(currentTime > 0){
-                player.setBestLapTime(currentTime);
-                System.out.println("Lap: " + lap + " Laptime: " + player.getCurrentLapTime() + " BestTime: " + player.getBestLapTime());
-                lap++;
-                player.setCurrentLapTime(0);
-                if(lap > maxLaps){
-                    isRunning = false;
-                    // Display the correct round number on Screen
-                    lap--;
-                }
-            }
+        if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
+           player.pressRight();
         } else {
-            player.addTime();
+           player.releaseRight();
         }
+
+        if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
+           player.pressUp();
+        } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
+           player.pressDown();
+        } else {
+           player.idle();
+        }
+
+       player.offRoad();
+       player.xLimit();
+       player.speedLimit();
+       lapCounter();
     }
 
-
+    // Draws a game frame on the screen
     private void render(){
-        // Create Image then draw
+        // Create Image then draw (Buffering)
         Image i = context.createImage(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
         Graphics2D g2dNext = (Graphics2D)i.getGraphics();
 
         background.render(g2dNext);
-
-        // Background Rectangle
-        g2dNext.setColor(new Color(150, 0, 0, 100));
-        g2dNext.fillRect(0, 0, 1024, 90);
-        g2dNext.setColor(Color.BLACK);
-        g2dNext.drawRect(0, 0, 1024, 90);
-
-        // Rectangle for 'Time'
-        g2dNext.setColor(new Color(255, 255, 255, 150));
-        g2dNext.fillRect(15, 38, 120, 45);
-        g2dNext.setColor(Color.BLACK);
-        g2dNext.drawRect(15, 38, 120, 45);
-
-        // Text for 'Time'
-        g2dNext.setColor(Color.BLACK);
-        Font fontTime = new Font("Universal Light", Font.BOLD, 14);
-        g2dNext.setFont(fontTime);
-        if (gameStarted) {
-            g2dNext.drawString("Time:     " + timer.getTime(), 20, 65);
-        } else {
-            g2dNext.drawString("Time:     0.0", 20, 65);
-        }
-
-        // Rectangle for 'Last Lap'
-        g2dNext.setColor(new Color(255, 200, 0, 150));
-        g2dNext.fillRect(145, 38, 180, 45);
-        g2dNext.setColor(Color.BLACK);
-        g2dNext.drawRect(145, 38, 180, 45);
-
-        // Text for 'Last Lap'
-        g2dNext.setColor(Color.BLACK);
-        Font fontLastLap = new Font("Universal Light", Font.BOLD, 14);
-        g2dNext.setFont(fontLastLap);
-        g2dNext.drawString("Last Lap:               " + lastLapTime, 150, 65);
-
-        // Rectangle for 'Fastest Lap'
-        g2dNext.setColor(new Color(255, 200, 0, 150));
-        g2dNext.fillRect(335, 38, 180, 45);
-        g2dNext.setColor(Color.BLACK);
-        g2dNext.drawRect(335, 38, 180, 45);
-
-        // Text for 'Fastest Lap'
-        g2dNext.setColor(Color.BLACK);
-        Font fontFastestLap = new Font("Universal Light", Font.BOLD, 14);
-        g2dNext.setFont(fontFastestLap);
-        g2dNext.drawString("Fastest Lap:         " + bestLapTime, 340, 65);
-
-        // Rectangle for 'Enemy Lap'
-        g2dNext.setColor(new Color(255, 200, 0, 150));
-        g2dNext.fillRect(525, 38, 180, 45);
-        g2dNext.setColor(Color.BLACK);
-        g2dNext.drawRect(525, 38, 180, 45);
-
-        // Text for 'Enemy Lap'
-        g2dNext.setColor(Color.BLACK);
-        String textEnemyLap = "Enemy Lap:";
-        Font fontEnemyLap = new Font("Universal Light", Font.BOLD, 14);
-        g2dNext.setFont(fontEnemyLap);
-        g2dNext.drawString(textEnemyLap, 530, 65);
-
-        // Rectangle for 'MPH'
-        g2dNext.setColor(new Color(255, 255, 255, 150));
-        g2dNext.fillRect(715, 38, 120, 45);
-        g2dNext.setColor(Color.BLACK);
-        g2dNext.drawRect(715, 38, 120, 45);
-
-        // Text for 'MPH'
-        g2dNext.setColor(Color.BLACK);
-        Font fontMPH = new Font("Universal Light", Font.BOLD, 14);
-        g2dNext.setFont(fontMPH);
-        g2dNext.drawString("MPH:      " + (player.getSpeed() / 100), 720, 65);
-
-        // Rectangle for 'Round'
-        g2dNext.setColor(new Color(255, 255, 255, 150));
-        g2dNext.fillRect(845, 38, 162, 45);
-        g2dNext.setColor(Color.BLACK);
-        g2dNext.drawRect(845, 38, 162, 45);
-
-        // Text for 'Round'
-        g2dNext.setColor(Color.BLACK);
-        Font fontRound = new Font("Universal Light", Font.BOLD, 14);
-        g2dNext.setFont(fontRound);
-        g2dNext.drawString("Round:        " + lap + " / " + maxLaps, 850, 65);
-
+        hud.render(g2dNext, player);
         road.render(g2dNext, player);
         player.renderPlayer(g2dNext);
 
         g2D.drawImage(i,0,0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, null);
     }
 
+    // check if a lap is finished
+    private void lapCounter() {
+        if (player.getPosition() < player.getPlayerZ()) {
+            double currentTime = player.getCurrentLapTime();
+            if(currentTime > 0){
+                System.out.println(currentTime);
+
+                player.setLastLapTime(currentTime);
+                // send current lap time to server
+                connection.sendLapTime(currentTime);
+                player.setCurrentLapTime(0);
+                player.addLap();
+
+                // race is finished
+                if(player.getLap() > player.getMaxLaps()){
+                    connection.sendFinishedRace();
+                    isRunning = false;
+                }
+            }
+        } else {
+            // add one deltatime to currentLapTime
+            player.addTime();
+        }
+    }
+
     // Create Road
     private Segment[] createRoad(int segmentLength, int segmentQuantity){
         Segment[] segments = new Segment[segmentQuantity];
 
+        // Create road segments
         for(int index = 0; index < segmentQuantity; index++){
             Segment seg = new Segment(index);
 

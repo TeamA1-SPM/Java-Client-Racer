@@ -1,5 +1,7 @@
 package main;
 
+import main.helper.Connection;
+
 import javax.swing.*;
 
 public class Main {
@@ -9,8 +11,12 @@ public class Main {
     }
 
     private static void createAndShowGUI() {
+
+        Connection connection = new Connection();
+        connection.connect();
+
         Window window = new Window();
-        Game game = new Game(window);
+        Game game = new Game(window, connection);
         Thread t1 = new Thread(game);
         t1.start();
     }

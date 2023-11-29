@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class Colors {
 
+    // Road colors
     public static final Color START = new Color(255,255,255);
     public static final Color FINISH = new Color(0,0,0);
     public static final Color LANE = new Color(204,204,204);
@@ -14,5 +15,12 @@ public class Colors {
     public static final Color GRASS_DARK = new Color(0,154,0);
     public static final Color RUMBLE_LIGHT = new Color(85,85,85);
     public static final Color RUMBLE_DARK = new Color(187,187,187);
+
+    // HUD Colors
+    public static final Color HUD_BACKGROUND = new Color(150, 0, 0, 100);
+    public static final Color HUD_GREY = new Color(255, 255, 255, 150);
+    public static final Color HUD_YELLOW = new Color(255, 200, 0, 150);
+    public static final Color HUD_FRAME = new Color(0, 0, 0);
+    public static final Color HUD_FONT = new Color(0, 0, 0);
 
 }
