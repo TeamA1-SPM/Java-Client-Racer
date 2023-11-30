@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Features&#10;- Socket.io implemented&#10;- Connection Class for server functions&#10;- best lap times handled by server&#10;- Settings added server constants&#10;- enemy best time variable added&#10;&#10;// Refactoring&#10;- Hud Colors in constants&#10;- HUD Class created&#10;- moved HUD render to HUD Class&#10;- Player has lap counter now&#10;- added some comments">
-      <change afterPath="$PROJECT_DIR$/src/main/game/RoadCreator.java" afterDir="false" />
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Features&#10;- curved roads creation&#10;- player car reacts to curves&#10;&#10;// Refactoring&#10;- added RoadCreator Class&#10;- changed segment array to arraylist&#10;- added some comments&#10;- moved some player constants to Settings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/constants/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/HUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/HUD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Road.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/helper/Segment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Segment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/helper/Timer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/Background.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Background.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +69,7 @@
       <recent name="D:\GIT\Java-Client-Racer\src\main\commons" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Race1">
+  <component name="RunManager" selected="Application.Race2">
     <configuration name="Race1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="Java-Client-Racer" />
@@ -146,7 +141,7 @@
       <workItem from="1701246227318" duration="45000" />
       <workItem from="1701246393733" duration="32172000" />
       <workItem from="1701281260579" duration="9407000" />
-      <workItem from="1701327913528" duration="9813000" />
+      <workItem from="1701327913528" duration="21476000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -228,7 +223,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701281334886</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="// Features&#10;- curved roads creation&#10;- player car reacts to curves&#10;&#10;// Refactoring&#10;- added RoadCreator Class&#10;- changed segment array to arraylist&#10;- added some comments&#10;- moved some player constants to Settings">
+      <option name="closed" value="true" />
+      <created>1701338760268</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1701338760268</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -267,7 +270,8 @@
     <MESSAGE value="// Refactoring&#10;- restructure packages" />
     <MESSAGE value="// Bug Fix&#10;- background path correction" />
     <MESSAGE value="// Features&#10;- Socket.io implemented&#10;- Connection Class for server functions&#10;- best lap times handled by server&#10;- Settings added server constants&#10;- enemy best time variable added&#10;&#10;// Refactoring&#10;- Hud Colors in constants&#10;- HUD Class created&#10;- moved HUD render to HUD Class&#10;- Player has lap counter now&#10;- added some comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="// Features&#10;- Socket.io implemented&#10;- Connection Class for server functions&#10;- best lap times handled by server&#10;- Settings added server constants&#10;- enemy best time variable added&#10;&#10;// Refactoring&#10;- Hud Colors in constants&#10;- HUD Class created&#10;- moved HUD render to HUD Class&#10;- Player has lap counter now&#10;- added some comments" />
+    <MESSAGE value="// Features&#10;- curved roads creation&#10;- player car reacts to curves&#10;&#10;// Refactoring&#10;- added RoadCreator Class&#10;- changed segment array to arraylist&#10;- added some comments&#10;- moved some player constants to Settings" />
+    <option name="LAST_COMMIT_MESSAGE" value="// Features&#10;- curved roads creation&#10;- player car reacts to curves&#10;&#10;// Refactoring&#10;- added RoadCreator Class&#10;- changed segment array to arraylist&#10;- added some comments&#10;- moved some player constants to Settings" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

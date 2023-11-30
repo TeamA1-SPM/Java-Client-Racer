@@ -62,12 +62,12 @@ public class Game implements Runnable {
         hud = new HUD();
 
         // TODO temporary solution login function
-        connection.login("hans","321");
+        //connection.login("hans","321");
         connection.login("blabla","321");
         connection.findLobby();
 
 
-        // setup emit listener
+        // setup emit listener for server activated game functions
         serverFunctions(connection.getSocket());
     }
 
@@ -77,19 +77,21 @@ public class Game implements Runnable {
         // get best laptimes from server
         socket.on(Settings.GET_BEST_LAP_TIMES, new Emitter.Listener() {
             @Override
-            public void call(Object... args) {
+            public void call(Object...args) {
+                String myTime = "" + args[0];
+                String enemyTime = "" + args[1];
 
                 // set player best lap time
-                if(args[0] == null){
+                if(myTime.equals("null")){
                     player.setBestLapTime(0.0);
                 } else{
-                    player.setBestLapTime((double)args[0]);
+                    player.setBestLapTime(Double.parseDouble(myTime));
                 }
                 // set enemies best lap time
-                if(args[1] == null){
+                if(enemyTime.equals("null")){
                     player.setBestEnemyTime(0.0);
                 } else{
-                    player.setBestEnemyTime((double)args[1]);
+                    player.setBestEnemyTime(Double.parseDouble(enemyTime));
                 }
             }
         });
@@ -126,9 +128,12 @@ public class Game implements Runnable {
     // Updates the game logic
     private void update(){
         Segment playerSegment = road.findSegment(player.getPosition() + Settings.PLAYER_Z);
+        double speedPercent = player.getSpeed()/Settings.MAX_SPEED;
 
         // increase player world position
         player.increase(road.getTrackLength());
+        // calc parallax scrolling background
+        background.updateOffset(playerSegment.getCurve(), speedPercent);
 
         // player control actions left nad right
         if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
@@ -143,7 +148,6 @@ public class Game implements Runnable {
         }
 
         // sets playerX in curves
-        double speedPercent = player.getSpeed()/Settings.MAX_SPEED;
         player.setPlayerX(player.getPlayerX() - (player.getDx() * speedPercent * playerSegment.getCurve() * Settings.CENTRIFUGAL ));
 
         // player control actions up and down

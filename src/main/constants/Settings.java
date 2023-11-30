@@ -3,24 +3,23 @@ package main.constants;
 public class Settings {
 
     // Window settings
-    public static final int SCREEN_WIDTH = 1024;
-    public static final int SCREEN_HEIGHT = 768;
-    // public static final int SCREEN_WIDTH = 2048;
-    // public static final int SCREEN_HEIGHT = 1536;
-    public static final String SCREEN_TITLE = "Racer Java Client";
-    public static final boolean SCREEN_RESIZABLE = false;
-    public static final boolean SCREEN_VISIBLE = true;
+    public static final int SCREEN_WIDTH = 1024;    // logical canvas width
+    public static final int SCREEN_HEIGHT = 768;    // logical canvas height
+
+    public static final String SCREEN_TITLE = "Racer Java Client";  // game title
+    public static final boolean SCREEN_RESIZABLE = false;           // window resize
+    public static final boolean SCREEN_VISIBLE = true;              // window visible
 
     // Gameloop settings
-    public static final double FPS = 60.0;
-    public static final double STEP = 1/FPS;
+    public static final double FPS = 60.0;      // how many 'update' frames per second
+    public static final double STEP = 1/FPS;    // how long is each frame (in seconds)
 
     // Camera
     public static final int DRAW_DISTANCE = 300;
     public static final double CAMERA_HEIGHT = 1000;
     public static final double FOV = 100;
     public static final double CAMERA_DEPTH = 1 / (Math.tan((FOV /2) * Math.PI/180));
-
+    public static final double PLAYER_Z = CAMERA_HEIGHT * CAMERA_DEPTH;     // player relative z distance from camera (computed)
 
     // Road
     public static final int LANES = 3;
@@ -28,9 +27,7 @@ public class Settings {
     public static final int SEGMENT_LENGTH = 200;
     public static final int RUMBLE_LENGTH = 3;
 
-
     // Player
-    public static final double PLAYER_Z = CAMERA_HEIGHT * CAMERA_DEPTH;
     public static final double CENTRIFUGAL = 0.3;
     public static final double MAX_SPEED = SEGMENT_LENGTH / STEP;
     public static final double ACCEL =  MAX_SPEED /5;
@@ -40,12 +37,16 @@ public class Settings {
     public static final double OFF_ROAD_LIMIT =  MAX_SPEED /4;
     public static final double PLAYERX_LIMIT =  2;
 
+    // Background
+    public static final double skySpeed      = 0.001;                   // background sky layer scroll speed when going around curve (or up hill)
+    public static final double hillSpeed     = 0.002;                   // background hill layer scroll speed when going around curve (or up hill)
+    public static final double treeSpeed     = 0.003;                   // background tree layer scroll speed when going around curve (or up hill)
 
-   // Server
-   public static final String URI = "http://localhost:3000";
-    public static final String REGISTER = "register";
-    public static final String LOGIN = "login";
-    public static final String LOGOUT = "logout";
+    // Server
+    public static final String URI = "http://localhost:3000";           // server address
+    public static final String REGISTER = "register";                   // player register function
+    public static final String LOGIN = "login";                         // player login function
+    public static final String LOGOUT = "logout";                       // player logout function
     public static final String FIND_LOBBY = "find_lobby";
     public static final String START_GAME = "start_game";
     public static final String END_GAME = "end_game";
