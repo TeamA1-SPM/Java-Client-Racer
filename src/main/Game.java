@@ -3,20 +3,16 @@ package main;
 
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-import main.constants.ColorMode;
-import main.game.Background;
-import main.game.HUD;
-import main.game.Player;
-import main.game.Road;
+import main.game.*;
 import main.helper.Connection;
 import main.helper.InputListener;
-import main.helper.Point;
 import main.helper.Segment;
 import main.constants.Settings;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Game implements Runnable {
 
@@ -32,11 +28,10 @@ public class Game implements Runnable {
 
     private int maxLaps = 6;
 
-    // game loop time variables
 
+    // game loop time variables
     private long now = 0;
     private long last = System.currentTimeMillis();
-    private double dt = 0;
     private double gdt = 0;
     private final double step = Settings.STEP;
 
@@ -53,17 +48,26 @@ public class Game implements Runnable {
         g2D = (Graphics2D)context.getGraphics();
 
         player = new Player("TestDrive");
+
         // TODO add maxLaps
         player.setMaxLaps(maxLaps);
+        // TODO temporary solution for creating roads
+        RoadCreator roadCreator = new RoadCreator();
+        ArrayList<Segment> roadSegments = roadCreator.createStraightRoad();
+        //ArrayList<Segment> roadSegments = roadCreator.createCurvyRoad();
+        road = new Road(roadSegments);
+
 
         background = new Background();
-        road = new Road(createRoad(Settings.segmentLength, Settings.segmentQuantity));
         hud = new HUD();
 
-
+        // TODO temporary solution login function
         connection.login("hans","321");
         connection.login("blabla","321");
         connection.findLobby();
+
+
+        // setup emit listener
         serverFunctions(connection.getSocket());
     }
 
@@ -97,12 +101,12 @@ public class Game implements Runnable {
         isRunning = true;
         while (isRunning) {
             now = System.currentTimeMillis();
-            dt = Math.min(1, (double)(now - last)/ 1000);
+            double dt = Math.min(1, (double)(now - last)/ 1000);
             gdt = gdt + dt;
             while (gdt > step) {
                 gdt = gdt - step;
                 // update game logic
-                update(step);
+                update();
             }
             // draw frame
             render();
@@ -120,34 +124,40 @@ public class Game implements Runnable {
     }
 
     // Updates the game logic
-    private void update(double dt){
-        // increase player world position
-        player.increase(dt);
+    private void update(){
+        Segment playerSegment = road.findSegment(player.getPosition() + Settings.PLAYER_Z);
 
+        // increase player world position
+        player.increase(road.getTrackLength());
+
+        // player control actions left nad right
         if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
             player.pressLeft();
         } else {
             player.releaseLeft();
         }
-
         if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
            player.pressRight();
         } else {
-           player.releaseRight();
+            player.releaseRight();
         }
 
+        // sets playerX in curves
+        double speedPercent = player.getSpeed()/Settings.MAX_SPEED;
+        player.setPlayerX(player.getPlayerX() - (player.getDx() * speedPercent * playerSegment.getCurve() * Settings.CENTRIFUGAL ));
+
+        // player control actions up and down
         if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
-           player.pressUp();
+            player.pressUp();
         } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
-           player.pressDown();
+            player.pressDown();
         } else {
-           player.idle();
+            // player not pressing any keys
+            player.idle();
         }
 
-       player.offRoad();
-       player.xLimit();
-       player.speedLimit();
-       lapCounter();
+        player.update();
+        lapCounter();
     }
 
     // Draws a game frame on the screen
@@ -164,63 +174,30 @@ public class Game implements Runnable {
         g2D.drawImage(i,0,0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, null);
     }
 
-    // check if a lap is finished
+    // each update loop checks player position
     private void lapCounter() {
-        if (player.getPosition() < player.getPlayerZ()) {
-            double currentTime = player.getCurrentLapTime();
-            if(currentTime > 0){
-                System.out.println(currentTime);
+        // check if lap is finished
+        if (player.getPosition() < Settings.PLAYER_Z) {
+            double lapTime = player.getCurrentLapTime();
+            // player completed the lap
+            if(lapTime > 0){
 
-                player.setLastLapTime(currentTime);
+                player.setLastLapTime(lapTime);
                 // send current lap time to server
-                connection.sendLapTime(currentTime);
-                player.setCurrentLapTime(0);
+                connection.sendLapTime(lapTime);
+                player.resetTime();
                 player.addLap();
 
-                // race is finished
+                // checks if race is finished
                 if(player.getLap() > player.getMaxLaps()){
                     connection.sendFinishedRace();
-                    isRunning = false;
+                    stop();
                 }
             }
         } else {
-            // add one deltatime to currentLapTime
+            // add one step time to currentLapTime
             player.addTime();
         }
-    }
-
-    // Create Road
-    private Segment[] createRoad(int segmentLength, int segmentQuantity){
-        Segment[] segments = new Segment[segmentQuantity];
-
-        // Create road segments
-        for(int index = 0; index < segmentQuantity; index++){
-            Segment seg = new Segment(index);
-
-            seg.setP1World(new Point(0,0,index*segmentLength));
-            seg.setP2World(new Point(0,0,(index+1)*segmentLength));
-
-            if (Math.floorDiv(index, Settings.rumbleLength) % 2 == 0) {
-                seg.setColorMode(ColorMode.LIGHT);
-            } else {
-                seg.setColorMode(ColorMode.DARK);
-            }
-
-            segments[index] = seg;
-        }
-
-        int index = (int)Math.floor(player.getPlayerZ()/segmentLength) % segmentQuantity;
-
-        // Start line
-        segments[index + 2].setColorMode(ColorMode.START);
-        segments[index + 3].setColorMode(ColorMode.START);
-
-        // Finish line
-        for(int n = 0 ; n < Settings.rumbleLength ; n++){
-            segments[Settings.segmentQuantity-1-n].setColorMode(ColorMode.FINISH);
-        }
-
-        return segments;
     }
 }
 

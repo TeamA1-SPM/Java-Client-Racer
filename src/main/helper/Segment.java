@@ -8,7 +8,6 @@ import java.awt.*;
 public class Segment {
 
     private int index;
-
     private boolean isLooped = false;
     private boolean isLane = false;
     private Color colorRoad;
@@ -22,6 +21,8 @@ public class Segment {
     private Point p2World;
     private Point p2Camera;
     private Point p2Screen;
+
+    private double curve;
 
 
     public Segment(int index){
@@ -37,6 +38,7 @@ public class Segment {
 
     }
 
+    // sets color mode for each segment type
     public void setColorMode(ColorMode mode){
         switch (mode) {
             case LIGHT:
@@ -139,4 +141,11 @@ public class Segment {
         return isLane;
     }
 
+    public double getCurve() {
+        return curve;
+    }
+
+    public void setCurve(double curve) {
+        this.curve = curve;
+    }
 }

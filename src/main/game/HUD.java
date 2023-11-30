@@ -14,6 +14,7 @@ public class HUD {
     private final int hudHeight = (int)(Settings.SCREEN_HEIGHT * 0.12);
 
     // Element size
+    // TODO dynamic draw, remove all magic numbers and add scale for each element
     private int pedding = 38;
 
     private int elemHeight = hudHeight - 48;
@@ -24,12 +25,17 @@ public class HUD {
         g2D.setFont(font);
         // Background Rectangle
         drawBackground();
-
+        // Lap time element
         drawTime(player.getCurrentLapTime());
+        // Last lap element
         drawLastLap(player.getLastLapTime());
+        // best lap element
         drawFastestLap(player.getBestLapTime());
+        // Enemy best lap element
         drawEnemyLap(player.getBestEnemyTime());
+        // Speed element
         drawSpeed(player.getSpeed());
+        // Lap counter element
         drawRound(player.getLap(),player.getMaxLaps());
     }
 
@@ -88,11 +94,8 @@ public class HUD {
         time = time%60;
 
         int sec = (int)time;
-
         time = time%1;
-
         int mil = (int)(time * 1000);
-
 
         if(min > 0){
             result += min + ".";
@@ -112,6 +115,7 @@ public class HUD {
     private void drawText(int startX, String text){
         g2D.setColor(Colors.HUD_FONT);
         // draws text in the middle of the hud
+        // TODO add offset remove magic number 20
         g2D.drawString(text, startX, hudHeight/2 + 20);
     }
 

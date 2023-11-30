@@ -22,16 +22,9 @@ public class Player {
     // player position variables
     private double position = 0;
     private double playerX = 0;
-    private double playerZ = Settings.cameraHeight * Settings.cameraDepth;
-
-    // player speed variables
     private double speed = 0;
-    private double maxSpeed = Settings.segmentLength/Settings.STEP;
-    private double accel =  maxSpeed/5;
-    private double breaking      = -maxSpeed;
-    private double decel         = -maxSpeed/5;
-    private double offRoadDecel  = -maxSpeed/2;
-    private double offRoadLimit  =  maxSpeed/4;
+
+
 
     private String name;
 
@@ -45,7 +38,7 @@ public class Player {
     private int maxLaps;
 
     private double dx;
-    private double dt;
+    private double dt = Settings.STEP;
 
 
     public Player(String name) {
@@ -54,11 +47,10 @@ public class Player {
 
     }
 
-    public void increase(double dt) {
-        this.dt = dt;
-        dx = dt * 2 * (speed/maxSpeed);
+    public void increase(int trackLength) {
+        dx = dt * 2 * (speed/Settings.MAX_SPEED);
         double increment = dt * speed;
-        int max = Settings.trackLength;
+        int max = trackLength;
 
         double result = position + increment;
         while (result >= max)
@@ -75,23 +67,27 @@ public class Player {
     private double limit(double value, double min, double max){
         return Math.max(min, Math.min(value, max));
     }
+
+    public void update(){
+        if (((playerX < -1) || (playerX > 1)) && (speed > Settings.OFF_ROAD_LIMIT))
+            speed = accelerate(speed, Settings.OFF_ROAD_DECEL, dt);
+
+            playerX = limit(playerX, -(Settings.PLAYERX_LIMIT), Settings.PLAYERX_LIMIT);
+
+            speed   = limit(speed, 0, Settings.MAX_SPEED);
+    }
     public void offRoad(){
-        if (((playerX < -1) || (playerX > 1)) && (speed > offRoadLimit))
-            speed = accelerate(speed, offRoadDecel, dt);
-    }
-    public void xLimit(){
-        playerX = limit(playerX, -3, 3);
-    }
-    public void speedLimit(){
-        speed   = limit(speed, 0, maxSpeed);
+        if (((playerX < -1) || (playerX > 1)) && (speed > Settings.OFF_ROAD_LIMIT))
+            speed = accelerate(speed, Settings.OFF_ROAD_DECEL, dt);
     }
     public void addTime(){
         currentLapTime += dt;
     }
+    public void resetTime() { currentLapTime = 0; }
 
 
     public void pressUp(){
-        speed = accelerate(speed, accel, dt);
+        speed = accelerate(speed, Settings.ACCEL, dt);
 
         if (isLeftKeyPressed) {
             adjustCurrentDirection(Direction.LEFT);
@@ -103,7 +99,7 @@ public class Player {
     }
 
     public void pressDown(){
-        speed = accelerate(speed, breaking, dt);
+        speed = accelerate(speed, Settings.BREAKING, dt);
 
         if (speed == 0) {
             adjustCurrentDirection(Direction.STRAIGHT);
@@ -113,13 +109,17 @@ public class Player {
     public void pressLeft(){
         playerX = playerX - dx;
         isLeftKeyPressed = true;
-        adjustCurrentDirection(Direction.LEFT);
+        if(speed > 0){
+            adjustCurrentDirection(Direction.LEFT);
+        }
     }
 
     public void pressRight(){
         playerX = playerX + dx;
         isRightKeyPressed = true;
-        adjustCurrentDirection(Direction.RIGHT);
+        if(speed > 0){
+            adjustCurrentDirection(Direction.RIGHT);
+        }
     }
 
     public void releaseLeft() {
@@ -136,7 +136,7 @@ public class Player {
         }
     }
     public void idle(){
-        speed = accelerate(speed, decel, dt);
+        speed = accelerate(speed, Settings.DECEL, dt);
 
         if (speed == 0) {
             adjustCurrentDirection(Direction.STRAIGHT);
@@ -181,18 +181,15 @@ public class Player {
     public double getPlayerX(){
         return playerX;
     }
-    public double getPlayerZ(){
-        return playerZ;
-    }
+    public void setPlayerX(double playerX) { this.playerX = playerX; }
     public int getSpeed(){
         return (int)speed;
     }
+    public double getDx() { return dx;}
+    // returns time in seconds
     public double getCurrentLapTime() {
         int time = (int)(currentLapTime * 1000);
         return (double)time/1000 ;
-    }
-    public void setCurrentLapTime(double currentLapTime) {
-        this.currentLapTime = currentLapTime;
     }
     public double getLastLapTime() {
         return lastLapTime;
@@ -200,9 +197,7 @@ public class Player {
     public void setLastLapTime(double lastLapTime) {
         this.lastLapTime = lastLapTime;
     }
-    public double getBestLapTime() {
-        return bestLapTime;
-    }
+    public double getBestLapTime() { return bestLapTime; }
     public void setBestLapTime(double bestLapTime) { this.bestLapTime = bestLapTime; }
     public double getBestEnemyTime() { return bestEnemyTime; }
     public void setBestEnemyTime(double bestEnemyTime) { this.bestEnemyTime = bestEnemyTime; }
@@ -210,6 +205,5 @@ public class Player {
     public int getLap() { return lap; }
     public int getMaxLaps() { return maxLaps; }
     public void setMaxLaps(int maxLaps) { this.maxLaps = maxLaps; }
-
 
 }

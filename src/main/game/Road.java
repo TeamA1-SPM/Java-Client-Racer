@@ -6,38 +6,52 @@ import main.constants.Colors;
 import main.constants.Settings;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Road {
 
-    private Segment[] segments;
+    public int segmentQuantity;
+    public int trackLength;
 
-    public Road(Segment[] segments){
+
+    private ArrayList<Segment> segments;
+
+    public Road(ArrayList<Segment> segments){
         this.segments = segments;
+        segmentQuantity = segments.size();
+        trackLength = Settings.SEGMENT_LENGTH * segmentQuantity;
     }
-
 
     public void render(Graphics2D g2 , Player player){
         double position = player.getPosition();
         double playerX = player.getPlayerX();
+        double maxy = Settings.SCREEN_HEIGHT;
+        int segmentLength = Settings.SEGMENT_LENGTH;
+
+        double basePercent = (position%segmentLength)/segmentLength;
 
         Segment baseSegment = findSegment(position);
 
-        double maxy = Settings.SCREEN_HEIGHT;
+        double x = 0;
+        double dx = -(baseSegment.getCurve() * basePercent);
 
         Segment segment;
-        for(int n = 0; n < Settings.drawDistance; n++){
+        for(int n = 0; n < Settings.DRAW_DISTANCE; n++){
 
-            segment = segments[(baseSegment.getIndex() + n) % Settings.segmentQuantity];
+            segment = segments.get((baseSegment.getIndex() + n) % segments.size());
             segment.setLooped(segment.getIndex() < baseSegment.getIndex());
 
-            int cameraX = (int)(playerX * Settings.roadWidth);
-            int cameraY = (int)Settings.cameraHeight;
-            int cameraZ = (int)position - (segment.isLooped() ? Settings.trackLength : 0);
+            int cameraX = (int)(playerX * Settings.ROAD_WIDTH);
+            int cameraY = (int)Settings.CAMERA_HEIGHT;
+            int cameraZ = (int)position - (segment.isLooped() ? trackLength : 0);
 
-            project(segment.getP1World(),segment.getP1Camera(),segment.getP1Screen(), cameraX , cameraY, cameraZ);
-            project(segment.getP2World(),segment.getP2Camera(),segment.getP2Screen(), cameraX , cameraY, cameraZ);
+            project(segment.getP1World(),segment.getP1Camera(),segment.getP1Screen(), (int)(cameraX - x) , cameraY, cameraZ);
+            project(segment.getP2World(),segment.getP2Camera(),segment.getP2Screen(), (int)(cameraX - x - dx), cameraY, cameraZ);
 
-            if(segment.getP1Camera().getZ() <= Settings.cameraDepth || segment.getP2Screen().getY() >= maxy){
+            x = x + dx;
+            dx = dx + segment.getCurve();
+
+            if(segment.getP1Camera().getZ() <= Settings.CAMERA_DEPTH || segment.getP2Screen().getY() >= maxy){
                continue;
             }
 
@@ -47,8 +61,8 @@ public class Road {
     }
 
     public Segment findSegment(double position) {
-        int index = (int)(position/Settings.segmentLength)%Settings.segmentQuantity;
-        return segments[index];
+        int index = (int)(position/Settings.SEGMENT_LENGTH)%segments.size();
+        return segments.get(index);
     }
 
     // project from world coordinates to screen coordinates
@@ -56,7 +70,7 @@ public class Road {
 
         double width = (double)Settings.SCREEN_WIDTH/2;
         double height  = (double)Settings.SCREEN_HEIGHT/2;
-        double cameraDepth = Settings.cameraDepth;
+        double cameraDepth = Settings.CAMERA_DEPTH;
 
         // camera
         pCamera.setX(pWorld.getX() - cameraX);
@@ -68,7 +82,7 @@ public class Road {
         // screen
         pScreen.setX((int)Math.round(width + (scale * pCamera.getX() * width)));
         pScreen.setY((int)Math.round(height - (scale * pCamera.getY() * height)));
-        pScreen.setZ((int)Math.round(scale * Settings.roadWidth * width));
+        pScreen.setZ((int)Math.round(scale * Settings.ROAD_WIDTH * width));
     }
 
     private void renderSegment(Graphics2D g2, Segment segment){
@@ -85,8 +99,8 @@ public class Road {
         g2.fillRect(0,y2, Settings.SCREEN_WIDTH, y1-y2);
 
         // render rumble
-        int r1 = w1/Math.max(6,  2*Settings.lanes);
-        int r2 = w2/Math.max(6,  2*Settings.lanes);
+        int r1 = w1/Math.max(6,  2*Settings.LANES);
+        int r2 = w2/Math.max(6,  2*Settings.LANES);
         g2.setColor(segment.getColorRumble());
         Polygon pRumbleLeft = createPolygon(x1-w1-r1, y1, x1-w1, y1, x2-w2, y2, x2-w2-r2, y2);
         g2.fillPolygon(pRumbleLeft);
@@ -100,7 +114,7 @@ public class Road {
 
         // render lanes
         if(segment.isLane()){
-            int lanes = Settings.lanes;
+            int lanes = Settings.LANES;
             int l1 = w1/Math.max(32, 8*lanes);
             int l2 = w2/Math.max(32, 8*lanes);
 
@@ -123,7 +137,10 @@ public class Road {
         p.addPoint(x2,y2);
         p.addPoint(x3,y3);
         p.addPoint(x4,y4);
-
         return p;
+    }
+
+    public int getTrackLength(){
+        return trackLength;
     }
 }
