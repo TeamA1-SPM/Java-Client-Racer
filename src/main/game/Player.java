@@ -14,6 +14,9 @@ public class Player {
     private Image playerRight;
     private Image currentPlayerSprite;
 
+    private Sprite sprite;
+
+
     private enum Direction { STRAIGHT, LEFT, RIGHT }
     private Direction currentDirection = Direction.STRAIGHT;
     private boolean isLeftKeyPressed = false;
@@ -22,6 +25,7 @@ public class Player {
     // player position variables
     private double position = 0;
     private double playerX = 0;
+    private double playerY = 0;
     private double speed = 0;
 
 
@@ -44,7 +48,7 @@ public class Player {
     public Player(String name) {
         this.name = name;
         loadSprites();
-
+        sprite = new Sprite();
     }
 
     public void increase(int trackLength) {
@@ -170,6 +174,23 @@ public class Player {
     }
 
     public void renderPlayer(Graphics2D g2D){
+
+        // Render.sprite(  sprites, sprite, scale, destX, destY + bounce, -0.5, -1);
+        // player: function( sprites, speedPercent, scale, destX, destY, steer, updown)
+        //       Render.player(  sprites, speed/maxSpeed,
+        //                    cameraDepth/playerZ,
+        //                    width/2,
+        //                    (height/2) - (cameraDepth/playerZ * Util.interpolate(playerSegment.p1.camera.y, playerSegment.p2.camera.y, playerPercent) * height/2),
+        //                    speed * (keyLeft ? -1 : keyRight ? 1 : 0),
+        //                    playerSegment.p2.world.y - playerSegment.p1.world.y);
+
+        // public void render( double destX, double destY, double offsetX, double offsetY, double clipY){
+
+        double scale = Settings.CAMERA_DEPTH/Settings.PLAYER_Z;
+        double destX = (double)Settings.SCREEN_WIDTH/2;
+        double destY = (double)Settings.SCREEN_HEIGHT/2;
+
+        //sprite.render(g2D, currentPlayerSprite,scale, destX, destY, 0.5, 1, 1 );
         g2D.drawImage(currentPlayerSprite, 430, 550, 180, 120, null);
     }
 
@@ -181,6 +202,9 @@ public class Player {
         return playerX;
     }
     public void setPlayerX(double playerX) { this.playerX = playerX; }
+    public double getPlayerY() { return playerY; }
+
+    public void setPlayerY(double playerY) { this.playerY = playerY; }
     public int getSpeed(){
         return (int)speed;
     }

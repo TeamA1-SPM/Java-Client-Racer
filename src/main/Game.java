@@ -52,14 +52,15 @@ public class Game implements Runnable {
 
         // TODO temporary solution for creating roads
         RoadCreator roadCreator = new RoadCreator();
-        ArrayList<Segment> roadSegments = roadCreator.createStraightRoad();
+        //ArrayList<Segment> roadSegments = roadCreator.createStraightRoad();
         //ArrayList<Segment> roadSegments = roadCreator.createCurvyRoad();
+        ArrayList<Segment> roadSegments = roadCreator.createHillRoad();
         road = new Road(roadSegments);
 
 
         // TODO temporary solution login function
-        //connection.login("hans","321");
-        connection.login("blabla","321");
+        connection.login("hans","321");
+        //connection.login("blabla","321");
         connection.findLobby();
 
 

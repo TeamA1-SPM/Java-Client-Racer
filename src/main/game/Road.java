@@ -24,13 +24,19 @@ public class Road {
 
     public void render(Graphics2D g2 , Player player){
         double position = player.getPosition();
-        double playerX = player.getPlayerX();
-        double maxy = Settings.SCREEN_HEIGHT;
         int segmentLength = Settings.SEGMENT_LENGTH;
-
-        double basePercent = (position%segmentLength)/segmentLength;
+        double playerZ = Settings.PLAYER_Z;
 
         Segment baseSegment = findSegment(position);
+        double basePercent = percentRemaining(position, segmentLength);
+
+        Segment playerSegment = findSegment(position + playerZ);
+        double playerPercent = percentRemaining(position + playerZ, segmentLength);
+
+        player.setPlayerY(interpolate(playerSegment.getP1World().getY(), playerSegment.getP2World().getY(), playerPercent));
+        double playerY = player.getPlayerY();
+        double playerX = player.getPlayerX();
+        double maxy = Settings.SCREEN_HEIGHT;
 
         double x = 0;
         double dx = -(baseSegment.getCurve() * basePercent);
@@ -41,17 +47,17 @@ public class Road {
             segment = segments.get((baseSegment.getIndex() + n) % segments.size());
             segment.setLooped(segment.getIndex() < baseSegment.getIndex());
 
-            int cameraX = (int)(playerX * Settings.ROAD_WIDTH);
-            int cameraY = (int)Settings.CAMERA_HEIGHT;
+            int cameraX = (int)((playerX * Settings.ROAD_WIDTH) - x);
+            int cameraY = (int)(Settings.CAMERA_HEIGHT + playerY);
             int cameraZ = (int)position - (segment.isLooped() ? trackLength : 0);
 
-            project(segment.getP1World(),segment.getP1Camera(),segment.getP1Screen(), (int)(cameraX - x) , cameraY, cameraZ);
-            project(segment.getP2World(),segment.getP2Camera(),segment.getP2Screen(), (int)(cameraX - x - dx), cameraY, cameraZ);
+            project(segment.getP1World(),segment.getP1Camera(),segment.getP1Screen(), cameraX , cameraY, cameraZ);
+            project(segment.getP2World(),segment.getP2Camera(),segment.getP2Screen(), (int)(cameraX - dx), cameraY, cameraZ);
 
             x = x + dx;
             dx = dx + segment.getCurve();
 
-            if(segment.getP1Camera().getZ() <= Settings.CAMERA_DEPTH || segment.getP2Screen().getY() >= maxy){
+            if(segment.getP1Camera().getZ() <= Settings.CAMERA_DEPTH || segment.getP2Screen().getY() >= segment.getP1Screen().getY() || segment.getP2Screen().getY() >= maxy){
                continue;
             }
 
@@ -63,6 +69,14 @@ public class Road {
     public Segment findSegment(double position) {
         int index = (int)(position/Settings.SEGMENT_LENGTH)%segments.size();
         return segments.get(index);
+    }
+
+    private double interpolate(double a, double b, double percent) {
+        return a + (b-a)*percent;
+    }
+
+    private double percentRemaining(double n, double total) {
+        return (n%total)/total;
     }
 
     // project from world coordinates to screen coordinates
