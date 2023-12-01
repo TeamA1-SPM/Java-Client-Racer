@@ -4,6 +4,7 @@ import main.constants.Settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.Objects;
 
 public class Background {
@@ -54,15 +55,50 @@ public class Background {
         g2D.drawImage(hills, x, y, width, height, null);
         g2D.drawImage(trees, x, y, width, height, null);
 
+        // TODO make it work
+        //renderParallax(g2D, sky,0.1, skyOffset);
+        //renderParallax(g2D, hills,0, hillOffset);
+        //renderParallax(g2D, trees,0, treeOffset);
+
     }
 
-    public void render2(Graphics2D g2D){
+    // TODO make it work
+    public void renderParallax(Graphics2D g2D,Image layer, double rotation, double offset){
 
-        //if()
+        // rotation = rotation || 0;
+        //offset   = offset   || 0;
+        int layerX = 0;
+        int layerY = 0;
+        int layerW = layer.getWidth(null);
+        int layerH = layer.getHeight(null);
+
+        rotation = rotation == 0 ? 0 : rotation;
+        offset = offset == 0 ? 0 : offset;
 
 
+        int imageW = layerW / 2;
+        int imageH = layerH;
 
+        int sourceX = layerX + (int) Math.floor(layerW * rotation);
+        int sourceY = layerY;
+        int sourceW = Math.min(imageW, layerX + layerW - sourceX);
+        int sourceH = imageH;
 
+        int destX = (int)(offset * 100);
+        int destY = (int) offset;
+        int destW = (int) Math.floor(Settings.SCREEN_WIDTH * (sourceW / (double) imageW));
+        int destH = Settings.SCREEN_HEIGHT;
+
+        AffineTransform transform = new AffineTransform();
+        transform.translate(destX, destY);
+        transform.scale(destW / (double) sourceW, destH / (double) sourceH);
+
+        g2D.drawImage(layer, transform, null);
+
+        if (sourceW < imageW) {
+            int remainingWidth = imageW - sourceW;
+            g2D.drawImage(layer, layerX, sourceY, remainingWidth, sourceH, destW - 1, destY, Settings.SCREEN_WIDTH - destW, destH,null);
+        }
 
     }
 
