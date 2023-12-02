@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Features&#10;- Socket.io implemented&#10;- Connection Class for server functions&#10;- best lap times handled by server&#10;- Settings added server constants&#10;- enemy best time variable added&#10;&#10;// Refactoring&#10;- Hud Colors in constants&#10;- HUD Class created&#10;- moved HUD render to HUD Class&#10;- Player has lap counter now&#10;- added some comments">
-      <change afterPath="$PROJECT_DIR$/src/main/game/RoadCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/constants/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/HUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/HUD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Road.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/helper/Segment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Segment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/helper/Timer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/MainMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="27-java-menu" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -55,7 +49,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;27-java-menu&quot;,
     &quot;last_opened_file_path&quot;: &quot;E:/GIT/Java-Client-Racer/src/main/libs&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -147,6 +141,8 @@
       <workItem from="1701246393733" duration="32172000" />
       <workItem from="1701281260579" duration="9407000" />
       <workItem from="1701327913528" duration="9813000" />
+      <workItem from="1701444648957" duration="2533000" />
+      <workItem from="1701447220827" duration="1394000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -245,7 +241,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="origin/27-java-menu" />
                       </list>
                     </value>
                   </entry>

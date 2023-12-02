@@ -15,10 +15,10 @@ public class Main {
         Connection connection = new Connection();
         connection.connect();
 
-        // MainMenu menu = new MainMenu();
-        Window window = new Window();
-        Game game = new Game(window, connection);
-        Thread t1 = new Thread(game);
-        t1.start();
+        MainMenu menu = new MainMenu();
+        //Window window = new Window();
+        //Game game = new Game(window, connection);
+        //Thread t1 = new Thread(game);
+        //t1.start();
     }
 }

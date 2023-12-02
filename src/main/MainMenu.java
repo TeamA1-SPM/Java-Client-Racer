@@ -24,16 +24,13 @@ public class MainMenu extends JFrame {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
-        File f = new File("../images/menu/LobbyBackground.png");
+        File f = new File("./src/main/images/menu/LobbyBackground.png");
         System.out.println(f.exists());
 
-        String lobbyBackgroundPath = "../images/menu/LobbyBackground.png";
-        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(lobbyBackgroundPath)));
+        String lobbyBackgroundPath = f.getPath();
+        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull("./src/main/images/menu/LobbyBackground.png"));
         label.setIcon(imageIcon);
         getContentPane().add(label, BorderLayout.CENTER);
     }
 
-    public static void main(String[] args) {
-        MainMenu menu = new MainMenu();
-    }
 }
