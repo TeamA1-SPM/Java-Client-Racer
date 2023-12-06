@@ -193,6 +193,14 @@ public class MainMenu extends JFrame implements ActionListener {
                     }
                 }
             }
+            @Override
+            public void remove(int offs, int len) throws BadLocationException {
+                super.remove(offs, len);
+                // Remove characters from the list when the user deletes them
+                for (int i = 0; i < len; i++) {
+                    usernameList.remove(offs);
+                }
+            }
         };
         // Assign document to the username field
         usernameField.setDocument(document);
@@ -214,6 +222,14 @@ public class MainMenu extends JFrame implements ActionListener {
                     for (char c : str.toCharArray()) {
                         passwordList.add(c);
                     }
+                }
+            }
+            @Override
+            public void remove(int offs, int len) throws BadLocationException {
+                super.remove(offs, len);
+                // Remove characters from the list when the user deletes them
+                for (int i = 0; i < len; i++) {
+                    passwordList.remove(offs);
                 }
             }
         };
