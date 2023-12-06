@@ -23,12 +23,8 @@ public class Connection {
                 }
             }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
                 @Override
-                public void call(Object... args) {
-                    System.out.println(
-                            "Disconnected from server");
-                }
+                public void call(Object... args) { System.out.println("Disconnected from server"); }
             });
-
             socket.connect();
 
         } catch (URISyntaxException e) {
