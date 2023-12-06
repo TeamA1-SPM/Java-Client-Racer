@@ -1,5 +1,7 @@
 package main;
 
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import main.constants.Settings;
 import main.helper.Connection;
 
@@ -43,10 +45,16 @@ public class MainMenu extends JFrame implements ActionListener {
     private final List<Character> passwordList = new ArrayList<>();
     private String username;
     private String password;
-    private Connection connection;
+    private final Connection connection = new Connection();
+
+    public Connection getConnection() {
+        return connection;
+    }
 
     public MainMenu() {
         init();
+        connection.connect();
+        serverFunctions(connection.getSocket());
     }
 
     // Initializes everything
@@ -250,17 +258,27 @@ public class MainMenu extends JFrame implements ActionListener {
         return stringBuilder.toString();
     }
 
-    // Prints the username and password in the console
-    public void login(String username, String password) {
-        System.out.println("Benutzername: " + username);
-        System.out.println("Passwort: " + password);
-    }
-
     // Helper method for the listener
     public void setPlayButtonListener(PlayButtonListener listener) {
         this.playButtonListener = listener;
     }
 
+    private void serverFunctions(Socket socket){
+
+        socket.on("login_success", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                boolean login = (boolean) args[0];
+                // global oder hier weitere Funktion
+            }
+        }).on("register_success", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                boolean register = (boolean) args[0];
+                // global oder hier weitere Funktion
+            }
+        });
+    }
     // Controls the actions of pressed buttons
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -335,6 +353,7 @@ public class MainMenu extends JFrame implements ActionListener {
             } else {
                 username = listToString(usernameList);
                 password = listToString(passwordList);
+                connection.register(username, password);
             }
         }
         else if (e.getSource() == continueButton) {
@@ -344,8 +363,7 @@ public class MainMenu extends JFrame implements ActionListener {
             } else {
                 username = listToString(usernameList);
                 password = listToString(passwordList);
-                //connection.login(username, password);
-                //login(username, password);
+                connection.login(username, password);
 
                 setVisibilityOfButton(continueButton, false);
                 setVisibilityOfButton(backButtonLogin, false);
@@ -393,7 +411,11 @@ public class MainMenu extends JFrame implements ActionListener {
             // TODO start game after successfully finding another player
             // TODO implement a 'Leave Lobby' Button
             // TODO display corresponding messages for the events on GUI
-            //connection.findLobby();
+            connection.findLobby();
+            if (playButtonListener != null) {
+                playButtonListener.playButtonClicked();
+            }
+            dispose();
         }
         else if (e.getSource() == logoutButton) {
             usernameField.setVisible(true);

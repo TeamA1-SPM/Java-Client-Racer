@@ -62,12 +62,14 @@ public class Game implements Runnable {
         hud = new HUD();
 
         // TODO temporary solution login function
+        /*
         connection.login("hans","321");
         connection.login("blabla","321");
         connection.findLobby();
-
+        */
 
         // setup emit listener
+
         serverFunctions(connection.getSocket());
     }
 
@@ -80,16 +82,17 @@ public class Game implements Runnable {
             public void call(Object... args) {
 
                 // set player best lap time
-                if(args[0] == null){
+                if (args[0] == null || !(args[0] instanceof Number)) {
                     player.setBestLapTime(0.0);
-                } else{
-                    player.setBestLapTime((double)args[0]);
+                } else {
+                    player.setBestLapTime(((Number) args[0]).doubleValue());
                 }
+
                 // set enemies best lap time
-                if(args[1] == null){
+                if (args[1] == null || !(args[1] instanceof Number)) {
                     player.setBestEnemyTime(0.0);
-                } else{
-                    player.setBestEnemyTime((double)args[1]);
+                } else {
+                    player.setBestEnemyTime(((Number) args[1]).doubleValue());
                 }
             }
         });
