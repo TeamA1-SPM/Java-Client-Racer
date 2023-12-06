@@ -13,6 +13,9 @@ import main.constants.Settings;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 import java.util.ArrayList;
 
 public class Game implements Runnable {
@@ -30,6 +33,8 @@ public class Game implements Runnable {
 
     private int maxLaps = 6;
     private boolean playerCheckpoint = false;
+
+    private Segment playerSegment;
 
     public Game(JFrame context, Connection connection) {
       this.context = context;
@@ -52,9 +57,10 @@ public class Game implements Runnable {
 
         // TODO temporary solution for creating roads
         RoadCreator roadCreator = new RoadCreator();
-        //ArrayList<Segment> roadSegments = roadCreator.createStraightRoad();
-        //ArrayList<Segment> roadSegments = roadCreator.createCurvyRoad();
-        ArrayList<Segment> roadSegments = roadCreator.createHillRoad();
+        //ArrayList<Segment> roadSegments = roadCreator.createV1StraightRoad();
+        //ArrayList<Segment> roadSegments = roadCreator.createV2CurvyRoad();
+        //ArrayList<Segment> roadSegments = roadCreator.createV3HillRoad();
+        ArrayList<Segment> roadSegments = roadCreator.createV4Final();
         road = new Road(roadSegments);
 
 
@@ -68,7 +74,7 @@ public class Game implements Runnable {
         serverFunctions(connection.getSocket());
     }
 
-    // Server receive data functions
+    // Server activated methods
     private void serverFunctions(Socket socket){
 
         // get best laptimes from server
@@ -122,7 +128,7 @@ public class Game implements Runnable {
 
     // Updates the game logic
     private void update(){
-        Segment playerSegment = road.findSegment(player.getPosition() + Settings.PLAYER_Z);
+        playerSegment = road.findSegment(player.getPosition() + Settings.PLAYER_Z);
         double speedPercent = player.getSpeed()/Settings.MAX_SPEED;
 
         // Increase player world position
@@ -133,13 +139,8 @@ public class Game implements Runnable {
         // Player control actions left nad right
         if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
             player.pressLeft();
-        } else {
-            player.releaseLeft();
-        }
-        if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
+        }else if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
            player.pressRight();
-        } else {
-            player.releaseRight();
         }
 
         // Sets playerX in curves
@@ -166,10 +167,12 @@ public class Game implements Runnable {
         Image i = context.createImage(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
         Graphics2D g2dNext = (Graphics2D)i.getGraphics();
 
+        g2dNext.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         background.render(g2dNext);
         hud.render(g2dNext, player);
         road.render(g2dNext, player);
-        player.renderPlayer(g2dNext);
+        player.renderPlayer(g2dNext,playerSegment.getP2World().getY()-playerSegment.getP1World().getY());
 
         g2D.drawImage(i,0,0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, null);
     }

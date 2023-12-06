@@ -36,7 +36,7 @@ public class Settings {
     public static final double OFF_ROAD_DECEL = -MAX_SPEED /2;
     public static final double OFF_ROAD_LIMIT =  MAX_SPEED /4;
     public static final double PLAYERX_LIMIT =  2;
-    public static final double SPRITE_SCALE =  0.3 * 80;                // the reference sprite width should be 1/3rd the (half-)roadWidth
+    public static final double SPRITE_SCALE =  0.3/80;                // the reference sprite width should be 1/3rd the (half-)roadWidth
 
     // Background
     public static final double skySpeed      = 0.001;                   // background sky layer scroll speed when going around curve (or up hill)
@@ -44,7 +44,7 @@ public class Settings {
     public static final double treeSpeed     = 0.003;                   // background tree layer scroll speed when going around curve (or up hill)
 
     // Server
-    public static final String URI = "http://localhost:3000";           // server address
+    public static final String URI = "http://racing-server.onrender.com/";           // server address
     public static final String REGISTER = "register";                   // player register function
     public static final String LOGIN = "login";                         // player login function
     public static final String LOGOUT = "logout";                       // player logout function

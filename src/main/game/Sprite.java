@@ -12,6 +12,10 @@ public class Sprite {
         double spriteWidth = sprite.getWidth(null);
         double spriteHeight = sprite.getHeight(null);
 
+
+
+        double sScale = Settings.SPRITE_SCALE;
+
         //  scale for projection AND relative to roadWidth (for tweakUI)
         double destW  = (spriteWidth * scale * widthMid) * (Settings.SPRITE_SCALE * Settings.ROAD_WIDTH);
         double destH  = (spriteHeight * scale * widthMid) * (Settings.SPRITE_SCALE * Settings.ROAD_WIDTH);
@@ -19,10 +23,7 @@ public class Sprite {
         destX = destX + (destW * offsetX);
         destY = destY + (destH * offsetY);
 
-        double clipH = Math.max(0, destY+destH-clipY);
-
-        System.out.println("Dest X = " + destX);
-        System.out.println("Dest Y = " + destY);
+        double clipH = clipY != 0 ? Math.max(0, destY + destH - clipY) : 0;
 
         if (clipH < destH){
             g2D.drawImage(sprite, (int)destX, (int)destY, (int)destW, (int)(destH - clipH), null);

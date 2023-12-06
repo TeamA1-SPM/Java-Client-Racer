@@ -25,7 +25,7 @@ public class RoadCreator {
     private ArrayList<Segment> segmentList;
 
     // Create straight road
-    public ArrayList<Segment> createStraightRoad(){
+    public ArrayList<Segment> createV1StraightRoad(){
         segmentList = new ArrayList<>();
         int segmentQuantity = 500;
         int segmentLength = Settings.SEGMENT_LENGTH;
@@ -46,24 +46,13 @@ public class RoadCreator {
             segmentList.add(seg);
         }
 
-        double playerZ = Settings.CAMERA_HEIGHT * Settings.CAMERA_DEPTH;
-
-        int index = (int)Math.floor(playerZ/segmentLength) % segmentQuantity;
-
-        // Start line
-        segmentList.get(index + 2).setColorMode(ColorMode.START);
-        segmentList.get(index + 3).setColorMode(ColorMode.START);
-
-        // Finish line
-        for(int n = 0; n < Settings.RUMBLE_LENGTH; n++){
-            segmentList.get(segmentQuantity-1-n).setColorMode(ColorMode.FINISH);
-        }
+        addStartFinish();
 
         return segmentList;
     }
 
     // Create curvy road
-    public ArrayList<Segment> createCurvyRoad(){
+    public ArrayList<Segment> createV2CurvyRoad(){
         segmentList = new ArrayList<>();
 
         addStraight(LENGTH_SHORT/4);
@@ -79,22 +68,13 @@ public class RoadCreator {
         addSCurves();
         addCurve(LENGTH_LONG, -CURVE_EASY,0.d);
 
-        int index = (int)Math.floor(Settings.PLAYER_Z /Settings.SEGMENT_LENGTH) % segmentList.size();
-
-        // Start line
-        segmentList.get(index + 2).setColorMode(ColorMode.START);
-        segmentList.get(index + 3).setColorMode(ColorMode.START);
-
-        // Finish line
-        for(int n = 0; n < Settings.RUMBLE_LENGTH; n++){
-            segmentList.get(segmentList.size() - 1 - n).setColorMode(ColorMode.FINISH);
-        }
+        addStartFinish();
 
         return segmentList;
     }
 
     // create a road with hills and curves
-    public ArrayList<Segment> createHillRoad(){
+    public ArrayList<Segment> createV3HillRoad(){
         segmentList = new ArrayList<>();
 
         addStraight(LENGTH_SHORT/2);
@@ -111,6 +91,40 @@ public class RoadCreator {
         addStraight(LENGTH_MEDIUM);
         addDownhillToEnd(200.d);
 
+        addStartFinish();
+
+        return segmentList;
+    }
+
+    public ArrayList<Segment> createV4Final(){
+        segmentList = new ArrayList<>();
+
+        addStraight(LENGTH_SHORT);
+        addLowRollingHills(LENGTH_SHORT,HILL_LOW);
+        addSCurves();
+        addCurve(LENGTH_MEDIUM, CURVE_MEDIUM, HILL_LOW);
+        addBumps();
+        addLowRollingHills(LENGTH_SHORT,HILL_LOW);
+        addCurve(LENGTH_LONG*2, CURVE_MEDIUM, HILL_MEDIUM);
+        addStraight(LENGTH_MEDIUM);
+        addHill(LENGTH_MEDIUM, HILL_HIGH);
+        addSCurves();
+        addCurve(LENGTH_LONG, -CURVE_MEDIUM, HILL_NONE);
+        addHill(LENGTH_LONG, HILL_HIGH);
+        addCurve(LENGTH_LONG, CURVE_MEDIUM, -HILL_LOW);
+        addBumps();
+        addHill(LENGTH_LONG, -HILL_MEDIUM);
+        addStraight(LENGTH_MEDIUM);
+        addSCurves();
+        addDownhillToEnd(200.d);
+
+        addStartFinish();
+
+        return segmentList;
+    }
+
+
+    private void addStartFinish(){
         int index = (int)Math.floor(Settings.PLAYER_Z /Settings.SEGMENT_LENGTH) % segmentList.size();
 
         // Start line
@@ -121,8 +135,6 @@ public class RoadCreator {
         for(int n = 0; n < Settings.RUMBLE_LENGTH; n++){
             segmentList.get(segmentList.size() - 1 - n).setColorMode(ColorMode.FINISH);
         }
-
-        return segmentList;
     }
 
     private void addSegment(double curve, double y){
@@ -166,6 +178,17 @@ public class RoadCreator {
         return a + (b-a)*((-Math.cos(percent*Math.PI)/2) + 0.5);
     }
 
+    private void addBumps(){
+        addRoad(10, 10, 10, 0,  5);
+        addRoad(10, 10, 10, 0, -2);
+        addRoad(10, 10, 10, 0, -5);
+        addRoad(10, 10, 10, 0,  8);
+        addRoad(10, 10, 10, 0,  5);
+        addRoad(10, 10, 10, 0, -7);
+        addRoad(10, 10, 10, 0,  5);
+        addRoad(10, 10, 10, 0, -2);
+    }
+
     private void addStraight(Double num){
         num = (num != 0) ? num : LENGTH_MEDIUM;
         addRoad(num,num,num,0,0);
@@ -190,9 +213,9 @@ public class RoadCreator {
 
         addRoad(num, num, num,  0,  height/2);
         addRoad(num, num, num,  0, -height);
-        addRoad(num, num, num,  0,  height);
+        addRoad(num, num, num,  CURVE_EASY,  height);
         addRoad(num, num, num,  0,  0);
-        addRoad(num, num, num,  0,  height/2);
+        addRoad(num, num, num,  -CURVE_EASY,  height/2);
         addRoad(num, num, num,  0,  0);
     }
 
@@ -207,7 +230,7 @@ public class RoadCreator {
         addRoad(LENGTH_MEDIUM, LENGTH_MEDIUM, LENGTH_MEDIUM,   CURVE_MEDIUM, HILL_MEDIUM);
         addRoad(LENGTH_MEDIUM, LENGTH_MEDIUM, LENGTH_MEDIUM,   CURVE_EASY, -HILL_LOW);
         addRoad(LENGTH_MEDIUM, LENGTH_MEDIUM, LENGTH_MEDIUM,  -CURVE_EASY, HILL_MEDIUM);
-        addRoad(LENGTH_MEDIUM, LENGTH_MEDIUM, LENGTH_MEDIUM,  -CURVE_MEDIUM, - HILL_MEDIUM);
+        addRoad(LENGTH_MEDIUM, LENGTH_MEDIUM, LENGTH_MEDIUM,  -CURVE_MEDIUM, -HILL_MEDIUM);
     }
 
     private double getLastY(){
