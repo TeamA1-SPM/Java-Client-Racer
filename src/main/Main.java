@@ -1,7 +1,5 @@
 package main;
 
-import main.helper.Connection;
-
 import javax.swing.*;
 
 public class Main {
@@ -12,12 +10,19 @@ public class Main {
 
     private static void createAndShowGUI() {
 
-        Connection connection = new Connection();
-        connection.connect();
+        MainMenu menu = new MainMenu();
 
-        Window window = new Window();
-        Game game = new Game(window, connection);
-        Thread t1 = new Thread(game);
-        t1.start();
+        PlayButtonListener playButtonListener = new PlayButtonListener() {
+            @Override
+            public void playButtonClicked() {
+                // Gets executed after the "PLAY"-Button is pressed
+                Window window = new Window();
+                Game game = new Game(window, menu.getConnection());
+                Thread t1 = new Thread(game);
+                t1.start();
+
+            }
+        };
+        menu.setPlayButtonListener(playButtonListener);
     }
 }

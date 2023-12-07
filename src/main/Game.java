@@ -5,7 +5,6 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import main.game.*;
 import main.helper.Connection;
-import main.helper.GameLoopTimer;
 import main.helper.InputListener;
 import main.helper.Segment;
 import main.constants.Settings;
@@ -19,17 +18,23 @@ public class Game implements Runnable {
 
     private JFrame context;
     private Graphics2D g2D;
-    private InputListener keyListener;
-    private GameLoopTimer timer;
+    private InputListener keyListener = new InputListener();
     private Player player;
-    private final Connection connection;
+    private Connection connection;
     private Background background;
     private Road road;
     private HUD hud;
     private boolean isRunning;
 
     private int maxLaps = 6;
-    private boolean playerCheckpoint = false;
+
+
+    // game loop time variables
+    private long now = 0;
+    private long last = System.currentTimeMillis();
+    private double gdt = 0;
+    private final double step = Settings.STEP;
+
 
     public Game(JFrame context, Connection connection) {
       this.context = context;
@@ -39,17 +44,13 @@ public class Game implements Runnable {
 
     // initialising the game variables
     private void init(){
-        g2D = (Graphics2D)context.getGraphics();
-        keyListener = new InputListener();
         context.addKeyListener(keyListener);
-        timer = new GameLoopTimer();
+        g2D = (Graphics2D)context.getGraphics();
 
-        background = new Background();
-        hud = new HUD();
         player = new Player("TestDrive");
-        // TODO maxLaps needs to be adjusted somewhere
-        player.setMaxLaps(maxLaps);
 
+        // TODO add maxLaps
+        player.setMaxLaps(maxLaps);
         // TODO temporary solution for creating roads
         RoadCreator roadCreator = new RoadCreator();
         ArrayList<Segment> roadSegments = roadCreator.createStraightRoad();
@@ -57,13 +58,10 @@ public class Game implements Runnable {
         road = new Road(roadSegments);
 
 
-        // TODO temporary solution login function
-        //connection.login("hans","321");
-        connection.login("blabla","321");
-        connection.findLobby();
+        background = new Background();
+        hud = new HUD();
 
-
-        // setup emit listener for server activated game functions
+        // setup emit listener
         serverFunctions(connection.getSocket());
     }
 
@@ -73,21 +71,19 @@ public class Game implements Runnable {
         // get best laptimes from server
         socket.on(Settings.GET_BEST_LAP_TIMES, new Emitter.Listener() {
             @Override
-            public void call(Object...args) {
-                String myTime = "" + args[0];
-                String enemyTime = "" + args[1];
+            public void call(Object... args) {
 
                 // set player best lap time
-                if(myTime.equals("null")){
+                if (args[0] == null || !(args[0] instanceof Number)) {
                     player.setBestLapTime(0.0);
-                } else{
-                    player.setBestLapTime(Double.parseDouble(myTime));
+                } else {
+                    player.setBestLapTime(((Number) args[0]).doubleValue());
                 }
                 // set enemies best lap time
-                if(enemyTime.equals("null")){
+                if (args[1] == null || !(args[1] instanceof Number)) {
                     player.setBestEnemyTime(0.0);
-                } else{
-                    player.setBestEnemyTime(Double.parseDouble(enemyTime));
+                } else {
+                    player.setBestEnemyTime(((Number) args[1]).doubleValue());
                 }
             }
         });
@@ -98,15 +94,17 @@ public class Game implements Runnable {
     public void run() {
         isRunning = true;
         while (isRunning) {
-            timer.frameStart();
-            while (timer.isGDT()) {
-                timer.updateGDT();
+            now = System.currentTimeMillis();
+            double dt = Math.min(1, (double)(now - last)/ 1000);
+            gdt = gdt + dt;
+            while (gdt > step) {
+                gdt = gdt - step;
                 // update game logic
                 update();
             }
             // draw frame
             render();
-            timer.frameFinished();
+            last = now;
             try{
                 Thread.sleep(1000 / 60);
             }catch(Exception e){
@@ -122,14 +120,11 @@ public class Game implements Runnable {
     // Updates the game logic
     private void update(){
         Segment playerSegment = road.findSegment(player.getPosition() + Settings.PLAYER_Z);
-        double speedPercent = player.getSpeed()/Settings.MAX_SPEED;
 
-        // Increase player world position
+        // increase player world position
         player.increase(road.getTrackLength());
-        // Calc parallax scrolling background
-        background.updateOffset(playerSegment.getCurve(), speedPercent);
 
-        // Player control actions left nad right
+        // player control actions left nad right
         if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
             player.pressLeft();
         } else {
@@ -141,22 +136,22 @@ public class Game implements Runnable {
             player.releaseRight();
         }
 
-        // Sets playerX in curves
+        // sets playerX in curves
+        double speedPercent = player.getSpeed()/Settings.MAX_SPEED;
         player.setPlayerX(player.getPlayerX() - (player.getDx() * speedPercent * playerSegment.getCurve() * Settings.CENTRIFUGAL ));
 
-        // Player control actions up and down
+        // player control actions up and down
         if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
             player.pressUp();
         } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
             player.pressDown();
         } else {
-            // Player not pressing any keys
+            // player not pressing any keys
             player.idle();
         }
 
-        // Update player speed and time
         player.update();
-        countLaps();
+        lapCounter();
     }
 
     // Draws a game frame on the screen
@@ -173,32 +168,29 @@ public class Game implements Runnable {
         g2D.drawImage(i,0,0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, null);
     }
 
-    // Checks if player finished the lap
-    private void countLaps(){
-        double position = player.getPosition();
-        double trackMid = (double)road.getTrackLength()/2;
-        double playerZ = Settings.PLAYER_Z;
-
-        // player crossed checkpoint
-        if(position > trackMid  & position < trackMid  + playerZ){
-            playerCheckpoint = true;
-        }
-
-        // player crossed checkpoint and finish line
-        if(playerCheckpoint & position < playerZ){
+    // each update loop checks player position
+    private void lapCounter() {
+        // check if lap is finished
+        if (player.getPosition() < Settings.PLAYER_Z) {
             double lapTime = player.getCurrentLapTime();
-            player.setLastLapTime(lapTime);
-            // send current lap time to server
-            connection.sendLapTime(lapTime);
-            player.resetTime();
-            player.addLap();
-            playerCheckpoint = false;
+            // player completed the lap
+            if(lapTime > 0){
 
-            // check if race is finished
-            if(player.getLap() > player.getMaxLaps()){
-                connection.sendFinishedRace();
-                stop();
+                player.setLastLapTime(lapTime);
+                // send current lap time to server
+                connection.sendLapTime(lapTime);
+                player.resetTime();
+                player.addLap();
+
+                // checks if race is finished
+                if(player.getLap() > player.getMaxLaps()){
+                    connection.sendFinishedRace();
+                    stop();
+                }
             }
+        } else {
+            // add one step time to currentLapTime
+            //player.addTime();
         }
     }
 }
