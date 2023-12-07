@@ -199,7 +199,7 @@ public class Game implements Runnable {
             }
         } else {
             // add one step time to currentLapTime
-            player.addTime();
+
         }
     }
 }

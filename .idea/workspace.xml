@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Features&#10;- Socket.io implemented&#10;- Connection Class for server functions&#10;- best lap times handled by server&#10;- Settings added server constants&#10;- enemy best time variable added&#10;&#10;// Refactoring&#10;- Hud Colors in constants&#10;- HUD Class created&#10;- moved HUD render to HUD Class&#10;- Player has lap counter now&#10;- added some comments">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/MainMenu.java" afterDir="false" />
-    </list>
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Features&#10;- Socket.io implemented&#10;- Connection Class for server functions&#10;- best lap times handled by server&#10;- Settings added server constants&#10;- enemy best time variable added&#10;&#10;// Refactoring&#10;- Hud Colors in constants&#10;- HUD Class created&#10;- moved HUD render to HUD Class&#10;- Player has lap counter now&#10;- added some comments" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +45,6 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;27-java-menu&quot;,
     &quot;last_opened_file_path&quot;: &quot;E:/GIT/Java-Client-Racer/src/main/libs&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -143,6 +138,7 @@
       <workItem from="1701327913528" duration="9813000" />
       <workItem from="1701444648957" duration="2533000" />
       <workItem from="1701447220827" duration="1394000" />
+      <workItem from="1701974712374" duration="314000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
