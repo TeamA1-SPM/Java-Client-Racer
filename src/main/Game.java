@@ -5,36 +5,31 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import main.game.*;
 import main.helper.Connection;
+import main.helper.GameLoopTimer;
 import main.helper.InputListener;
 import main.helper.Segment;
-import main.constants.Settings;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import static main.constants.Settings.*;
+
 public class Game implements Runnable {
 
     private JFrame context;
     private Graphics2D g2D;
-    private InputListener keyListener = new InputListener();
+    private InputListener keyListener;
+    private GameLoopTimer timer;
+    private final Connection connection;
+    private SpritesLoader spriteLoader;
     private Player player;
-    private Connection connection;
+    private Race race;
     private Background background;
     private Road road;
     private HUD hud;
     private boolean isRunning;
-
-    private int maxLaps = 6;
-
-
-    // game loop time variables
-    private long now = 0;
-    private long last = System.currentTimeMillis();
-    private double gdt = 0;
-    private final double step = Settings.STEP;
-
 
     public Game(JFrame context, Connection connection) {
       this.context = context;
@@ -44,154 +39,125 @@ public class Game implements Runnable {
 
     // initialising the game variables
     private void init(){
-        context.addKeyListener(keyListener);
         g2D = (Graphics2D)context.getGraphics();
+        keyListener = new InputListener();
+        context.addKeyListener(keyListener);
+        timer = new GameLoopTimer();
 
-        player = new Player("TestDrive");
-
-        // TODO add maxLaps
-        player.setMaxLaps(maxLaps);
-        // TODO temporary solution for creating roads
-        RoadCreator roadCreator = new RoadCreator();
-        ArrayList<Segment> roadSegments = roadCreator.createStraightRoad();
-        //ArrayList<Segment> roadSegments = roadCreator.createCurvyRoad();
-        road = new Road(roadSegments);
-
-
+        spriteLoader = new SpritesLoader();
         background = new Background();
         hud = new HUD();
 
-        // setup emit listener
+        RoadCreator roadCreator = new RoadCreator();
+
+        // TODO temporary solution for creating roads
+        //ArrayList<Segment> roadSegments = roadCreator.createV1StraightRoad();
+        //ArrayList<Segment> roadSegments = roadCreator.createV2CurvyRoad();
+        //ArrayList<Segment> roadSegments = roadCreator.createV3HillRoad();
+        ArrayList<Segment> roadSegments = roadCreator.createV4Final();
+        road = new Road(roadSegments);
+
+        player = new Player("TestDrive", road.getTrackLength());
+
+        // TODO maxLaps needs to be adjusted somewhere
+        race = new Race(6, road.getTrackLength());
+
+        // setup emit listener for server activated game functions
         serverFunctions(connection.getSocket());
     }
 
-    // Server receive data functions
+    // Server activated methods
     private void serverFunctions(Socket socket){
 
         // get best laptimes from server
-        socket.on(Settings.GET_BEST_LAP_TIMES, new Emitter.Listener() {
+        socket.on(GET_BEST_LAP_TIMES, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
 
                 // set player best lap time
                 if (args[0] == null || !(args[0] instanceof Number)) {
-                    player.setBestLapTime(0.0);
+                    race.setBestLapTime(0.0);
                 } else {
-                    player.setBestLapTime(((Number) args[0]).doubleValue());
+                    race.setBestLapTime(((Number) args[0]).doubleValue());
                 }
                 // set enemies best lap time
                 if (args[1] == null || !(args[1] instanceof Number)) {
-                    player.setBestEnemyTime(0.0);
+                    race.setBestEnemyTime(0.0);
                 } else {
-                    player.setBestEnemyTime(((Number) args[1]).doubleValue());
+                    race.setBestEnemyTime(((Number) args[1]).doubleValue());
                 }
             }
         });
     }
 
-    // main.Game loop single frame
+    // main game loop
     @Override
     public void run() {
         isRunning = true;
+        // single frame
         while (isRunning) {
-            now = System.currentTimeMillis();
-            double dt = Math.min(1, (double)(now - last)/ 1000);
-            gdt = gdt + dt;
-            while (gdt > step) {
-                gdt = gdt - step;
+            if(timer.isReady()){
                 // update game logic
                 update();
-            }
-            // draw frame
-            render();
-            last = now;
-            try{
-                Thread.sleep(1000 / 60);
-            }catch(Exception e){
-
+                // draw frame
+                render();
             }
         }
     }
 
-    public void stop() {
-        isRunning = false;
-    }
+    private void stop() { isRunning = false; }
 
     // Updates the game logic
     private void update(){
-        Segment playerSegment = road.findSegment(player.getPosition() + Settings.PLAYER_Z);
+        Segment playerSegment = road.findSegment(player.getPosition() + PLAYER_Z);
+        double curve = playerSegment.getCurve();
+        double updown = playerSegment.getP2World().getY()- playerSegment.getP1World().getY();
 
-        // increase player world position
-        player.increase(road.getTrackLength());
+        // Calc parallax scrolling background
+        background.updateOffset(curve, player.getSpeed());
 
-        // player control actions left nad right
+        // Player control actions left nad right
         if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
             player.pressLeft();
-        } else {
-            player.releaseLeft();
-        }
-        if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
+        }else if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
            player.pressRight();
-        } else {
-            player.releaseRight();
         }
-
-        // sets playerX in curves
-        double speedPercent = player.getSpeed()/Settings.MAX_SPEED;
-        player.setPlayerX(player.getPlayerX() - (player.getDx() * speedPercent * playerSegment.getCurve() * Settings.CENTRIFUGAL ));
-
-        // player control actions up and down
+        // Player control actions up and down
         if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
             player.pressUp();
         } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
             player.pressDown();
         } else {
-            // player not pressing any keys
+            // Player not pressing any keys
             player.idle();
         }
 
-        player.update();
-        lapCounter();
+        // Update player speed and time
+        player.update(curve, updown);
+
+        if(race.isLapFinished(player.getPosition())){
+            connection.sendLapTime(race.getLastLapTime());
+        }
+        if(race.isFinished()){
+            connection.sendFinishedRace();
+            stop();
+        }
     }
 
     // Draws a game frame on the screen
     private void render(){
         // Create Image then draw (Buffering)
-        Image i = context.createImage(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
-        Graphics2D g2dNext = (Graphics2D)i.getGraphics();
+        Image bufferImage = context.createImage(SCREEN_WIDTH, SCREEN_HEIGHT);
+        Graphics2D g2dNext = (Graphics2D)bufferImage.getGraphics();
+
+        g2dNext.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         background.render(g2dNext);
-        hud.render(g2dNext, player);
-        road.render(g2dNext, player);
-        player.renderPlayer(g2dNext);
+        road.render(g2dNext, player, spriteLoader);
+        player.renderPlayer(g2dNext, spriteLoader);
+        hud.render(g2dNext, race, player.getSpeed());
 
-        g2D.drawImage(i,0,0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT, null);
-    }
-
-    // each update loop checks player position
-    private void lapCounter() {
-        // check if lap is finished
-        if (player.getPosition() < Settings.PLAYER_Z) {
-            double lapTime = player.getCurrentLapTime();
-            // player completed the lap
-            if(lapTime > 0){
-
-                player.setLastLapTime(lapTime);
-                // send current lap time to server
-                connection.sendLapTime(lapTime);
-                player.resetTime();
-                player.addLap();
-
-                // checks if race is finished
-                if(player.getLap() > player.getMaxLaps()){
-                    connection.sendFinishedRace();
-                    stop();
-                }
-            }
-        } else {
-            // add one step time to currentLapTime
-            //player.addTime();
-        }
+        g2D.drawImage(bufferImage,0,0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
     }
 }
 

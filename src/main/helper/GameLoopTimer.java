@@ -2,38 +2,26 @@ package main.helper;
 
 import main.constants.Settings;
 
+import static main.constants.Settings.FPS;
+
 public class GameLoopTimer {
 
     // game loop time variables
     private long now;
     private long last;
-    private double gdt;
-    private final double step;
+    private final double timePerFrame = 1000000000.0 / FPS;
 
     public GameLoopTimer(){
         now = 0;
-        last = System.currentTimeMillis();
-        gdt = 0;
-        step = Settings.STEP;
-
+        last = 0;
     }
 
-    public void frameStart(){
-        now = System.currentTimeMillis();
-        double dt = Math.min(1, (double)(now - last)/ 1000);
-        gdt = gdt + dt;
+    public boolean isReady(){
+        now = System.nanoTime();
+        if(now - last >= timePerFrame){
+            last = now;
+            return true;
+        }
+        return false;
     }
-
-    public void frameFinished(){
-        last = now;
-    }
-
-    public boolean isGDT(){
-        return gdt > step;
-    }
-
-    public void updateGDT(){
-        gdt = gdt - step;
-    }
-
 }
