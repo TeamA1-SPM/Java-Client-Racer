@@ -3,8 +3,8 @@ package main.helper;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-
 import java.net.URISyntaxException;
+import java.util.HashMap;
 
 import static main.constants.Settings.*;
 
@@ -24,12 +24,8 @@ public class Connection {
                 }
             }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
                 @Override
-                public void call(Object... args) {
-                    System.out.println(
-                            "Disconnected from server");
-                }
+                public void call(Object... args) { System.out.println("Disconnected from server"); }
             });
-
             socket.connect();
 
         } catch (URISyntaxException e) {
@@ -44,6 +40,10 @@ public class Connection {
 
     public void register(String username, String password){
         if(socket != null){
+            HashMap<String, String> dict = new HashMap<>();
+            dict.put("passwort", password);
+            dict.put("username", username);
+            socket.emit(REGISTER, dict);
         }
     }
 

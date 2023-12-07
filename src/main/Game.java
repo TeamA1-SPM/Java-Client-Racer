@@ -72,21 +72,19 @@ public class Game implements Runnable {
         // get best laptimes from server
         socket.on(GET_BEST_LAP_TIMES, new Emitter.Listener() {
             @Override
-            public void call(Object...args) {
-                String myTime = "" + args[0];
-                String enemyTime = "" + args[1];
+            public void call(Object... args) {
 
                 // set player best lap time
-                if(myTime.equals("null")){
+                if (args[0] == null || !(args[0] instanceof Number)) {
                     race.setBestLapTime(0.0);
-                } else{
-                    race.setBestLapTime(Double.parseDouble(myTime));
+                } else {
+                    race.setBestLapTime(((Number) args[0]).doubleValue());
                 }
                 // set enemies best lap time
-                if(enemyTime.equals("null")){
+                if (args[1] == null || !(args[1] instanceof Number)) {
                     race.setBestEnemyTime(0.0);
-                } else{
-                    race.setBestEnemyTime(Double.parseDouble(enemyTime));
+                } else {
+                    race.setBestEnemyTime(((Number) args[1]).doubleValue());
                 }
             }
         });
@@ -98,7 +96,6 @@ public class Game implements Runnable {
         isRunning = true;
         // single frame
         while (isRunning) {
-
             if(timer.isReady()){
                 // update game logic
                 update();
@@ -108,9 +105,7 @@ public class Game implements Runnable {
         }
     }
 
-    private void stop() {
-        isRunning = false;
-    }
+    private void stop() { isRunning = false; }
 
     // Updates the game logic
     private void update(){
@@ -136,9 +131,9 @@ public class Game implements Runnable {
             // Player not pressing any keys
             player.idle();
         }
+
         // Update player speed and time
         player.update(curve, updown);
-
 
         if(race.isLapFinished(player.getPosition())){
             connection.sendLapTime(race.getLastLapTime());
