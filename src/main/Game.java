@@ -61,15 +61,7 @@ public class Game implements Runnable {
         background = new Background();
         hud = new HUD();
 
-        // TODO temporary solution login function
-        /*
-        connection.login("hans","321");
-        connection.login("blabla","321");
-        connection.findLobby();
-        */
-
         // setup emit listener
-
         serverFunctions(connection.getSocket());
     }
 
@@ -87,7 +79,6 @@ public class Game implements Runnable {
                 } else {
                     player.setBestLapTime(((Number) args[0]).doubleValue());
                 }
-
                 // set enemies best lap time
                 if (args[1] == null || !(args[1] instanceof Number)) {
                     player.setBestEnemyTime(0.0);
@@ -199,7 +190,7 @@ public class Game implements Runnable {
             }
         } else {
             // add one step time to currentLapTime
-
+            player.addTime();
         }
     }
 }

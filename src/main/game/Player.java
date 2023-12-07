@@ -69,20 +69,19 @@ public class Player {
     }
 
     public void update(){
-        if (((playerX < -1) || (playerX > 1)) && (speed > Settings.OFF_ROAD_LIMIT))
+        if (((playerX < -1) || (playerX > 1)) && (speed > Settings.OFF_ROAD_LIMIT)){
             speed = accelerate(speed, Settings.OFF_ROAD_DECEL, dt);
+        }
 
-            playerX = limit(playerX, -(Settings.PLAYERX_LIMIT), Settings.PLAYERX_LIMIT);
-
-            speed   = limit(speed, 0, Settings.MAX_SPEED);
+        playerX = limit(playerX, -(Settings.PLAYERX_LIMIT), Settings.PLAYERX_LIMIT);
+        speed   = limit(speed, 0, Settings.MAX_SPEED);
+        currentLapTime += dt;
     }
     public void offRoad(){
         if (((playerX < -1) || (playerX > 1)) && (speed > Settings.OFF_ROAD_LIMIT))
             speed = accelerate(speed, Settings.OFF_ROAD_DECEL, dt);
     }
-    public void addTime(){
-        currentLapTime += dt;
-    }
+
     public void resetTime() { currentLapTime = 0; }
 
 
