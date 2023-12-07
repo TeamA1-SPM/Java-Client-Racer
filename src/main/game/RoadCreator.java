@@ -1,11 +1,15 @@
 package main.game;
 
-import main.constants.ColorMode;
-import main.constants.Settings;
 import main.helper.Point;
 import main.helper.Segment;
+import main.constants.SpriteName;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import static main.constants.ColorMode.*;
+import static main.constants.Settings.*;
+import static main.constants.SpriteName.*;
 
 public class RoadCreator {
 
@@ -28,7 +32,7 @@ public class RoadCreator {
     public ArrayList<Segment> createV1StraightRoad(){
         segmentList = new ArrayList<>();
         int segmentQuantity = 500;
-        int segmentLength = Settings.SEGMENT_LENGTH;
+        int segmentLength = SEGMENT_LENGTH;
 
         // Create road segments
         for(int index = 0; index < segmentQuantity; index++){
@@ -37,10 +41,10 @@ public class RoadCreator {
             seg.setP1World(new Point(0,0,index*segmentLength));
             seg.setP2World(new Point(0,0,(index+1)*segmentLength));
 
-            if (Math.floorDiv(index, Settings.RUMBLE_LENGTH) % 2 == 0) {
-                seg.setColorMode(ColorMode.LIGHT);
+            if (Math.floorDiv(index, RUMBLE_LENGTH) % 2 == 0) {
+                seg.setColorMode(LIGHT);
             } else {
-                seg.setColorMode(ColorMode.DARK);
+                seg.setColorMode(DARK);
             }
 
             segmentList.add(seg);
@@ -119,26 +123,97 @@ public class RoadCreator {
         addDownhillToEnd(200.d);
 
         addStartFinish();
+        addSideRoadSprites();
 
         return segmentList;
     }
 
+    private void addSideRoadSprites(){
+
+        int segmentsLength = segmentList.size();
+
+        addSprite(20,  BILLBOARD07, -1);
+        addSprite(40,  BILLBOARD06, -1);
+        addSprite(60,  BILLBOARD08, -1);
+        addSprite(80,  BILLBOARD09, -1);
+        addSprite(100, BILLBOARD01, -1);
+        addSprite(120, BILLBOARD02, -1);
+        addSprite(140, BILLBOARD03, -1);
+        addSprite(160, BILLBOARD04, -1);
+        addSprite(180, BILLBOARD05, -1);
+
+        addSprite(240, BILLBOARD07, -1.2);
+        addSprite(240, BILLBOARD06,  1.2);
+        addSprite(segmentsLength - 25, BILLBOARD07, -1.2);
+        addSprite(segmentsLength - 25, BILLBOARD06,  1.2);
+
+        for(int n = 10 ; n < 200 ; n += (int) (4 + (double) (n / 100))) {
+            addSprite(n, PALM_TREE, 0.5 + Math.random()*0.5);
+            addSprite(n, PALM_TREE,   1 + Math.random()*2);
+        }
+
+        for(int n = 250 ; n < 1000 ; n += 5) {
+            addSprite(n,     COLUMN, 1.1);
+            addSprite(n + rndInt(5), TREE1, -1 - (Math.random() * 2));
+            addSprite(n + rndInt(5), TREE2, -1 - (Math.random() * 2));
+        }
+
+        for(int n = 200 ; n < segmentsLength ; n += 3) {
+            addSprite(n, getRNDTree(), rndSide() * (2 + Math.random() * 5));
+        }
+
+        for(int n = 1000 ; n < (segmentsLength - 50) ; n += 100) {
+            int side = rndSide();
+            addSprite(n + rndInt(50), getRNDBillboard(), -side);
+            for(int i = 0 ; i < 20 ; i++) {
+                double offset = side * (1.5 + Math.random());
+                addSprite(n + rndInt(50), getRNDTree(), offset);
+            }
+        }
+    }
+
+    private void addSprite(int index, SpriteName name, double offset){
+        segmentList.get(index).addSprite(name, offset);
+    }
+
+    private int rndInt(int bound){
+        return new Random().nextInt(bound);
+    }
+
+    private int rndSide(){
+        Random rnd = new Random();
+        int sign = rnd.nextInt(1);
+        if(sign == 0){
+            return -1;
+        }
+        return 1;
+    }
+
+    private SpriteName getRNDBillboard(){
+        SpriteName[] billboards = {BILLBOARD01,BILLBOARD02, BILLBOARD03,BILLBOARD04,BILLBOARD05,BILLBOARD06,BILLBOARD07,BILLBOARD08,BILLBOARD09};
+        return billboards[new Random().nextInt(billboards.length - 1)];
+    }
+
+    private SpriteName getRNDTree(){
+        SpriteName[] trees = {TREE1, TREE2, DEAD_TREE1, DEAD_TREE2, STUMP, BOULDER1, BOULDER2, BOULDER3, BUSH1, BUSH2, CACTUS, PALM_TREE };
+        return trees[new Random().nextInt(trees.length - 1)];
+    }
 
     private void addStartFinish(){
-        int index = (int)Math.floor(Settings.PLAYER_Z /Settings.SEGMENT_LENGTH) % segmentList.size();
+        int index = (int)Math.floor(PLAYER_Z /SEGMENT_LENGTH) % segmentList.size();
 
         // Start line
-        segmentList.get(index + 2).setColorMode(ColorMode.START);
-        segmentList.get(index + 3).setColorMode(ColorMode.START);
+        segmentList.get(index + 2).setColorMode(START);
+        segmentList.get(index + 3).setColorMode(START);
 
         // Finish line
-        for(int n = 0; n < Settings.RUMBLE_LENGTH; n++){
-            segmentList.get(segmentList.size() - 1 - n).setColorMode(ColorMode.FINISH);
+        for(int n = 0; n < RUMBLE_LENGTH; n++){
+            segmentList.get(segmentList.size() - 1 - n).setColorMode(FINISH);
         }
     }
 
     private void addSegment(double curve, double y){
-        int segmentLength = Settings.SEGMENT_LENGTH;
+        int segmentLength = SEGMENT_LENGTH;
 
         int n = segmentList.size();
 
@@ -149,17 +224,17 @@ public class RoadCreator {
         seg.setP2World(new Point(0,(int)y,(n+1)*segmentLength));
         seg.setCurve(curve);
 
-        if (Math.floorDiv(n, Settings.RUMBLE_LENGTH) % 2 == 0) {
-            seg.setColorMode(ColorMode.LIGHT);
+        if (Math.floorDiv(n, RUMBLE_LENGTH) % 2 == 0) {
+            seg.setColorMode(LIGHT);
         } else {
-            seg.setColorMode(ColorMode.DARK);
+            seg.setColorMode(DARK);
         }
         segmentList.add(seg);
     }
 
     private void addRoad(double enter, double hold, double leave, double curve, double y) {
         double startY = getLastY();
-        double endY = startY + (y * Settings.SEGMENT_LENGTH);
+        double endY = startY + (y * SEGMENT_LENGTH);
         double total = enter + hold + leave;
 
         for(int n = 0 ; n < enter ; n++)
@@ -221,7 +296,7 @@ public class RoadCreator {
 
     private void addDownhillToEnd(Double num){
         num = (num != 0) ? num : 200;
-        addRoad(num,num,num,-CURVE_EASY, -(getLastY()/Settings.SEGMENT_LENGTH));
+        addRoad(num,num,num,-CURVE_EASY, -(getLastY()/ SEGMENT_LENGTH));
     }
 
     // adds S curves to the road
@@ -241,6 +316,5 @@ public class RoadCreator {
         }
         return lastY;
     }
-
 
 }

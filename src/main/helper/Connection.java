@@ -3,9 +3,10 @@ package main.helper;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-import main.constants.Settings;
 
 import java.net.URISyntaxException;
+
+import static main.constants.Settings.*;
 
 public class Connection {
 
@@ -14,7 +15,7 @@ public class Connection {
     public void connect(){
 
         try {
-            socket = IO.socket(Settings.URI);
+            socket = IO.socket(URI);
 
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                 @Override
@@ -43,37 +44,36 @@ public class Connection {
 
     public void register(String username, String password){
         if(socket != null){
-            socket.emit(Settings.REGISTER, username, password);
         }
     }
 
     public void login(String username, String password){
         if(socket != null) {
-            socket.emit(Settings.LOGIN, username, password);
+            socket.emit(LOGIN, username, password);
         }
     }
 
     public void logout(){
         if(socket != null) {
-            socket.emit(Settings.LOGOUT);
+            socket.emit(LOGOUT);
         }
     }
 
     public void findLobby(){
         if(socket != null) {
-            socket.emit(Settings.FIND_LOBBY);
+            socket.emit(FIND_LOBBY);
         }
     }
 
     public void sendLapTime(double lapTime){
         if(socket != null) {
-            socket.emit(Settings.SEND_LAP_TIME, lapTime);
+            socket.emit(SEND_LAP_TIME, lapTime);
         }
     }
 
     public void sendFinishedRace(){
         if(socket != null) {
-            socket.emit(Settings.FINISH_RACE);
+            socket.emit(FINISH_RACE);
         }
     }
 

@@ -1,9 +1,11 @@
 package main.helper;
 
-import main.constants.ColorMode;
-import main.constants.Colors;
-
 import java.awt.*;
+import java.util.ArrayList;
+
+import main.constants.ColorMode;
+import main.constants.SpriteName;
+import static main.constants.Colors.*;
 
 public class Segment {
 
@@ -23,6 +25,9 @@ public class Segment {
     private Point p2Screen;
 
     private double curve;
+    private double clip;
+
+    private ArrayList<Sprite> segmentSprites;
 
 
     public Segment(int index){
@@ -36,31 +41,35 @@ public class Segment {
         p2Camera = new main.helper.Point(0,0,0);
         p2Screen = new main.helper.Point(0,0,0);
 
+        this.curve = 0;
+
+        this.segmentSprites = new ArrayList<>();
+
     }
 
     // sets color mode for each segment type
     public void setColorMode(ColorMode mode){
         switch (mode) {
             case LIGHT:
-                colorRoad = Colors.ROAD_LIGHT;
-                colorGrass = Colors.GRASS_LIGHT;
-                colorRumble = Colors.RUMBLE_DARK;
+                colorRoad = ROAD_LIGHT;
+                colorGrass = GRASS_LIGHT;
+                colorRumble = RUMBLE_DARK;
                 isLane = true;
                 break;
             case DARK:
-                colorRoad = Colors.ROAD_DARK;
-                colorGrass = Colors.GRASS_DARK;
-                colorRumble = Colors.RUMBLE_LIGHT;
+                colorRoad = ROAD_DARK;
+                colorGrass = GRASS_DARK;
+                colorRumble = RUMBLE_LIGHT;
                 break;
             case START:
-                colorRoad = Colors.START;
-                colorGrass = Colors.START;
-                colorRumble = Colors.START;
+                colorRoad = START;
+                colorGrass = START;
+                colorRumble = START;
                 break;
             case FINISH:
-                colorRoad = Colors.FINISH;
-                colorGrass = Colors.FINISH;
-                colorRumble = Colors.FINISH;
+                colorRoad = FINISH;
+                colorGrass = FINISH;
+                colorRumble = FINISH;
                 break;
         }
     }
@@ -148,4 +157,16 @@ public class Segment {
     public void setCurve(double curve) {
         this.curve = curve;
     }
+
+    public ArrayList<Sprite> getSpriteList(){
+        return segmentSprites;
+    }
+
+    public void addSprite(SpriteName name, double offset){
+        segmentSprites.add(new Sprite(name, offset));
+    }
+
+    public double getClip() { return clip; }
+
+    public void setClip(double clip) { this.clip = clip; }
 }

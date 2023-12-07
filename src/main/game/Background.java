@@ -1,11 +1,10 @@
 package main.game;
 
-import main.constants.Settings;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.util.Objects;
+
+import static main.constants.Settings.*;
 
 public class Background {
 
@@ -13,11 +12,9 @@ public class Background {
     private Image hills;
     private Image trees;
 
-    private double skyOffset = 0;                       // current sky scroll offset
-    private double hillOffset = 0;                       // current hill scroll offset
-    private double treeOffset = 0;
-
-    private boolean isReady = false;
+    private double skyOffset = 0;               // current sky scroll offset
+    private double hillOffset = 0;              // current hill scroll offset
+    private double treeOffset = 0;              // current tree scroll offset
 
 
     public Background(){
@@ -38,25 +35,21 @@ public class Background {
         trees = imageIcon.getImage();
     }
 
-    public boolean isReady() {
-        return isReady;
-    }
-
     public void render(Graphics2D g2D){
 
-        double ratio = (double) Settings.SCREEN_HEIGHT / sky.getHeight(null);
+        double ratio = (double) SCREEN_HEIGHT / sky.getHeight(null);
 
         int x = 0;
         int y = 0;
-        int width = (int)(Settings.SCREEN_WIDTH * ratio);
-        int height = Settings.SCREEN_HEIGHT;
+        int width = (int)(SCREEN_WIDTH * ratio);
+        int height = SCREEN_HEIGHT;
 
         g2D.drawImage(sky, x, y, width, height, null);
         g2D.drawImage(hills, x, y, width, height, null);
         g2D.drawImage(trees, x, y, width, height, null);
 
         // TODO make it work
-        //renderParallax(g2D, sky,0.1, skyOffset);
+        //renderParallax(g2D, sky,0, skyOffset);
         //renderParallax(g2D, hills,0, hillOffset);
         //renderParallax(g2D, trees,0, treeOffset);
 
@@ -72,8 +65,8 @@ public class Background {
         int layerW = layer.getWidth(null);
         int layerH = layer.getHeight(null);
 
-        rotation = rotation == 0 ? 0 : rotation;
-        offset = offset == 0 ? 0 : offset;
+        //rotation = rotation == 0 ? 0 : rotation;
+        //offset = offset == 0 ? 0 : offset;
 
 
         int imageW = layerW / 2;
@@ -84,31 +77,33 @@ public class Background {
         int sourceW = Math.min(imageW, layerX + layerW - sourceX);
         int sourceH = imageH;
 
-        int destX = (int)(offset * 100);
+        int destX = 0;
         int destY = (int) offset;
-        int destW = (int) Math.floor(Settings.SCREEN_WIDTH * (sourceW / (double) imageW));
-        int destH = Settings.SCREEN_HEIGHT;
+        int destW = (int) Math.floor(SCREEN_WIDTH * (sourceW / (double) imageW));
+        int destH = SCREEN_HEIGHT;
 
-        AffineTransform transform = new AffineTransform();
-        transform.translate(destX, destY);
-        transform.scale(destW / (double) sourceW, destH / (double) sourceH);
 
-        g2D.drawImage(layer, transform, null);
-
+        g2D.drawImage(layer, destX, destY, destX+destW, destY+destH, sourceX, sourceY,sourceX+sourceW, sourceY+sourceH, null);
         if (sourceW < imageW) {
-            int remainingWidth = imageW - sourceW;
-            g2D.drawImage(layer, layerX, sourceY, remainingWidth, sourceH, destW - 1, destY, Settings.SCREEN_WIDTH - destW, destH,null);
-        }
 
+            int remainingWidth = imageW - sourceW;
+            int destX1 = destW - 1;
+
+            g2D.drawImage(layer, destX1, destY, destX1 + (SCREEN_WIDTH - destW), destY + destH, layerX, sourceY, remainingWidth + layerX, sourceY + sourceH, null);
+        }
     }
 
 
-    public void updateOffset(double curve, double speedPercent){
-        double increment = Settings.skySpeed * curve * speedPercent;
+    public void updateOffset(double curve, double speed){
+        double increment;
+        double speedPercent = speed/MAX_SPEED;
+        increment = SKY_SPEED * curve * speedPercent;
         skyOffset = increase(skyOffset, increment);
-        increment = Settings.hillSpeed * curve * speedPercent;
+
+        increment = HILL_SPEED * curve * speedPercent;
         hillOffset = increase(hillOffset, increment);
-        increment = Settings.treeSpeed * curve * speedPercent;
+
+        increment = TREE_SPEED * curve * speedPercent;
         treeOffset = increase(treeOffset, increment);
     }
 
@@ -120,29 +115,5 @@ public class Background {
         while (result < 0)
             result += max;
         return result;
-    }
-
-    public double getSkyOffset() {
-        return skyOffset;
-    }
-
-    public void setSkyOffset(double skyOffset) {
-        this.skyOffset = skyOffset;
-    }
-
-    public double getHillOffset() {
-        return hillOffset;
-    }
-
-    public void setHillOffset(double hillOffset) {
-        this.hillOffset = hillOffset;
-    }
-
-    public double getTreeOffset() {
-        return treeOffset;
-    }
-
-    public void setTreeOffset(double treeOffset) {
-        this.treeOffset = treeOffset;
     }
 }
