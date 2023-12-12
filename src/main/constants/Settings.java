@@ -34,8 +34,9 @@ public class Settings {
     public static final double DECEL = -MAX_SPEED /5;
     public static final double OFF_ROAD_DECEL = -MAX_SPEED /2;
     public static final double OFF_ROAD_LIMIT =  MAX_SPEED /4;
-    public static final double PLAYERX_LIMIT =  2;
+    public static final double PLAYER_X_LIMIT =  3;
     public static final double SPRITE_SCALE =  0.3/80;                // the reference sprite width should be 1/3rd the (half-)roadWidth
+    public static final double PLAYER_W =  80 * SPRITE_SCALE;
 
     // Background
     public static final double SKY_SPEED = 0.001;                   // background sky layer scroll speed when going around curve (or up hill)

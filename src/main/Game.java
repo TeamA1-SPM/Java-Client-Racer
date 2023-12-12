@@ -8,6 +8,7 @@ import main.helper.Connection;
 import main.helper.GameLoopTimer;
 import main.helper.InputListener;
 import main.helper.Segment;
+import main.tracks.RoadParser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,16 +49,22 @@ public class Game implements Runnable {
         background = new Background();
         hud = new HUD();
 
+        // TODO temporary solution for creating roads
         RoadCreator roadCreator = new RoadCreator();
 
-        // TODO temporary solution for creating roads
-        //ArrayList<Segment> roadSegments = roadCreator.createV1StraightRoad();
-        //ArrayList<Segment> roadSegments = roadCreator.createV2CurvyRoad();
-        //ArrayList<Segment> roadSegments = roadCreator.createV3HillRoad();
-        ArrayList<Segment> roadSegments = roadCreator.createV4Final();
+        RoadParser parser = new RoadParser();
+
+        ArrayList<Segment> roadSegments;
+
+        //roadSegments = roadCreator.createV1StraightRoad();
+        //roadSegments = roadCreator.createV2CurvyRoad();
+        //roadSegments = roadCreator.createV3HillRoad();
+        roadSegments = roadCreator.createV4Final();
+        //roadSegments = parser.parse("track01.json");
+
         road = new Road(roadSegments);
 
-        player = new Player("TestDrive", road.getTrackLength());
+        player = new Player("TestDrive", road.getTrackLength(), spriteLoader);
 
         // TODO maxLaps needs to be adjusted somewhere
         race = new Race(6, road.getTrackLength());
@@ -110,11 +117,9 @@ public class Game implements Runnable {
     // Updates the game logic
     private void update(){
         Segment playerSegment = road.findSegment(player.getPosition() + PLAYER_Z);
-        double curve = playerSegment.getCurve();
-        double updown = playerSegment.getP2World().getY()- playerSegment.getP1World().getY();
 
         // Calc parallax scrolling background
-        background.updateOffset(curve, player.getSpeed());
+        background.updateOffset(playerSegment.getCurve(), player.getSpeed());
 
         // Player control actions left nad right
         if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
@@ -133,7 +138,7 @@ public class Game implements Runnable {
         }
 
         // Update player speed and time
-        player.update(curve, updown);
+        player.update(playerSegment);
 
         if(race.isLapFinished(player.getPosition())){
             connection.sendLapTime(race.getLastLapTime());
@@ -154,7 +159,7 @@ public class Game implements Runnable {
 
         background.render(g2dNext);
         road.render(g2dNext, player, spriteLoader);
-        player.renderPlayer(g2dNext, spriteLoader);
+        player.renderPlayer(g2dNext);
         hud.render(g2dNext, race, player.getSpeed());
 
         g2D.drawImage(bufferImage,0,0, SCREEN_WIDTH, SCREEN_HEIGHT, null);

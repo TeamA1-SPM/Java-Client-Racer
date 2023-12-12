@@ -64,6 +64,10 @@ public class SpritesLoader {
 
     }
 
+    public int getSpriteWidth(SpriteName name){
+        return spritesMap.get(name).getW();
+    }
+
     private void loadImage(){
         ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(path)));
         image = imageIcon.getImage();

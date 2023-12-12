@@ -4,9 +4,7 @@ import main.constants.SpriteName;
 
 public class Sprite {
     SpriteName name;
-
     double offset;
-
 
     public Sprite(SpriteName name, double offset){
         this.name = name;
