@@ -6,21 +6,41 @@ import java.util.Objects;
 
 import static main.constants.Settings.*;
 
+/*
+ *  Background layer
+ *   - load background layer images
+ *   - update the offset for parallax effect
+ *   - draw background layers with endless scroll
+ */
+
+
 public class Background {
 
     private Image sky;
     private Image hills;
     private Image trees;
 
-    private double skyOffset = 0;               // current sky scroll offset
-    private double hillOffset = 0;              // current hill scroll offset
-    private double treeOffset = 0;              // current tree scroll offset
+    private int skyOffset = 0;               // current sky scroll offset
+    private int hillOffset = 0;              // current hill scroll offset
+    private int treeOffset = 0;              // current tree scroll offset
+
+    private int imageHeight;
+    private int imageWidth;
 
 
     public Background(){
-       loadImages();
+        loadImages();
+        scaleImages();
     }
 
+    // calc the scale the image size based on screen height
+    private void scaleImages(){
+        double ratio = (double) SCREEN_HEIGHT / sky.getHeight(null);
+        imageHeight = (int)(sky.getHeight(null) * ratio);
+        imageWidth = (int)(sky.getWidth(null) * ratio);
+    }
+
+    // load and assign images
     private void loadImages(){
         String skyPath = "../images/background/sky.png";
         ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(skyPath)));
@@ -35,85 +55,54 @@ public class Background {
         trees = imageIcon.getImage();
     }
 
-    public void render(Graphics2D g2D){
+    // update offset for parallax effect
+    public void update(double curve, double speed){
+        double speedPercent = speed/100;
 
-        double ratio = (double) SCREEN_HEIGHT / sky.getHeight(null);
+        // offset sky
+        skyOffset += (int)(SKY_SPEED * curve * speedPercent);
+        if(skyOffset >= imageWidth){
+            skyOffset -=  imageWidth;
+        }else if(skyOffset <= -imageWidth){
+            skyOffset +=  imageWidth;
+        }
 
-        int x = 0;
-        int y = 0;
-        int width = (int)(SCREEN_WIDTH * ratio);
-        int height = SCREEN_HEIGHT;
+        // offset hills
+        hillOffset += (int)(HILL_SPEED * curve * speedPercent);
+        if(hillOffset >= imageWidth){
+            hillOffset -=  imageWidth;
+        }else if(hillOffset <= -imageWidth){
+            hillOffset +=  imageWidth;
+        }
 
-        g2D.drawImage(sky, x, y, width, height, null);
-        g2D.drawImage(hills, x, y, width, height, null);
-        g2D.drawImage(trees, x, y, width, height, null);
-
-        // TODO make it work
-        //renderParallax(g2D, sky,0, skyOffset);
-        //renderParallax(g2D, hills,0, hillOffset);
-        //renderParallax(g2D, trees,0, treeOffset);
-
-    }
-
-    // TODO make it work
-    public void renderParallax(Graphics2D g2D,Image layer, double rotation, double offset){
-
-        // rotation = rotation || 0;
-        //offset   = offset   || 0;
-        int layerX = 0;
-        int layerY = 0;
-        int layerW = layer.getWidth(null);
-        int layerH = layer.getHeight(null);
-
-        //rotation = rotation == 0 ? 0 : rotation;
-        //offset = offset == 0 ? 0 : offset;
-
-
-        int imageW = layerW / 2;
-        int imageH = layerH;
-
-        int sourceX = layerX + (int) Math.floor(layerW * rotation);
-        int sourceY = layerY;
-        int sourceW = Math.min(imageW, layerX + layerW - sourceX);
-        int sourceH = imageH;
-
-        int destX = 0;
-        int destY = (int) offset;
-        int destW = (int) Math.floor(SCREEN_WIDTH * (sourceW / (double) imageW));
-        int destH = SCREEN_HEIGHT;
-
-
-        g2D.drawImage(layer, destX, destY, destX+destW, destY+destH, sourceX, sourceY,sourceX+sourceW, sourceY+sourceH, null);
-        if (sourceW < imageW) {
-
-            int remainingWidth = imageW - sourceW;
-            int destX1 = destW - 1;
-
-            g2D.drawImage(layer, destX1, destY, destX1 + (SCREEN_WIDTH - destW), destY + destH, layerX, sourceY, remainingWidth + layerX, sourceY + sourceH, null);
+        // offset trees
+        treeOffset += (int)(TREE_SPEED * curve * speedPercent);
+        if(treeOffset >= imageWidth){
+            treeOffset -=  imageWidth;
+        }else if(treeOffset <= -imageWidth){
+            treeOffset +=  imageWidth;
         }
     }
 
-
-    public void updateOffset(double curve, double speed){
-        double increment;
-        double speedPercent = speed/MAX_SPEED;
-        increment = SKY_SPEED * curve * speedPercent;
-        skyOffset = increase(skyOffset, increment);
-
-        increment = HILL_SPEED * curve * speedPercent;
-        hillOffset = increase(hillOffset, increment);
-
-        increment = TREE_SPEED * curve * speedPercent;
-        treeOffset = increase(treeOffset, increment);
+    // draw background layers on graphic uses parallax function
+    public void render(Graphics2D g2D){
+        renderParallax(g2D, sky, skyOffset);
+        renderParallax(g2D, hills, hillOffset);
+        renderParallax(g2D, trees, treeOffset);
     }
 
-    private double increase(double start, double increment){
-        double max = 1;
-        double result = start + increment;
-        while (result >= max)
-            result -= max;
-        while (result < 0)
-            result += max;
-        return result;
+    // draw two images for endless scrolling
+    private void renderParallax(Graphics2D g2d,Image image, int offsetX){
+        // draw base image
+        g2d.drawImage(image, offsetX, 0,imageWidth, imageHeight, null);
+
+        // fill left image
+        if(offsetX > 0){
+            g2d.drawImage(image, offsetX - imageWidth, 0,imageWidth, imageHeight, null);
+        }
+        // fill right image
+        if((offsetX < 0)) {
+            g2d.drawImage(image, offsetX + imageWidth, 0,imageWidth, imageHeight, null);
+        }
     }
 }

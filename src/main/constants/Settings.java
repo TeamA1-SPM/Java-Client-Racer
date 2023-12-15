@@ -25,6 +25,7 @@ public class Settings {
     public static final int ROAD_WIDTH = 2000;
     public static final int SEGMENT_LENGTH = 200;
     public static final int RUMBLE_LENGTH = 3;
+    public static final int TOTAL_CARS = 200;
 
     // Player
     public static final double CENTRIFUGAL = 0.3;
@@ -39,12 +40,12 @@ public class Settings {
     public static final double PLAYER_W =  80 * SPRITE_SCALE;
 
     // Background
-    public static final double SKY_SPEED = 0.001;                   // background sky layer scroll speed when going around curve (or up hill)
-    public static final double HILL_SPEED = 0.002;                   // background hill layer scroll speed when going around curve (or up hill)
-    public static final double TREE_SPEED = 0.003;                   // background tree layer scroll speed when going around curve (or up hill)
+    public static final double SKY_SPEED = 0.006;                   // background sky layer scroll speed when going around curve (or up hill)
+    public static final double HILL_SPEED = 0.009;                   // background hill layer scroll speed when going around curve (or up hill)
+    public static final double TREE_SPEED = 0.02;                   // background tree layer scroll speed when going around curve (or up hill)
 
     // Server
-    public static final String URI = "http://racing-server.onrender.com/";           // server address
+    public static final String URI = "https://racing-server-test.onrender.com/";           // server address
     public static final String REGISTER = "register";                   // player register function
     public static final String LOGIN = "login";                         // player login function
     public static final String LOGOUT = "logout";                       // player logout function
@@ -54,6 +55,7 @@ public class Settings {
     public static final String FINISH_RACE = "finished_race";
     public static final String SEND_LAP_TIME = "lap_time";
     public static final String GET_BEST_LAP_TIMES = "best_lap_times";
+    public static final String SERVER_COUNTDOWN = "countdown";
 
 
 }

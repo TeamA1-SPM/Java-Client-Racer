@@ -31,7 +31,6 @@ public class Connection {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-
     }
 
     public Socket getSocket(){
@@ -75,6 +74,10 @@ public class Connection {
         if(socket != null) {
             socket.emit(FINISH_RACE);
         }
+    }
+
+    public void ready(){
+        socket.emit(START_GAME);
     }
 
 

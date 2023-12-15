@@ -1,8 +1,10 @@
 package main.game;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 import main.constants.SpriteName;
+import main.helper.InputListener;
 import main.helper.Segment;
 import main.helper.Sprite;
 
@@ -19,8 +21,8 @@ public class Player {
     private double speed = 0;
     private int steer = 0;
 
-    private SpriteName spriteName;
-    private SpritesLoader spritesLoader;
+    private SpriteName spriteName = PLAYER_STRAIGHT;
+    private final SpritesLoader spritesLoader;
 
 
 
@@ -41,7 +43,7 @@ public class Player {
         return Math.max(min, Math.min(value, max));
     }
 
-    private boolean overlap(double x1, double w1, double x2, double w2, double percent){
+    public boolean overlap(double x1, double w1, double x2, double w2, double percent){
         double half = (percent != 0) ? percent / 2 : (double) 1 / 2;
         double min1 = x1 - (w1 * half);
         double max1 = x1 + (w1 * half);
@@ -51,17 +53,44 @@ public class Player {
         return !((max1 < min2) || (min1 > max2));
     }
 
-    public void update(Segment playerSegment){
-        double speedPercent = speed/MAX_SPEED;
-        dx = STEP * 2 * speedPercent;
-        position += STEP * speed;
+    public void update(Segment playerSegment, InputListener keyListener){
+        dx = STEP * 2 * speed/MAX_SPEED;
 
+        position += STEP * speed;
         if(position > maxPosition){
             position -= maxPosition;
         }
 
+        // Player control actions left nad right
+        if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
+            playerX = playerX - dx;
+            if (speed > 0){
+                steer = -1;
+            }
+        }else if (keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
+            playerX = playerX + dx;
+            if (speed > 0){
+                steer = 1;
+            }
+        }
+        // Player control actions up and down
+        if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
+            speed = accelerate(ACCEL);
+        } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
+            if(speed > 0){
+                speed = accelerate(BREAKING);
+            } else {
+                steer = 0;
+            }
+        } else {
+            // Player not pressing up od down
+            if(speed > 0){
+                speed = accelerate(DECEL);
+            }
+        }
+
         // calc player x position in curves
-        playerX = playerX - (dx * speedPercent * playerSegment.getCurve() * CENTRIFUGAL);
+        playerX = playerX - (dx * speed/MAX_SPEED * playerSegment.getCurve() * CENTRIFUGAL);
 
 
         if ((playerX < -1) || (playerX > 1)){
@@ -70,9 +99,9 @@ public class Player {
                 speed = accelerate(OFF_ROAD_DECEL);
             }
 
-            for(int n = 0 ; n < playerSegment.getSpriteList().size() ; n++) {
-                Sprite sprite  = playerSegment.getSpriteList().get(n);
-                double spriteW = spritesLoader.getSpriteWidth(sprite.getName()) * SPRITE_SCALE;
+            for(int n = 0; n < playerSegment.getRoadsideList().size() ; n++) {
+                Sprite sprite  = playerSegment.getRoadsideList().get(n);
+                double spriteW = sprite.getWidth();
                 if (overlap(playerX, PLAYER_W, (sprite.getOffset() + spriteW/2 * (sprite.getOffset() > 0 ? 1 : -1)), spriteW,0.0)) {
                     speed = MAX_SPEED/5;
 
@@ -95,44 +124,10 @@ public class Player {
         spriteName = getPlayerSpriteName(updown);
     }
 
-    public void pressUp(){
-        speed = accelerate(ACCEL);
-    }
-
-    public void pressDown(){
-        if(speed > 0){
-            speed = accelerate(BREAKING);
-        } else {
-            steer = 0;
-        }
-    }
-
-    public void pressLeft(){
-        playerX = playerX - dx;
-        if (speed > 0){
-            steer = -1;
-        }
-    }
-
-    public void pressRight(){
-        playerX = playerX + dx;
-        if (speed > 0){
-            steer = 1;
-        }
-    }
-
-    public void idle(){
-        if(speed > 0){
-            speed = accelerate(DECEL);
-        }
-    }
-
     public void renderPlayer(Graphics2D g2D){
 
         double scale = CAMERA_DEPTH/PLAYER_Z;
         double destX = (double)SCREEN_WIDTH/2;
-        //destY:     (height/2) - (cameraDepth/playerZ * Util.interpolate(playerSegment.p1.camera.y, playerSegment.p2.camera.y, playerPercent) * height/2)
-        // TODO remove magic number. implement correct calculation
         double destY = (double)SCREEN_HEIGHT-6;
 
         spritesLoader.render(g2D, spriteName,scale, destX, destY + calcBounce(), -0.5, -1, 0 );
@@ -150,6 +145,7 @@ public class Player {
         return (1.5 * Math.random() * speed/MAX_SPEED * SCREEN_WIDTH/SCREEN_HEIGHT) * rndDouble;
     }
 
+    // @return sprite name based on player direction
     private SpriteName getPlayerSpriteName(double updown) {
         SpriteName sprite;
 
@@ -179,6 +175,6 @@ public class Player {
     public double getPlayerX(){ return playerX; }
     public double getPlayerY() { return playerY; }
     public void setPlayerY(double playerY) { this.playerY = playerY; }
-    public int getSpeed(){ return (int)speed; }
+    public double getSpeed(){ return speed; }
 
 }

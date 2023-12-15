@@ -4,7 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Features&#10;- Socket.io implemented&#10;- Connection Class for server functions&#10;- best lap times handled by server&#10;- Settings added server constants&#10;- enemy best time variable added&#10;&#10;// Refactoring&#10;- Hud Colors in constants&#10;- HUD Class created&#10;- moved HUD render to HUD Class&#10;- Player has lap counter now&#10;- added some comments" />
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Features&#10;- JSON Road Parser V1&#10;- collision side-road sprites">
+      <change afterPath="$PROJECT_DIR$/src/main/constants/GameMode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/constants/GameState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/hidden/MarioRoad.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/images/mario_sprites.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/constants/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Settings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/constants/SpriteName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/SpriteName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/Background.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Background.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/HUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/HUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/Race.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Race.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Road.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/RoadCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/RoadCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/SpritesLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/SpritesLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/helper/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/helper/GameLoopTimer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/GameLoopTimer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/helper/InputListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/InputListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/helper/Segment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Segment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/helper/Sprite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Sprite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/helper/SpriteCoordinates.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/images/sprites.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/images/sprites.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/images/sprites.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/tracks/RoadParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tracks/RoadParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/tracks/track01.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tracks/track01.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +41,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -20,7 +49,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="27-java-menu" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -36,32 +65,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "28-java-v3-hills",
-    "last_opened_file_path": "E:/GIT/Java-Client-Racer/src/main/libs",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "onboarding.tips.debug.path": "C:/Users/bitco/OneDrive/Desktop/SPM/GIT/Java-Client-Racer/src/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;v4---final&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/GIT/Java-Client-Racer/src/main/images&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/bitco/OneDrive/Desktop/SPM/GIT/Java-Client-Racer/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\GIT\Java-Client-Racer\src\main\images" />
+      <recent name="E:\GIT\Java-Client-Racer\src\main\tracks" />
+      <recent name="E:\GIT\Java-Client-Racer\src\main\libs" />
       <recent name="D:\GIT\Java-Client-Racer\src\main" />
       <recent name="D:\GIT\Java-Client-Racer\src\main\commons" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\GIT\Java-Client-Racer\src\main\images" />
+      <recent name="E:\GIT\Java-Client-Racer\src\main\images\menu" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Race1">
@@ -140,6 +177,12 @@
       <workItem from="1701444648957" duration="2533000" />
       <workItem from="1701447220827" duration="1394000" />
       <workItem from="1701974712374" duration="314000" />
+      <workItem from="1702395694485" duration="13598000" />
+      <workItem from="1702453629228" duration="2814000" />
+      <workItem from="1702457465856" duration="27562000" />
+      <workItem from="1702540846858" duration="37006000" />
+      <workItem from="1702592047055" duration="775000" />
+      <workItem from="1702620987725" duration="9924000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -221,7 +264,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701281334886</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="// Features&#10;- JSON Road Parser V1&#10;- collision side-road sprites">
+      <option name="closed" value="true" />
+      <created>1702410089664</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1702410089664</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -260,7 +311,8 @@
     <MESSAGE value="// Refactoring&#10;- restructure packages" />
     <MESSAGE value="// Bug Fix&#10;- background path correction" />
     <MESSAGE value="// Features&#10;- Socket.io implemented&#10;- Connection Class for server functions&#10;- best lap times handled by server&#10;- Settings added server constants&#10;- enemy best time variable added&#10;&#10;// Refactoring&#10;- Hud Colors in constants&#10;- HUD Class created&#10;- moved HUD render to HUD Class&#10;- Player has lap counter now&#10;- added some comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="// Features&#10;- Socket.io implemented&#10;- Connection Class for server functions&#10;- best lap times handled by server&#10;- Settings added server constants&#10;- enemy best time variable added&#10;&#10;// Refactoring&#10;- Hud Colors in constants&#10;- HUD Class created&#10;- moved HUD render to HUD Class&#10;- Player has lap counter now&#10;- added some comments" />
+    <MESSAGE value="// Features&#10;- JSON Road Parser V1&#10;- collision side-road sprites" />
+    <option name="LAST_COMMIT_MESSAGE" value="// Features&#10;- JSON Road Parser V1&#10;- collision side-road sprites" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

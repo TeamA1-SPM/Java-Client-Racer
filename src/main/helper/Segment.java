@@ -9,7 +9,7 @@ import static main.constants.Colors.*;
 
 public class Segment {
 
-    private int index;
+    private final int index;
     private boolean isLooped = false;
     private boolean isLane = false;
     private Color colorRoad;
@@ -27,7 +27,8 @@ public class Segment {
     private double curve;
     private double clip;
 
-    private ArrayList<Sprite> segmentSprites;
+    private final ArrayList<Sprite> roadsideList;
+    private final ArrayList<Sprite> carList;
 
 
     public Segment(int index){
@@ -43,7 +44,8 @@ public class Segment {
 
         this.curve = 0;
 
-        this.segmentSprites = new ArrayList<>();
+        this.roadsideList = new ArrayList<>();
+        this.carList = new ArrayList<>();
 
     }
 
@@ -63,12 +65,10 @@ public class Segment {
                 break;
             case START:
                 colorRoad = START;
-                colorGrass = START;
                 colorRumble = START;
                 break;
             case FINISH:
                 colorRoad = FINISH;
-                colorGrass = FINISH;
                 colorRumble = FINISH;
                 break;
         }
@@ -90,7 +90,16 @@ public class Segment {
         return colorRumble;
     }
 
-    public main.helper.Point getP1World() {
+    public void setColors(Color grass, Color road, Color rumble){
+        if(grass != null)
+            this.colorGrass = grass;
+        if(road != null)
+            this.colorRoad = road;
+        if(rumble != null)
+            this.colorRumble = rumble;
+    }
+
+    public Point getP1World() {
         return p1World;
     }
 
@@ -98,7 +107,7 @@ public class Segment {
         this.p1World = p1World;
     }
 
-    public main.helper.Point getP1Camera() {
+    public Point getP1Camera() {
         return p1Camera;
     }
 
@@ -106,7 +115,7 @@ public class Segment {
         this.p1Camera = p1Camera;
     }
 
-    public main.helper.Point getP1Screen() {
+    public Point getP1Screen() {
         return p1Screen;
     }
 
@@ -114,7 +123,7 @@ public class Segment {
         this.p1Screen = p1Screen;
     }
 
-    public main.helper.Point getP2World() {
+    public Point getP2World() {
         return p2World;
     }
 
@@ -122,7 +131,7 @@ public class Segment {
         this.p2World = p2World;
     }
 
-    public main.helper.Point getP2Camera() {
+    public Point getP2Camera() {
         return p2Camera;
     }
 
@@ -130,7 +139,7 @@ public class Segment {
         this.p2Camera = p2Camera;
     }
 
-    public main.helper.Point getP2Screen() {
+    public Point getP2Screen() {
         return p2Screen;
     }
 
@@ -158,15 +167,19 @@ public class Segment {
         this.curve = curve;
     }
 
-    public ArrayList<Sprite> getSpriteList(){
-        return segmentSprites;
+    public ArrayList<Sprite> getRoadsideList(){
+        return roadsideList;
     }
-
-    public void addSprite(SpriteName name, double offset){
-        segmentSprites.add(new Sprite(name, offset));
+    public void addRoadsideObj(SpriteName name, double offset, double width){
+        roadsideList.add(new Sprite(name, offset, 0, 0, width));
+    }
+    public ArrayList<Sprite> getCarList() { return carList; }
+    public void addCar(SpriteName name, double offset, double z, double speed, double width) {
+        carList.add(new Sprite(name, offset, z, speed, width));
     }
 
     public double getClip() { return clip; }
 
     public void setClip(double clip) { this.clip = clip; }
+
 }
