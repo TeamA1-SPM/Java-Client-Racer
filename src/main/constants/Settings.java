@@ -45,7 +45,7 @@ public class Settings {
     public static final double TREE_SPEED = 0.02;                   // background tree layer scroll speed when going around curve (or up hill)
 
     // Server
-    public static final String URI = "https://racing-server-test.onrender.com/";           // server address
+    public static final String URI = "https://racing-server.onrender.com/";           // server address
     public static final String REGISTER = "register";                   // player register function
     public static final String LOGIN = "login";                         // player login function
     public static final String LOGOUT = "logout";                       // player logout function

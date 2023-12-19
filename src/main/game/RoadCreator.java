@@ -211,7 +211,6 @@ public class RoadCreator {
     }
 
     private void addCars(){
-        ArrayList<Sprite> cars = new ArrayList<>();
         for(int i = 0; i < TOTAL_CARS; i++){
             SpriteName name = getRNDCar();
             double offset = getRNDOffset();
