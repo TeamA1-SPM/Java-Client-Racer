@@ -172,9 +172,16 @@ public class Player {
     }
 
     public double getPosition(){ return position; }
+    public void setPosition(double position){
+        this.position = position;
+    }
     public double getPlayerX(){ return playerX; }
     public double getPlayerY() { return playerY; }
     public void setPlayerY(double playerY) { this.playerY = playerY; }
+
     public double getSpeed(){ return speed; }
+    public void setSpeed(double speed){
+        this.speed = speed;
+    }
 
 }

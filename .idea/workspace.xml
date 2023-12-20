@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// Features&#10;- JSON Road Reader final&#10;- draw npc car&#10;- npc car movement&#10;- npc cars overtake v1&#10;- parallax effect final&#10;- countdown with sprites&#10;- game modes added&#10;- gamestate added&#10;- hidden mario cart mode">
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// BUG FIX&#10;- removed traffic jams">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/constants/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Settings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Road.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/RoadCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/RoadCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/helper/Segment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Segment.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -168,7 +166,9 @@
       <workItem from="1702665327786" duration="652000" />
       <workItem from="1702831608107" duration="606000" />
       <workItem from="1702981026091" duration="3738000" />
-      <workItem from="1702984809213" duration="4499000" />
+      <workItem from="1702984809213" duration="5104000" />
+      <workItem from="1703001709769" duration="2156000" />
+      <workItem from="1703056322684" duration="4529000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -266,7 +266,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702640010498</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="// BUG FIX&#10;- removed traffic jams">
+      <option name="closed" value="true" />
+      <created>1702999996285</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1702999996285</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -307,7 +315,8 @@
     <MESSAGE value="// Features&#10;- Socket.io implemented&#10;- Connection Class for server functions&#10;- best lap times handled by server&#10;- Settings added server constants&#10;- enemy best time variable added&#10;&#10;// Refactoring&#10;- Hud Colors in constants&#10;- HUD Class created&#10;- moved HUD render to HUD Class&#10;- Player has lap counter now&#10;- added some comments" />
     <MESSAGE value="// Features&#10;- JSON Road Parser V1&#10;- collision side-road sprites" />
     <MESSAGE value="// Features&#10;- JSON Road Reader final&#10;- draw npc car&#10;- npc car movement&#10;- npc cars overtake v1&#10;- parallax effect final&#10;- countdown with sprites&#10;- game modes added&#10;- gamestate added&#10;- hidden mario cart mode" />
-    <option name="LAST_COMMIT_MESSAGE" value="// Features&#10;- JSON Road Reader final&#10;- draw npc car&#10;- npc car movement&#10;- npc cars overtake v1&#10;- parallax effect final&#10;- countdown with sprites&#10;- game modes added&#10;- gamestate added&#10;- hidden mario cart mode" />
+    <MESSAGE value="// BUG FIX&#10;- removed traffic jams" />
+    <option name="LAST_COMMIT_MESSAGE" value="// BUG FIX&#10;- removed traffic jams" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

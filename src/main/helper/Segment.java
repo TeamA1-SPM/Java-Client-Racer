@@ -2,7 +2,6 @@ package main.helper;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import main.constants.ColorMode;
 import main.constants.SpriteName;

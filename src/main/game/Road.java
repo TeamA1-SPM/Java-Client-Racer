@@ -32,9 +32,28 @@ public class Road {
         // reverse iteration to avoid double calculation when car changes segment
         for (int segIndex = segments.size()-1; segIndex >= 0 ; segIndex--){
             ArrayList<Sprite> carList = segments.get(segIndex).getCarList();
+
+            int playerSegmentIndex = (int) ((player.getPosition()+PLAYER_Z)/SEGMENT_LENGTH);
+
             for (int i = 0; i < carList.size(); i++){
                 Sprite car = carList.get(i);
                 int oldIndex = (int) (car.getZ()/SEGMENT_LENGTH);
+
+
+                if(playerSegmentIndex == segIndex && player.getSpeed() > car.getSpeed()){
+                    if(player.overlap(player.getPlayerX(), PLAYER_W, car.getOffset(), car.getWidth(), 0.8)){
+                        double carSpeed = car.getSpeed();
+                        player.setSpeed(carSpeed * (carSpeed/player.getSpeed()));
+
+                        double position = car.getZ() - PLAYER_Z;
+                        if(position > trackLength){
+                            position -= trackLength;
+                        }
+                        player.setPosition(position);
+                    }
+
+                }
+
 
                 // calculate overtake
                 double offset = car.getOffset();
@@ -60,6 +79,7 @@ public class Road {
                     }
                     segments.get(newIndex).getCarList().sort(Comparator.comparing(Sprite::getSpeed).reversed());
                 }
+
             }
         }
         // remove doubled calculation if car segment changes from last to first
@@ -69,6 +89,14 @@ public class Road {
             }
             segments.get(0).getCarList().sort(Comparator.comparing(Sprite::getSpeed).reversed());
         }
+    }
+
+    private void updateCars(){
+
+    }
+
+    private void collision(Player player){
+        Segment playerSegment = segments.get ( (int)((player.getPosition()+PLAYER_Z)/SEGMENT_LENGTH) );
     }
 
     private double updateCarOffset(Sprite car, Segment carSegment, Player player){
@@ -93,7 +121,7 @@ public class Road {
                     }else{
                         result = (car.getOffset() > playerX) ? 1 : -1;
                     }
-                    return result * 1/i * (car.getSpeed() - player.getSpeed())/MAX_SPEED;
+                    return result * ((double) 1 /i * (car.getSpeed() - player.getSpeed())/MAX_SPEED);
             }
 
             for(int j = 0 ; j < seg.getCarList().size() ; j++) {
