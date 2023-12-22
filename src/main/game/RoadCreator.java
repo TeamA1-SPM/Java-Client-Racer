@@ -26,7 +26,15 @@ public class RoadCreator {
     private final double CURVE_MEDIUM = 4;
     private final double CURVE_HARD = 6;
 
+    private SpritesLoader spritesLoader;
+
     private ArrayList<Segment> segmentList;
+
+
+    public RoadCreator(SpritesLoader spritesLoader){
+        this.spritesLoader = spritesLoader;
+    }
+
 
     // Create straight road
     public ArrayList<Segment> createV1StraightRoad(){
@@ -124,6 +132,7 @@ public class RoadCreator {
 
         addStartFinish();
         addSideRoadSprites();
+        addCars();
 
         return segmentList;
     }
@@ -173,8 +182,32 @@ public class RoadCreator {
     }
 
     private void addSprite(int index, SpriteName name, double offset){
-        segmentList.get(index).addSprite(name, offset);
+        segmentList.get(index).addRoadsideObj(name, offset, spritesLoader.getSpriteWidth(name));
     }
+
+    private void addCars(){
+        for(int i = 0; i < TOTAL_CARS; i++){
+            SpriteName name = getRNDCar();
+            double offset = getRNDOffset();
+            double speed = 3000 + (new Random().nextInt(6000));
+            double z = Math.floor(Math.random() * segmentList.size()) * SEGMENT_LENGTH;
+
+            Segment seg = segmentList.get((int)(z/SEGMENT_LENGTH)%segmentList.size());
+            seg.addCar(name, offset,z,speed,spritesLoader.getSpriteWidth(name));
+        }
+    }
+
+    private double getRNDOffset(){
+        Random rnd = new Random();
+        int sign = rnd.nextInt(2);
+        int fac = rnd.nextInt(2);
+
+        if(sign == 0){
+            fac = -1;
+        }
+        return fac * 0.8;
+    }
+
 
     private int rndInt(int bound){
         return new Random().nextInt(bound);
@@ -182,7 +215,7 @@ public class RoadCreator {
 
     private int rndSide(){
         Random rnd = new Random();
-        int sign = rnd.nextInt(1);
+        int sign = rnd.nextInt(2);
         if(sign == 0){
             return -1;
         }
@@ -197,6 +230,11 @@ public class RoadCreator {
     private SpriteName getRNDTree(){
         SpriteName[] trees = {TREE1, TREE2, DEAD_TREE1, DEAD_TREE2, STUMP, BOULDER1, BOULDER2, BOULDER3, BUSH1, BUSH2, CACTUS, PALM_TREE };
         return trees[new Random().nextInt(trees.length - 1)];
+    }
+
+    private SpriteName getRNDCar(){
+        SpriteName[] cars = {CAR01, CAR02, CAR03, CAR04, SEMI, TRUCK};
+        return cars[new Random().nextInt(cars.length - 1)];
     }
 
     private void addStartFinish(){

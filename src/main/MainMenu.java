@@ -2,6 +2,7 @@ package main;
 
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import main.constants.GameMode;
 import main.constants.Settings;
 import main.helper.Connection;
 
@@ -269,6 +270,7 @@ public class MainMenu extends JFrame implements ActionListener {
             @Override
             public void call(Object... args) {
                 boolean login = (boolean) args[0];
+                System.out.println("Login " + args[0]);
                 // global oder hier weitere Funktion
             }
         }).on("register_success", new Emitter.Listener() {
@@ -276,6 +278,20 @@ public class MainMenu extends JFrame implements ActionListener {
             public void call(Object... args) {
                 boolean register = (boolean) args[0];
                 // global oder hier weitere Funktion
+            }
+        }).on("start_game", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                //boolean register = (boolean) args[0];
+                // global oder hier weitere Funktion
+                connection.ready();
+
+                Window window = new Window();
+                Game game = new Game(window, connection, GameMode.MULTI_PLAYER);
+                Thread t1 = new Thread(game);
+                t1.start();
+
+                dispose();
             }
         });
     }
@@ -413,9 +429,9 @@ public class MainMenu extends JFrame implements ActionListener {
             // TODO display corresponding messages for the events on GUI
             connection.findLobby();
             if (playButtonListener != null) {
-                playButtonListener.playButtonClicked();
+                //playButtonListener.playButtonClicked();
             }
-            dispose();
+            //dispose();
         }
         else if (e.getSource() == logoutButton) {
             usernameField.setVisible(true);

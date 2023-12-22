@@ -3,10 +3,11 @@ package main.helper;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+
 import java.net.URISyntaxException;
 import java.util.HashMap;
 
-import static main.constants.Settings.*;
+import static main.constants.Server.*;
 
 public class Connection {
 
@@ -31,7 +32,6 @@ public class Connection {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-
     }
 
     public Socket getSocket(){
@@ -74,6 +74,12 @@ public class Connection {
     public void sendFinishedRace(){
         if(socket != null) {
             socket.emit(FINISH_RACE);
+        }
+    }
+
+    public void ready(){
+        if(socket != null) {
+            socket.emit(START_GAME);
         }
     }
 
