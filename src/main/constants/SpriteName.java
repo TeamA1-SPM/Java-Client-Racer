@@ -39,8 +39,8 @@ public enum SpriteName {
     PLAYER_STRAIGHT,
     PLAYER_RIGHT,
 
-    THREE,
-    TWO,
-    ONE
+    COUNTDOWN_THREE,
+    COUNTDOWN_TWO,
+    COUNTDOWN_ONE
 
 }

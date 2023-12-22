@@ -39,13 +39,13 @@ public class HUD {
     private void renderOverlay(int countdown, SpritesLoader spritesLoader) {
         switch (countdown) {
             case 3:
-                spritesLoader.render(g2D, SpriteName.THREE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+                spritesLoader.render(g2D, SpriteName.COUNTDOWN_THREE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
                 break;
             case 2:
-                spritesLoader.render(g2D, SpriteName.TWO, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+                spritesLoader.render(g2D, SpriteName.COUNTDOWN_TWO, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
                 break;
             case 1:
-                spritesLoader.render(g2D, SpriteName.ONE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+                spritesLoader.render(g2D, SpriteName.COUNTDOWN_ONE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
                 break;
         }
     }

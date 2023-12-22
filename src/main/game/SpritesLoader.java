@@ -93,9 +93,9 @@ public class SpritesLoader {
         spritesMap.put(PLAYER_STRAIGHT, new SpriteCoordinates(1085, 480, 80, 41));
         spritesMap.put(PLAYER_RIGHT, new SpriteCoordinates(995, 531, 80, 41));
 
-        spritesMap.put(ONE, new SpriteCoordinates(1212,1370,77,106));
-        spritesMap.put(TWO, new SpriteCoordinates(1291,1370,92,106));
-        spritesMap.put(THREE, new SpriteCoordinates(1382,1370,96,106));
+        spritesMap.put(COUNTDOWN_ONE, new SpriteCoordinates(1212,1370,77,106));
+        spritesMap.put(COUNTDOWN_TWO, new SpriteCoordinates(1291,1370,92,106));
+        spritesMap.put(COUNTDOWN_THREE, new SpriteCoordinates(1382,1370,96,106));
     }
 
     private void loadImage(String path){
@@ -108,6 +108,10 @@ public class SpritesLoader {
     }
 
     public void render(Graphics2D g2D, SpriteName name, double scale, double destX, double destY, double offsetX, double offsetY, double clipY){
+
+        if(name == null){
+            return;
+        }
 
         double widthMid = (double) SCREEN_WIDTH/2;
 

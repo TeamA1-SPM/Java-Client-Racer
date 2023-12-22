@@ -16,6 +16,10 @@ import static main.constants.Settings.*;
 
 public class Background {
 
+    public static final double SKY_SPEED = 0.006;                   // background sky layer scroll speed when going around curve (or up hill)
+    public static final double HILL_SPEED = 0.009;                   // background hill layer scroll speed when going around curve (or up hill)
+    public static final double TREE_SPEED = 0.02;                   // background tree layer scroll speed when going around curve (or up hill)
+
     private Image sky;
     private Image hills;
     private Image trees;
@@ -57,10 +61,10 @@ public class Background {
 
     // update offset for parallax effect
     public void update(double curve, double speed){
-        double speedPercent = speed/100;
+        double factor = curve * speed/100;
 
         // offset sky
-        skyOffset += (int)(SKY_SPEED * curve * speedPercent);
+        skyOffset += (int)(SKY_SPEED * factor);
         if(skyOffset >= imageWidth){
             skyOffset -=  imageWidth;
         }else if(skyOffset <= -imageWidth){
@@ -68,7 +72,7 @@ public class Background {
         }
 
         // offset hills
-        hillOffset += (int)(HILL_SPEED * curve * speedPercent);
+        hillOffset += (int)(HILL_SPEED * factor);
         if(hillOffset >= imageWidth){
             hillOffset -=  imageWidth;
         }else if(hillOffset <= -imageWidth){
@@ -76,7 +80,7 @@ public class Background {
         }
 
         // offset trees
-        treeOffset += (int)(TREE_SPEED * curve * speedPercent);
+        treeOffset += (int)(TREE_SPEED * factor);
         if(treeOffset >= imageWidth){
             treeOffset -=  imageWidth;
         }else if(treeOffset <= -imageWidth){

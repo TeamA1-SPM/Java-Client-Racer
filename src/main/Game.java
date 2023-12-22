@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import static main.constants.GameState.*;
 import static main.constants.GameMode.*;
 import static main.constants.Settings.*;
+import static main.constants.Server.*;
 
 public class Game implements Runnable {
 
@@ -34,9 +35,10 @@ public class Game implements Runnable {
     private Background background;
     private Road road;
     private HUD hud;
+    private Physics gamePhysics;
     RoadParser roadParser;
     private GameState gameState = LOADING;
-    private GameMode gameMode = SINGLE_PLAYER;
+    private final GameMode gameMode;
 
     public Game(JFrame context, Connection connection, GameMode gameMode) {
       this.context = context;
@@ -72,14 +74,15 @@ public class Game implements Runnable {
         //roadSegments = roadCreator.createV2CurvyRoad();
         //roadSegments = roadCreator.createV3HillRoad();
         roadSegments = roadCreator.createV4Final();
-        //roadSegments = roadCreator.createParallaxTest();
         //roadSegments = parser.parse("track01.json");
+
 
         road = new Road(roadSegments);
         player = new Player("TestDrive", road.getTrackLength(), spriteLoader);
+        gamePhysics = new Physics(player, roadSegments);
 
         // TODO maxLaps needs to be adjusted somewhere
-        race = new Race(6, road.getTrackLength(), null, gameMode);
+        race = new Race(6, road.getTrackLength(), connection, gameMode);
 
         gameState = READY;
     }
@@ -98,6 +101,7 @@ public class Game implements Runnable {
         }).on(SERVER_COUNTDOWN, new Emitter.Listener(){
             @Override
             public void call(Object... args) {
+                System.out.println(args[0]);
                 race.setCountdown(args[0]);
             }
         });
@@ -106,10 +110,11 @@ public class Game implements Runnable {
     // main game loop
     @Override
     public void run() {
+
         race.setGameState(COUNTDOWN);
         switch (gameMode){
             case MULTI_PLAYER:
-                connection.ready();
+                //connection.ready();
                 break;
             case SINGLE_PLAYER:
                 timer.startCountdown();
@@ -146,7 +151,9 @@ public class Game implements Runnable {
                 // update npc cars on the road
                 road.update(player);
                 // update player speed and position
-                player.update(playerSegment, keyListener);
+                player.update(keyListener);
+                // updates collision
+                gamePhysics.update();
                 // update laps and lap time
                 race.update(player.getPosition());
                 break;

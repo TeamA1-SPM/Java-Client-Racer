@@ -3,7 +3,6 @@ package main.game;
 import main.helper.Point;
 import main.helper.Segment;
 import main.constants.SpriteName;
-import main.helper.Sprite;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -134,30 +133,6 @@ public class RoadCreator {
         addStartFinish();
         addSideRoadSprites();
         addCars();
-
-        return segmentList;
-    }
-
-    public ArrayList<Segment> createParallaxTest(){
-        segmentList = new ArrayList<>();
-
-        addStraight(LENGTH_SHORT);
-        addLowRollingHills(LENGTH_SHORT,HILL_LOW);
-        addCurve(LENGTH_MEDIUM, CURVE_MEDIUM, HILL_NONE);
-        addCurve(LENGTH_MEDIUM, CURVE_MEDIUM, HILL_NONE);
-        addCurve(LENGTH_MEDIUM, CURVE_MEDIUM, HILL_NONE);
-        addCurve(LENGTH_MEDIUM, CURVE_MEDIUM, HILL_NONE);
-        addCurve(LENGTH_MEDIUM, CURVE_MEDIUM, HILL_NONE);
-        addCurve(LENGTH_MEDIUM, CURVE_MEDIUM, HILL_NONE);
-        addCurve(LENGTH_MEDIUM, CURVE_MEDIUM, HILL_NONE);
-        addCurve(LENGTH_MEDIUM, CURVE_MEDIUM, HILL_NONE);
-        addCurve(LENGTH_MEDIUM, CURVE_MEDIUM, HILL_NONE);
-        addCurve(LENGTH_MEDIUM, CURVE_MEDIUM, HILL_NONE);
-
-
-        addDownhillToEnd(200.d);
-
-        addStartFinish();
 
         return segmentList;
     }

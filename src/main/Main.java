@@ -19,7 +19,7 @@ public class Main {
             public void playButtonClicked() {
                 // Gets executed after the "PLAY"-Button is pressed
                 Window window = new Window();
-                Game game = new Game(window, menu.getConnection(), GameMode.SINGLE_PLAYER);
+                Game game = new Game(window, menu.getConnection(), GameMode.MULTI_PLAYER);
                 Thread t1 = new Thread(game);
                 t1.start();
 

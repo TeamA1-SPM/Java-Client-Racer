@@ -3,10 +3,11 @@ package main.helper;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+
 import java.net.URISyntaxException;
 import java.util.HashMap;
 
-import static main.constants.Settings.*;
+import static main.constants.Server.*;
 
 public class Connection {
 
@@ -77,7 +78,9 @@ public class Connection {
     }
 
     public void ready(){
-        socket.emit(START_GAME);
+        if(socket != null) {
+            socket.emit(START_GAME);
+        }
     }
 
 

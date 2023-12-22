@@ -2,8 +2,6 @@ package main.game;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 
 import main.helper.Point;
@@ -16,9 +14,10 @@ import static main.constants.Settings.*;
 
 public class Road {
 
-    private int segmentQuantity;
-    private int trackLength;
-    private ArrayList<Segment> segments;
+    private final int segmentQuantity;
+    private final int trackLength;
+    private final ArrayList<Segment> segments;
+
 
     public Road(ArrayList<Segment> segments){
         this.segments = segments;
@@ -26,10 +25,14 @@ public class Road {
         trackLength = SEGMENT_LENGTH * segmentQuantity;
     }
 
+    private boolean test = true;
 
     public void update(Player player){
+
+
+        /*
         ArrayList<Sprite> zeroSegment = new ArrayList<>();
-        // reverse iteration to avoid double calculation when car changes segment
+        // reverse iteration to avoid double calculation when cars change segment
         for (int segIndex = segments.size()-1; segIndex >= 0 ; segIndex--){
             ArrayList<Sprite> carList = segments.get(segIndex).getCarList();
 
@@ -37,39 +40,16 @@ public class Road {
 
             for (int i = 0; i < carList.size(); i++){
                 Sprite car = carList.get(i);
-                int oldIndex = (int) (car.getZ()/SEGMENT_LENGTH);
-
-
-                if(playerSegmentIndex == segIndex && player.getSpeed() > car.getSpeed()){
-                    if(player.overlap(player.getPlayerX(), PLAYER_W, car.getOffset(), car.getWidth(), 0.8)){
-                        double carSpeed = car.getSpeed();
-                        player.setSpeed(carSpeed * (carSpeed/player.getSpeed()));
-
-                        double position = car.getZ() - PLAYER_Z;
-                        if(position > trackLength){
-                            position -= trackLength;
-                        }
-                        player.setPosition(position);
-                    }
-
-                }
-
+                int oldIndex = (int) (car.getPosition()/SEGMENT_LENGTH);
 
                 // calculate overtake
                 double offset = car.getOffset();
                 offset += updateCarOffset(car, segments.get(segIndex), player);
                 car.setOffset(offset);
 
-                // increase npc car position
-                double z = car.getZ();
-                z +=STEP * car.getSpeed();
-                // loop npc car position
-                if(z >= trackLength){
-                    z -= trackLength;
-                }
-                car.setZ(z);
+                increaseNPCPosition(car);
 
-                int newIndex = (int)(z/SEGMENT_LENGTH);
+                int newIndex = (int)(car.getPosition()/SEGMENT_LENGTH);
                 if(newIndex != oldIndex){
                     segments.get(oldIndex).getCarList().remove(car);
                     if(newIndex == 0){
@@ -89,14 +69,19 @@ public class Road {
             }
             segments.get(0).getCarList().sort(Comparator.comparing(Sprite::getSpeed).reversed());
         }
+
+
+        */
     }
 
-    private void updateCars(){
-
-    }
-
-    private void collision(Player player){
-        Segment playerSegment = segments.get ( (int)((player.getPosition()+PLAYER_Z)/SEGMENT_LENGTH) );
+    private void increaseNPCPosition(Sprite car){
+        double position = car.getPosition();
+        position +=STEP * car.getSpeed();
+        // loop car position
+        if(position >= trackLength){
+            position -= trackLength;
+        }
+        car.setPosition(position);
     }
 
     private double updateCarOffset(Sprite car, Segment carSegment, Player player){
@@ -200,7 +185,7 @@ public class Road {
 
             for(int i = 0; i < segment.getCarList().size(); i++){
                 Sprite car = segment.getCarList().get(i);
-                double percent = percentRemaining(car.getZ());
+                double percent = percentRemaining(car.getPosition());
                 double spriteScale = interpolate(CAMERA_DEPTH/segment.getP1Camera().getZ(), CAMERA_DEPTH/segment.getP2Camera().getZ(), percent);
                 double spriteX = interpolate(segment.getP1Screen().getX(),segment.getP2Screen().getX(),percent) + (spriteScale * car.getOffset() * ROAD_WIDTH * SCREEN_WIDTH/2);
                 double spriteY = interpolate(segment.getP1Screen().getY(),segment.getP2Screen().getY(),percent);
@@ -253,6 +238,7 @@ public class Road {
         pScreen.setZ((int)Math.round(scale * ROAD_WIDTH * width));
     }
 
+    // render road segments
     private void renderSegment(Graphics2D g2, Segment segment){
 
         int x1 = segment.getP1Screen().getX();
@@ -299,6 +285,7 @@ public class Road {
         }
     }
 
+    // create polygon
     private Polygon createPolygon(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
         Polygon p = new Polygon();
         p.addPoint(x1,y1);
