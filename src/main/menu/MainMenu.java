@@ -7,7 +7,6 @@ import main.Window;
 import main.constants.GameMode;
 import main.constants.Settings;
 import main.gamehelper.Connection;
-import main.menuhelper.ButtonManager;
 import main.menuhelper.VisibilityManager;
 
 import javax.swing.*;
@@ -42,8 +41,8 @@ public class MainMenu extends JFrame implements ActionListener {
     private JButton logoutButton = new JButton();
     private JButton leaderboardButton = new JButton();
     private JButton leaveLobbyButton = new JButton();
-    private JTextField usernameField;
-    private JPasswordField passwordField;
+    private JTextField usernameField = new JTextField();
+    private JPasswordField passwordField = new JPasswordField();
     private ImageIcon background;
     private PlayButtonListener playButtonListener;
     private final int x = 350;
@@ -61,8 +60,6 @@ public class MainMenu extends JFrame implements ActionListener {
     List<JComponent> registerButtons = Arrays.asList(acceptButton, backButtonRegister);
     List<JComponent> preLobbyButtons = Arrays.asList(findLobbyButton, logoutButton, leaderboardButton);
     List<JComponent> lobbyButtons = List.of(leaveLobbyButton);
-    List<JComponent> usernameComponents = Arrays.asList(usernameLabel, usernameField);
-    List<JComponent> passwordComponents = Arrays.asList(passwordLabel, passwordField);
 
     public Connection getConnection() {
         return connection;
@@ -83,25 +80,25 @@ public class MainMenu extends JFrame implements ActionListener {
 
     // Initializes the buttons
     public void initButtons() {
-        playButton = ButtonManager.createButton("Play", x, y, width, height, this);
-        multiplayerButton = ButtonManager.createButton("Multiplayer", x, y + 75, width, height, this);
-        exitButton = ButtonManager.createButton("Exit", x, y + 150, width, height, this);
+        setupButton(playButton, "Play", x, y, width, height);
+        setupButton(multiplayerButton, "Multiplayer", x, y + 75, width, height);
+        setupButton(exitButton, "Exit", x, y + 150, width, height);
 
-        loginButton = ButtonManager.createButton("Login", x, y, width, height, this);
-        registerButton = ButtonManager.createButton("Register", x, y + 75, width, height, this);
-        backButtonMultiplayer = ButtonManager.createButton("Back", x, y + 150, width, height, this);
+        setupButton(loginButton, "Login", x, y, width, height);
+        setupButton(registerButton, "Register", x, y + 75, width, height);
+        setupButton(backButtonMultiplayer, "Back", x, y + 150, width, height);
 
-        continueButton = ButtonManager.createButton("Continue", x, y + 150, width, height, this);
-        backButtonLogin = ButtonManager.createButton("Back", x, y + 225, width, height, this);
+        setupButton(continueButton, "Continue", x, y + 150, width, height);
+        setupButton(backButtonLogin, "Back", x, y + 225, width, height);
 
-        acceptButton = ButtonManager.createButton("Accept", x, y + 150, width, height, this);
-        backButtonRegister = ButtonManager.createButton("Back", x, y + 225, width, height, this);
+        setupButton(acceptButton, "Accept", x, y + 150, width, height);
+        setupButton(backButtonRegister, "Back", x, y + 225, width, height);
 
-        findLobbyButton = ButtonManager.createButton("Find Lobby", x, y, width, height, this);
-        logoutButton = ButtonManager.createButton("Logout", x, y + 75, width, height, this);
-        leaderboardButton = ButtonManager.createButton("Leaderboard", x, y + 150, width, height, this);
+        setupButton(findLobbyButton, "Find Lobby", x, y, width, height);
+        setupButton(logoutButton, "Logout", x, y + 75, width, height);
+        setupButton(leaderboardButton, "Leaderboard", x, y + 150, width, height);
 
-        leaveLobbyButton = ButtonManager.createButton("Leave Lobby", x, y + 75, width, height, this);
+        setupButton(leaveLobbyButton, "Leave Lobby", x, y + 75, width, height);
     }
 
     // Sets the text of the background label
@@ -109,6 +106,12 @@ public class MainMenu extends JFrame implements ActionListener {
         label.setText(text);
     }
 
+    public void setupButton(JButton button, String text, int x, int y, int width, int height) {
+        button.setBounds(x, y, width, height);
+        button.setFont(new Font("Calibri", Font.BOLD, 40));
+        button.setText(text);
+        button.addActionListener(this);
+    }
     // Sets up the background image and corresponding text
     public void setupBackground() {
         background = new ImageIcon(Objects.requireNonNull(getClass().getResource("/main/images/menu/MenuBackground.png")));
@@ -124,17 +127,32 @@ public class MainMenu extends JFrame implements ActionListener {
         addLabels();
     }
     private void addAllButtonsToBackground() {
-        List<JButton> allButtons = Arrays.asList(
-                playButton, multiplayerButton, exitButton,
-                loginButton, registerButton, backButtonMultiplayer,
-                continueButton, backButtonLogin,
-                acceptButton, backButtonRegister,
-                findLobbyButton, logoutButton, leaderboardButton,
-                leaveLobbyButton);
-        ButtonManager.addButtonsToLabel(mainMenuLabel, allButtons);
+        addButtonToBackground(mainMenuLabel, playButton);
+        addButtonToBackground(mainMenuLabel, multiplayerButton);
+        addButtonToBackground(mainMenuLabel, exitButton);
+
+        addButtonToBackground(mainMenuLabel, loginButton);
+        addButtonToBackground(mainMenuLabel, registerButton);
+        addButtonToBackground(mainMenuLabel, backButtonMultiplayer);
+
+        addButtonToBackground(mainMenuLabel, continueButton);
+        addButtonToBackground(mainMenuLabel, backButtonLogin);
+
+        addButtonToBackground(mainMenuLabel, acceptButton);
+        addButtonToBackground(mainMenuLabel, backButtonRegister);
+
+        addButtonToBackground(mainMenuLabel, findLobbyButton);
+        addButtonToBackground(mainMenuLabel, logoutButton);
+        addButtonToBackground(mainMenuLabel, leaderboardButton);
+
+        addButtonToBackground(mainMenuLabel, leaveLobbyButton);
+    }
+
+    public void addButtonToBackground(JLabel label, JButton button) {
+        label.add(button);
     }
     public void setVisibilityOfAllButtons() {
-        VisibilityManager.setVisibilityOfComponents(mainMenuButtons, false);
+        VisibilityManager.setVisibilityOfComponents(mainMenuButtons, true);
         VisibilityManager.setVisibilityOfComponents(multiplayerButtons, false);
         VisibilityManager.setVisibilityOfComponents(loginButtons, false);
         VisibilityManager.setVisibilityOfComponents(registerButtons, false);
@@ -306,26 +324,34 @@ public class MainMenu extends JFrame implements ActionListener {
         else if (e.getSource() == exitButton) {
             System.exit(0);
         }
-        else if (e.getSource() == backButtonMultiplayer) {
-            VisibilityManager.setVisibilityOfComponents(multiplayerButtons, false);
-            VisibilityManager.setVisibilityOfComponents(mainMenuButtons, true);
-            setTextOfLabel(mainMenuLabel, "MAIN MENU");
-        }
         else if (e.getSource() == loginButton) {
             VisibilityManager.setVisibilityOfComponents(multiplayerButtons, false);
             VisibilityManager.setVisibilityOfComponents(loginButtons, true);
-            VisibilityManager.setVisibilityOfComponents(usernameComponents, true);
-            VisibilityManager.setVisibilityOfComponents(passwordComponents, true);
+
+            usernameField.setVisible(true);
+            usernameLabel.setVisible(true);
+
+            passwordField.setVisible(true);
+            passwordLabel.setVisible(true);
 
             setTextOfLabel(mainMenuLabel, "LOGIN");
         }
         else if (e.getSource() == registerButton) {
             VisibilityManager.setVisibilityOfComponents(multiplayerButtons, false);
             VisibilityManager.setVisibilityOfComponents(registerButtons, true);
-            VisibilityManager.setVisibilityOfComponents(usernameComponents, true);
-            VisibilityManager.setVisibilityOfComponents(passwordComponents, true);
+
+            usernameField.setVisible(true);
+            usernameLabel.setVisible(true);
+
+            passwordField.setVisible(true);
+            passwordLabel.setVisible(true);
 
             setTextOfLabel(mainMenuLabel, "REGISTER");
+        }
+        else if (e.getSource() == backButtonMultiplayer) {
+            VisibilityManager.setVisibilityOfComponents(multiplayerButtons, false);
+            VisibilityManager.setVisibilityOfComponents(mainMenuButtons, true);
+            setTextOfLabel(mainMenuLabel, "MAIN MENU");
         }
         else if (e.getSource() == continueButton) {
             // TODO display message on GUI for successful or unsuccessful login
@@ -338,10 +364,13 @@ public class MainMenu extends JFrame implements ActionListener {
 
                 VisibilityManager.setVisibilityOfComponents(loginButtons, false);
                 VisibilityManager.setVisibilityOfComponents(preLobbyButtons, true);
-                VisibilityManager.setVisibilityOfComponents(usernameComponents, false);
-                VisibilityManager.setVisibilityOfComponents(passwordComponents, false);
 
+                usernameLabel.setVisible(false);
+                usernameField.setVisible(false);
                 usernameField.setText("");
+
+                passwordLabel.setVisible(false);
+                passwordField.setVisible(false);
                 passwordField.setText("");
 
                 setTextOfLabel(mainMenuLabel, "PRE-LOBBY");
@@ -350,10 +379,13 @@ public class MainMenu extends JFrame implements ActionListener {
         else if (e.getSource() == backButtonLogin) {
             VisibilityManager.setVisibilityOfComponents(loginButtons, false);
             VisibilityManager.setVisibilityOfComponents(multiplayerButtons, true);
-            VisibilityManager.setVisibilityOfComponents(usernameComponents, false);
-            VisibilityManager.setVisibilityOfComponents(passwordComponents, false);
 
+            usernameLabel.setVisible(false);
+            usernameField.setVisible(false);
             usernameField.setText("");
+
+            passwordLabel.setVisible(false);
+            passwordField.setVisible(false);
             passwordField.setText("");
 
             // Empties the lists after pressing the back button
@@ -376,10 +408,13 @@ public class MainMenu extends JFrame implements ActionListener {
         else if (e.getSource() == backButtonRegister) {
             VisibilityManager.setVisibilityOfComponents(registerButtons, false);
             VisibilityManager.setVisibilityOfComponents(multiplayerButtons, true);
-            VisibilityManager.setVisibilityOfComponents(usernameComponents, false);
-            VisibilityManager.setVisibilityOfComponents(passwordComponents, false);
 
+            usernameLabel.setVisible(false);
+            usernameField.setVisible(false);
             usernameField.setText("");
+
+            passwordLabel.setVisible(false);
+            passwordField.setVisible(false);
             passwordField.setText("");
 
             setTextOfLabel(mainMenuLabel, "MULTIPLAYER");
@@ -402,10 +437,13 @@ public class MainMenu extends JFrame implements ActionListener {
         else if (e.getSource() == logoutButton) {
             VisibilityManager.setVisibilityOfComponents(preLobbyButtons, false);
             VisibilityManager.setVisibilityOfComponents(loginButtons, true);
-            VisibilityManager.setVisibilityOfComponents(usernameComponents, true);
-            VisibilityManager.setVisibilityOfComponents(passwordComponents, true);
 
+            usernameLabel.setVisible(true);
+            usernameField.setVisible(true);
             usernameField.setText("");
+
+            passwordField.setVisible(true);
+            passwordLabel.setVisible(true);
             passwordField.setText("");
 
             // Empties the lists after pressing the back button
