@@ -27,20 +27,24 @@ public class MainMenu extends JFrame implements ActionListener {
     private final JLabel usernameLabel = new JLabel("Username:");
     private final JLabel passwordLabel = new JLabel("Password:");
     private final JLabel waitingLabel = new JLabel("Waiting for another player...");
-    private JButton playButton = new JButton();
-    private JButton multiplayerButton = new JButton();
-    private JButton exitButton = new JButton();
-    private JButton loginButton = new JButton();
-    private JButton registerButton = new JButton();
-    private JButton backButtonMultiplayer = new JButton();
-    private JButton backButtonLogin = new JButton();
-    private JButton backButtonRegister = new JButton();
-    private JButton continueButton = new JButton();
-    private JButton acceptButton = new JButton();
-    private JButton findLobbyButton = new JButton();
-    private JButton logoutButton = new JButton();
-    private JButton leaderboardButton = new JButton();
-    private JButton leaveLobbyButton = new JButton();
+    private final JLabel emptyUsernameLabel = new JLabel("Username can't be empty!");
+    private final JLabel emptyPasswordLabel = new JLabel("Password can't be empty!");
+    private final JLabel emptyUserAndPWLabel = new JLabel("Username and Password can't be empty!");
+    private final JLabel successfulRegistrationLabel = new JLabel("Your registration was successful!");
+    private final JButton playButton = new JButton();
+    private final JButton multiplayerButton = new JButton();
+    private final JButton exitButton = new JButton();
+    private final JButton loginButton = new JButton();
+    private final JButton registerButton = new JButton();
+    private final JButton backButtonMultiplayer = new JButton();
+    private final JButton backButtonLogin = new JButton();
+    private final JButton backButtonRegister = new JButton();
+    private final JButton continueButton = new JButton();
+    private final JButton acceptButton = new JButton();
+    private final JButton findLobbyButton = new JButton();
+    private final JButton logoutButton = new JButton();
+    private final JButton leaderboardButton = new JButton();
+    private final JButton leaveLobbyButton = new JButton();
     private JTextField usernameField = new JTextField();
     private JPasswordField passwordField = new JPasswordField();
     private ImageIcon background;
@@ -190,6 +194,30 @@ public class MainMenu extends JFrame implements ActionListener {
         waitingLabel.setForeground(Color.RED);
         waitingLabel.setBounds(x - 200, y - 20, width + 500, height + 40);
         waitingLabel.setVisible(false);
+
+        mainMenuLabel.add(emptyUsernameLabel);
+        emptyUsernameLabel.setFont(new Font("Calibri", Font.BOLD, 40));
+        emptyUsernameLabel.setForeground(Color.RED);
+        emptyUsernameLabel.setBounds(x - 92, y + 300, width + 300, height);
+        emptyUsernameLabel.setVisible(false);
+
+        mainMenuLabel.add(emptyPasswordLabel);
+        emptyPasswordLabel.setFont(new Font("Calibri", Font.BOLD, 40));
+        emptyPasswordLabel.setForeground(Color.RED);
+        emptyPasswordLabel.setBounds(x - 92, y + 300, width + 300, height);
+        emptyPasswordLabel.setVisible(false);
+
+        mainMenuLabel.add(emptyUserAndPWLabel);
+        emptyUserAndPWLabel.setFont(new Font("Calibri", Font.BOLD, 40));
+        emptyUserAndPWLabel.setForeground(Color.RED);
+        emptyUserAndPWLabel.setBounds(x - 200, y + 300, width + 400, height);
+        emptyUserAndPWLabel.setVisible(false);
+
+        mainMenuLabel.add(successfulRegistrationLabel);
+        successfulRegistrationLabel.setFont(new Font("Calibri", Font.BOLD, 40));
+        successfulRegistrationLabel.setForeground(Color.GREEN);
+        successfulRegistrationLabel.setBounds(x - 140, y + 300, width + 400, height);
+        successfulRegistrationLabel.setVisible(false);
     }
 
     // Sets up the main menu
@@ -395,11 +423,32 @@ public class MainMenu extends JFrame implements ActionListener {
             setTextOfLabel(mainMenuLabel, "MULTIPLAYER");
         }
         else if (e.getSource() == acceptButton) {
-            // TODO display message on GUI for empty username and password
-            // TODO display message on GUI for successful registration
-            if (usernameList.isEmpty() || passwordList.isEmpty()) {
-                System.out.println("Both the username and the password have to be filled out!");
-            } else {
+            // TODO check if username is already registered (display message if yes)
+            // TODO implement background rectangle for messages => better visibility
+            if (usernameList.isEmpty() && passwordList.isEmpty()) {
+                emptyUserAndPWLabel.setVisible(true);
+                emptyUsernameLabel.setVisible(false);
+                emptyPasswordLabel.setVisible(false);
+                successfulRegistrationLabel.setVisible(false);
+            }
+            else if (usernameList.isEmpty()) {
+                emptyUsernameLabel.setVisible(true);
+                emptyPasswordLabel.setVisible(false);
+                emptyUserAndPWLabel.setVisible(false);
+                successfulRegistrationLabel.setVisible(false);
+            }
+            else if (passwordList.isEmpty()){
+                emptyPasswordLabel.setVisible(true);
+                emptyUsernameLabel.setVisible(false);
+                emptyUserAndPWLabel.setVisible(false);
+                successfulRegistrationLabel.setVisible(false);
+            }
+            else {
+                emptyUsernameLabel.setVisible(false);
+                emptyPasswordLabel.setVisible(false);
+                emptyUserAndPWLabel.setVisible(false);
+                successfulRegistrationLabel.setVisible(true);
+
                 username = listToString(usernameList);
                 password = listToString(passwordList);
                 connection.register(username, password);
@@ -408,6 +457,11 @@ public class MainMenu extends JFrame implements ActionListener {
         else if (e.getSource() == backButtonRegister) {
             VisibilityManager.setVisibilityOfComponents(registerButtons, false);
             VisibilityManager.setVisibilityOfComponents(multiplayerButtons, true);
+
+            emptyUsernameLabel.setVisible(false);
+            emptyPasswordLabel.setVisible(false);
+            emptyUserAndPWLabel.setVisible(false);
+            successfulRegistrationLabel.setVisible(false);
 
             usernameLabel.setVisible(false);
             usernameField.setVisible(false);
