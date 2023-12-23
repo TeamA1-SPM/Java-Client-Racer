@@ -1,7 +1,7 @@
 package main.game;
 
-import main.helper.Point;
-import main.helper.Segment;
+import main.gamehelper.Point;
+import main.gamehelper.Segment;
 import main.constants.SpriteName;
 
 import java.util.ArrayList;

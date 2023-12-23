@@ -3,8 +3,8 @@ package main.tracks;
 
 import main.constants.SpriteName;
 import main.game.SpritesLoader;
-import main.helper.Point;
-import main.helper.Segment;
+import main.gamehelper.Point;
+import main.gamehelper.Segment;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

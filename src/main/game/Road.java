@@ -2,11 +2,10 @@ package main.game;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 
-import main.helper.Point;
-import main.helper.Segment;
-import main.helper.Sprite;
+import main.gamehelper.Point;
+import main.gamehelper.Segment;
+import main.gamehelper.Sprite;
 
 import static main.constants.Colors.*;
 import static main.constants.Settings.*;

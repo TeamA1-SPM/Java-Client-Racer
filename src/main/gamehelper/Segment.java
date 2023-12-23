@@ -1,4 +1,4 @@
-package main.helper;
+package main.gamehelper;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -34,13 +34,13 @@ public class Segment {
     public Segment(int index){
         this.index = index;
 
-        p1World = new main.helper.Point(0,0,0);
-        p1Camera = new main.helper.Point(0,0,0);
-        p1Screen = new main.helper.Point(0,0,0);
+        p1World = new main.gamehelper.Point(0,0,0);
+        p1Camera = new main.gamehelper.Point(0,0,0);
+        p1Screen = new main.gamehelper.Point(0,0,0);
 
-        p2World = new main.helper.Point(0,0,0);
-        p2Camera = new main.helper.Point(0,0,0);
-        p2Screen = new main.helper.Point(0,0,0);
+        p2World = new main.gamehelper.Point(0,0,0);
+        p2Camera = new main.gamehelper.Point(0,0,0);
+        p2Screen = new main.gamehelper.Point(0,0,0);
 
         this.curve = 0;
 
@@ -103,7 +103,7 @@ public class Segment {
         return p1World;
     }
 
-    public void setP1World(main.helper.Point p1World) {
+    public void setP1World(main.gamehelper.Point p1World) {
         this.p1World = p1World;
     }
 
@@ -111,7 +111,7 @@ public class Segment {
         return p1Camera;
     }
 
-    public void setP1Camera(main.helper.Point p1Camera) {
+    public void setP1Camera(main.gamehelper.Point p1Camera) {
         this.p1Camera = p1Camera;
     }
 
@@ -119,7 +119,7 @@ public class Segment {
         return p1Screen;
     }
 
-    public void setP1Screen(main.helper.Point p1Screen) {
+    public void setP1Screen(main.gamehelper.Point p1Screen) {
         this.p1Screen = p1Screen;
     }
 
@@ -127,7 +127,7 @@ public class Segment {
         return p2World;
     }
 
-    public void setP2World(main.helper.Point p2World) {
+    public void setP2World(main.gamehelper.Point p2World) {
         this.p2World = p2World;
     }
 
@@ -135,7 +135,7 @@ public class Segment {
         return p2Camera;
     }
 
-    public void setP2Camera(main.helper.Point p2Camera) {
+    public void setP2Camera(main.gamehelper.Point p2Camera) {
         this.p2Camera = p2Camera;
     }
 

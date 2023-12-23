@@ -1,4 +1,4 @@
-package main.helper;
+package main.gamehelper;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;

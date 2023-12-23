@@ -6,10 +6,10 @@ import io.socket.emitter.Emitter;
 import main.constants.GameMode;
 import main.constants.GameState;
 import main.game.*;
-import main.helper.Connection;
-import main.helper.GameLoopTimer;
-import main.helper.InputListener;
-import main.helper.Segment;
+import main.gamehelper.Connection;
+import main.gamehelper.GameLoopTimer;
+import main.gamehelper.InputListener;
+import main.gamehelper.Segment;
 import main.hidden.MarioRoad;
 import main.tracks.RoadParser;
 

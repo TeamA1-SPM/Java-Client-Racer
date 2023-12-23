@@ -1,7 +1,7 @@
 package main.game;
 
 
-import main.helper.Sprite;
+import main.gamehelper.Sprite;
 
 import java.util.ArrayList;
 import java.util.Comparator;
