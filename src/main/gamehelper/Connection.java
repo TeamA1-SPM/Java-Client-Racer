@@ -41,8 +41,8 @@ public class Connection {
     public void register(String username, String password){
         if(socket != null){
             HashMap<String, String> dict = new HashMap<>();
-            dict.put("passwort", password);
             dict.put("username", username);
+            dict.put("passwort", password);
             socket.emit(REGISTER, dict);
         }
     }
@@ -82,8 +82,4 @@ public class Connection {
             socket.emit(START_GAME);
         }
     }
-
-
-
-
 }
