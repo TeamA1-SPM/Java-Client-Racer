@@ -63,7 +63,9 @@ public class MainMenu extends JFrame implements ActionListener {
     List<JComponent> registerButtons = Arrays.asList(acceptBtn, regBackBtn);
     List<JComponent> preLobbyButtons = Arrays.asList(findLobbyBtn, logoutBtn, lbBtn);
     List<JComponent> lobbyButtons = List.of(leaveLobbyBtn);
-    boolean isLoginCorrect;
+    boolean isLoginCorrect = false;
+
+    int serverFunctionCounter = 0;
 
     public Connection getConnection() {
         return connection;
@@ -72,6 +74,7 @@ public class MainMenu extends JFrame implements ActionListener {
     public MainMenu() {
         init();
         connection.connect();
+        serverFunctionLogin(connection.getSocket());
     }
 
     // Initializes everything
@@ -290,6 +293,7 @@ public class MainMenu extends JFrame implements ActionListener {
             public void call(Object... args) {
                 isLoginCorrect = (boolean) args[0];
                 System.out.println("Login " + isLoginCorrect);
+                serverFunctionCounter++;
             }
         });
     }
@@ -371,16 +375,18 @@ public class MainMenu extends JFrame implements ActionListener {
     }
 
     public void continueClicked() {
-        // TODO display message on GUI for successful or unsuccessful login
         if (usernameList.isEmpty() || passwordList.isEmpty()) {
             emptyUserAndPwLbl.setVisible(true);
             userNotFoundLbl.setVisible(false);
         }
         else {
+
             username = listToString(usernameList);
             password = listToString(passwordList);
             connection.login(username, password);
-            serverFunctionLogin(connection.getSocket());
+
+            System.out.println("Counter: " + serverFunctionCounter);
+            System.out.println("Boolean: " + isLoginCorrect);
 
             if (!isLoginCorrect) {
                 emptyUserAndPwLbl.setVisible(false);
@@ -430,12 +436,13 @@ public class MainMenu extends JFrame implements ActionListener {
     public void acceptClicked() {
         // TODO check if username is already registered (display message if yes)
         // TODO ask server people why users.json doesn't get updated anymore
-        if (usernameList.isEmpty() && passwordList.isEmpty()) {
+        if (usernameList.isEmpty() || passwordList.isEmpty()) {
             emptyUserAndPwLbl.setVisible(true);
-            emptyUserLbl.setVisible(false);
-            emptyPwLbl.setVisible(false);
+            //emptyUserLbl.setVisible(false);
+            //emptyPwLbl.setVisible(false);
             regSuccessLbl.setVisible(false);
         }
+        /*
         else if (usernameList.isEmpty()) {
             emptyUserLbl.setVisible(true);
             emptyPwLbl.setVisible(false);
@@ -448,9 +455,10 @@ public class MainMenu extends JFrame implements ActionListener {
             emptyUserAndPwLbl.setVisible(false);
             regSuccessLbl.setVisible(false);
         }
+        */
         else {
-            emptyUserLbl.setVisible(false);
-            emptyPwLbl.setVisible(false);
+            //emptyUserLbl.setVisible(false);
+            //emptyPwLbl.setVisible(false);
             emptyUserAndPwLbl.setVisible(false);
             regSuccessLbl.setVisible(true);
 
@@ -482,8 +490,6 @@ public class MainMenu extends JFrame implements ActionListener {
     }
 
     public void findLobbyClicked() {
-        // TODO start game after successfully finding another player
-        // TODO display corresponding messages for the events on GUI
         VisibilityManager.setVisibilityOfComponents(preLobbyButtons, false);
         VisibilityManager.setVisibilityOfComponents(lobbyButtons, true);
 
