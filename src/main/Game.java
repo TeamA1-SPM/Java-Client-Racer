@@ -6,10 +6,7 @@ import io.socket.emitter.Emitter;
 import main.constants.GameMode;
 import main.constants.GameState;
 import main.game.*;
-import main.helper.Connection;
-import main.helper.GameLoopTimer;
-import main.helper.InputListener;
-import main.helper.Segment;
+import main.helper.*;
 import main.hidden.MarioRoad;
 import main.tracks.RoadParser;
 
@@ -77,9 +74,9 @@ public class Game implements Runnable {
         //roadSegments = parser.parse("track01.json");
 
 
-        road = new Road(roadSegments);
+        road = new Road(roadSegments, roadCreator.getCarList());
         player = new Player("TestDrive", road.getTrackLength(), spriteLoader);
-        gamePhysics = new Physics(player, roadSegments);
+        gamePhysics = new Physics(player);
 
         // TODO maxLaps needs to be adjusted somewhere
         race = new Race(6, road.getTrackLength(), connection, gameMode);
@@ -142,6 +139,7 @@ public class Game implements Runnable {
     private void update(){
         // get player segment based of player position
         Segment playerSegment = road.findSegment(player.getPosition() + PLAYER_Z);
+        ArrayList<Car> segmentCars = road.getSegmentCars(playerSegment.getIndex());
 
         // update parallax scrolling background
         background.update(playerSegment.getCurve(), player.getSpeed());
@@ -149,11 +147,11 @@ public class Game implements Runnable {
         switch (race.getGameState()) {
             case RUNNING:
                 // update npc cars on the road
-                road.update(player);
+                road.update(playerSegment);
                 // update player speed and position
                 player.update(keyListener);
                 // updates collision
-                gamePhysics.update();
+                gamePhysics.update(playerSegment, segmentCars);
                 // update laps and lap time
                 race.update(player.getPosition());
                 break;
@@ -163,7 +161,7 @@ public class Game implements Runnable {
                 }
                 break;
             case RESULT:
-                road.update(player);
+                road.update(playerSegment);
                 // TODO show result
                 break;
         }

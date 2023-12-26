@@ -14,7 +14,6 @@ public class Player {
     private double position = 0;
     private final double maxPosition;
     private double playerX = 0;
-    private double playerY = 0;
     private double speed = 0;
     private double accel = 0;
     private int steer = 0;
@@ -28,20 +27,6 @@ public class Player {
         this.name = name;
         this.maxPosition = maxPosition;
         this.spritesLoader = spritesLoader;
-    }
-
-    public void accelerate(double accel){
-        this.setSpeed(speed += (accel * STEP));
-    }
-
-    public boolean overlap(double x1, double w1, double x2, double w2, double percent){
-        double half = (percent != 0) ? percent / 2 : (double) 1 / 2;
-        double min1 = x1 - (w1 * half);
-        double max1 = x1 + (w1 * half);
-        double min2 = x2 - (w2 * half);
-        double max2 = x2 + (w2 * half);
-
-        return !((max1 < min2) || (min1 > max2));
     }
 
     public void update(InputListener keyListener){
@@ -79,7 +64,7 @@ public class Player {
 
         double scale = CAMERA_DEPTH/PLAYER_Z;
         double destX = (double)SCREEN_WIDTH/2;
-        double destY = (double)SCREEN_HEIGHT-6;
+        double destY = (double)SCREEN_HEIGHT-7;
 
         spritesLoader.render(g2D, spriteName,scale, destX, destY + calcBounce(), -0.5, -1, 0 );
     }
@@ -138,9 +123,6 @@ public class Player {
             this.playerX = playerX;
         }
     }
-
-    public double getPlayerY() { return playerY; }
-    public void setPlayerY(double playerY) { this.playerY = playerY; }
 
     public double getSpeed(){ return speed; }
     public void setSpeed(double speed){

@@ -1,38 +1,40 @@
-package main.game;
+package main.helper;
 
 
-import main.helper.Sprite;
+import main.helper.Car;
+import main.helper.RoadSideObject;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 import static main.constants.Settings.*;
 
 public class CarSimulation {
-    private ArrayList<Sprite> carList;
+    private ArrayList<Car> carList;
     private double maxPosition;
 
-    private Sprite player;
-    private Sprite enemy;
+    private Car player;
+    private Car enemy;
 
-    public CarSimulation(ArrayList<Sprite> carList, double maxPosition){
+    public CarSimulation(ArrayList<Car> carList, double maxPosition){
         this.carList = carList;
         this. maxPosition = maxPosition;
     }
 
-    private void setPlayerSprites(Sprite player){
+    private void setPlayerSprites(Car player){
         int index = carList.indexOf(player);
-        Sprite s = carList.get(index);
+        Car s = carList.get(index);
         s.setPosition(player.getPosition());
         s.setOffset(player.getOffset());
     }
 
     public void update(){
 
-        setPlayerSprites(player);
-        setPlayerSprites(enemy);
+        //setPlayerSprites(player);
+        //setPlayerSprites(enemy);
 
-        for(Sprite car: carList){
+        for(Car car: carList){
             // calculate overtake
             double offset = car.getOffset();
             offset += updateCarOffset(car);
@@ -40,12 +42,29 @@ public class CarSimulation {
             increaseNPCPosition(car);
         }
 
-        carList.sort(Comparator.comparing(Sprite::getPosition).reversed());
+        carList.sort(Comparator.comparing(Car::getPosition).reversed());
     }
 
-    private void increaseNPCPosition(Sprite car){
+
+    public ArrayList<Car> getSegmentCars(int index){
+        ArrayList<Car> segmentCars = new ArrayList<>();
+
+        double segmentStart = index * SEGMENT_LENGTH;
+        double segmentEnd = segmentStart + SEGMENT_LENGTH;
+
+        for (Car car: carList) {
+            double carPosition = car.getPosition();
+            if(carPosition >= segmentStart && carPosition <= segmentEnd){
+                segmentCars.add(car);
+            }
+        }
+
+        return segmentCars;
+    }
+
+    private void increaseNPCPosition(Car car){
         double position = car.getPosition();
-        position +=STEP * car.getSpeed();
+        position += STEP * car.getSpeed();
         // loop car position
         if(position >= maxPosition){
             position -= maxPosition;
@@ -53,7 +72,7 @@ public class CarSimulation {
         car.setPosition(position);
     }
 
-    private double updateCarOffset(Sprite car){
+    private double updateCarOffset(Car car){
         double position = car.getPosition();
 
         //for(int pos = position )

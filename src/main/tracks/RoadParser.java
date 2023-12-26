@@ -3,6 +3,7 @@ package main.tracks;
 
 import main.constants.SpriteName;
 import main.game.SpritesLoader;
+import main.helper.Car;
 import main.helper.Point;
 import main.helper.Segment;
 import org.json.simple.JSONArray;
@@ -20,6 +21,7 @@ public class RoadParser{
     private String jsonPath = "./src/main/tracks/" ; //assign your JSON String here
 
     private ArrayList<Segment> segmentList;
+    private ArrayList<Car> carList;
 
 
     public ArrayList<Segment> parse(String fileName, SpritesLoader spritesLoader) {
@@ -62,10 +64,11 @@ public class RoadParser{
                     JSONObject jsonSprite = (JSONObject) o;
                     SpriteName name = getSpriteName(jsonSprite.get("sprite").toString());
                     double offset = Double.parseDouble(jsonSprite.get("offset").toString());
-                    double z = Double.parseDouble(jsonSprite.get("z").toString());
+                    double position = Double.parseDouble(jsonSprite.get("z").toString());
                     double speed = Double.parseDouble(jsonSprite.get("speed").toString());
 
-                    segment.addCar(name, offset,z,speed,spritesLoader.getSpriteWidth(name));
+                    Car car = new Car(name, offset, position,speed,spritesLoader.getSpriteWidth(name));
+                    carList.add(car);
                 }
 
 
@@ -86,7 +89,10 @@ public class RoadParser{
         }
 
         return segmentList;
+    }
 
+    public ArrayList<Car> getCarList(){
+        return carList;
     }
 
     private void addStartFinish(){

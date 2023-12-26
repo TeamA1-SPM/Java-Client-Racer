@@ -4,24 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// FEATURES&#10;- npc car collision">
-      <change afterPath="$PROJECT_DIR$/src/main/constants/Server.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/game/CarSimulation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/game/Physics.java" afterDir="false" />
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// FEATURES&#10;- server countdown activation&#10;- add wait for lobby ready">
+      <change afterPath="$PROJECT_DIR$/src/main/helper/Car.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/constants/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/constants/SpriteName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/SpriteName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Background.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Background.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/HUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/HUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/CarSimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/CarSimulation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/Physics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Physics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Road.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/RoadCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/RoadCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/SpritesLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/SpritesLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/helper/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Connection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/helper/Sprite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Sprite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/helper/Segment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Segment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/helper/Sprite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/RoadSideObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/tracks/RoadParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tracks/RoadParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +88,7 @@
       <recent name="E:\GIT\Java-Client-Racer\src\main\images\menu" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Race2">
+  <component name="RunManager" selected="Application.Race1">
     <configuration name="Race1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="Java-Client-Racer" />
@@ -182,7 +177,11 @@
       <workItem from="1702984809213" duration="5104000" />
       <workItem from="1703001709769" duration="2156000" />
       <workItem from="1703056322684" duration="36177000" />
-      <workItem from="1703231014143" duration="9000000" />
+      <workItem from="1703231014143" duration="25340000" />
+      <workItem from="1703270310083" duration="426000" />
+      <workItem from="1703444286711" duration="510000" />
+      <workItem from="1703444825827" duration="8000" />
+      <workItem from="1703603079284" duration="975000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -296,7 +295,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703061547623</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="// FEATURES&#10;- server countdown activation&#10;- add wait for lobby ready">
+      <option name="closed" value="true" />
+      <created>1703240232152</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1703240232152</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -313,7 +320,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/v4---final" />
+                        <option value="v4---final" />
                       </list>
                     </value>
                   </entry>
@@ -339,7 +346,8 @@
     <MESSAGE value="// Features&#10;- JSON Road Reader final&#10;- draw npc car&#10;- npc car movement&#10;- npc cars overtake v1&#10;- parallax effect final&#10;- countdown with sprites&#10;- game modes added&#10;- gamestate added&#10;- hidden mario cart mode" />
     <MESSAGE value="// BUG FIX&#10;- removed traffic jams" />
     <MESSAGE value="// FEATURES&#10;- npc car collision" />
-    <option name="LAST_COMMIT_MESSAGE" value="// FEATURES&#10;- npc car collision" />
+    <MESSAGE value="// FEATURES&#10;- server countdown activation&#10;- add wait for lobby ready" />
+    <option name="LAST_COMMIT_MESSAGE" value="// FEATURES&#10;- server countdown activation&#10;- add wait for lobby ready" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

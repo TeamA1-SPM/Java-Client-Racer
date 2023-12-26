@@ -2,14 +2,14 @@ package main.helper;
 
 import main.constants.SpriteName;
 
-public class Sprite {
+public class Car {
     SpriteName name;
     double offset;
     double position;
     double speed;
     double width;
 
-    public Sprite(SpriteName name, double offset, double position, double speed, double width){
+    public Car(SpriteName name, double offset, double position, double speed, double width){
         this.name = name;
         this.offset = offset;
         this.position = position;
@@ -20,6 +20,7 @@ public class Sprite {
     public SpriteName getName(){
         return name;
     }
+    public void setName(SpriteName name){ this.name = name; }
 
     public double getOffset(){
         return offset;
@@ -43,5 +44,4 @@ public class Sprite {
     public double getWidth(){
         return width;
     }
-
 }

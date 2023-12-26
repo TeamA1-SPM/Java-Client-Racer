@@ -27,9 +27,7 @@ public class Segment {
     private double curve;
     private double clip;
 
-    private final ArrayList<Sprite> roadsideList;
-    private final ArrayList<Sprite> carList;
-
+    private final ArrayList<RoadSideObject> roadsideList;
 
     public Segment(int index){
         this.index = index;
@@ -45,8 +43,6 @@ public class Segment {
         this.curve = 0;
 
         this.roadsideList = new ArrayList<>();
-        this.carList = new ArrayList<>();
-
     }
 
     // sets color mode for each segment type
@@ -167,15 +163,11 @@ public class Segment {
         this.curve = curve;
     }
 
-    public ArrayList<Sprite> getRoadsideList(){
+    public ArrayList<RoadSideObject> getRoadsideList(){
         return roadsideList;
     }
     public void addRoadsideObj(SpriteName name, double offset, double width){
-        roadsideList.add(new Sprite(name, offset, 0, 0, width));
-    }
-    public ArrayList<Sprite> getCarList() { return carList; }
-    public void addCar(SpriteName name, double offset, double z, double speed, double width) {
-        carList.add(new Sprite(name, offset, z, speed, width));
+        roadsideList.add(new RoadSideObject(name, offset, width));
     }
 
     public double getClip() { return clip; }

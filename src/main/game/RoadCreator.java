@@ -1,8 +1,10 @@
 package main.game;
 
+import main.helper.Car;
 import main.helper.Point;
 import main.helper.Segment;
 import main.constants.SpriteName;
+import main.helper.RoadSideObject;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,6 +31,7 @@ public class RoadCreator {
     private SpritesLoader spritesLoader;
 
     private ArrayList<Segment> segmentList;
+    private ArrayList<Car> carList;
 
 
     public RoadCreator(SpritesLoader spritesLoader){
@@ -110,6 +113,7 @@ public class RoadCreator {
 
     public ArrayList<Segment> createV4Final(){
         segmentList = new ArrayList<>();
+        carList = new ArrayList<>();
 
         addStraight(LENGTH_SHORT);
         addLowRollingHills(LENGTH_SHORT,HILL_LOW);
@@ -135,6 +139,10 @@ public class RoadCreator {
         addCars();
 
         return segmentList;
+    }
+
+    public ArrayList<Car> getCarList(){
+        return carList;
     }
 
     private void addSideRoadSprites(){
@@ -190,10 +198,10 @@ public class RoadCreator {
             SpriteName name = getRNDCar();
             double offset = getRNDOffset();
             double speed = 3000 + (new Random().nextInt(6000));
-            double z = Math.floor(Math.random() * segmentList.size()) * SEGMENT_LENGTH;
+            double position = Math.floor(Math.random() * segmentList.size()) * SEGMENT_LENGTH;
 
-            Segment seg = segmentList.get((int)(z/SEGMENT_LENGTH)%segmentList.size());
-            seg.addCar(name, offset,z,speed,spritesLoader.getSpriteWidth(name));
+            Car car = new Car(name, offset, position,speed,spritesLoader.getSpriteWidth(name));
+            carList.add(car);
         }
     }
 
