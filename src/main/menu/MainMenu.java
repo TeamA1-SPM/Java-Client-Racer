@@ -27,6 +27,9 @@ public class MainMenu extends JFrame implements ActionListener {
     private final JLabel regSuccessLbl = new JLabel("Your registration was successful!");
     private final JLabel userExistsLbl = new JLabel("The user is already registered!");
     private final JLabel userNotFoundLbl = new JLabel("The user doesn't exist!");
+    private final JLabel serverStatusLbl = new JLabel("Server:");
+    private static final JLabel serverOnlineLbl = new JLabel("Online");
+    private static final JLabel serverOfflineLbl = new JLabel("Offline");
     private final JButton playBtn = new JButton();
     private final JButton mpBtn = new JButton();
     private final JButton exitBtn = new JButton();
@@ -58,6 +61,9 @@ public class MainMenu extends JFrame implements ActionListener {
     private boolean registerBool = false;
     private boolean singlePlayer = false;
     private boolean multiPlayer = false;
+
+    public static JLabel getServerOnlineLbl() { return serverOnlineLbl; }
+    public static JLabel getServerOfflineLbl() { return serverOfflineLbl; }
 
     public MainMenu() {
         init();
@@ -173,6 +179,10 @@ public class MainMenu extends JFrame implements ActionListener {
         LabelManager.createLabel(regSuccessLbl, FontManager.getSize40(), new Color(0, 150, 0), BoundsManager.getRegSuccessLblBounds());
         LabelManager.createLabel(userNotFoundLbl, FontManager.getSize40(), Color.RED, BoundsManager.getUserNotFoundLblBounds());
         LabelManager.createLabel(userExistsLbl, FontManager.getSize40(), new Color(255, 130, 0), BoundsManager.getUserExistsBounds());
+        LabelManager.createLabel(serverStatusLbl, FontManager.getSize30(), Color.BLACK, BoundsManager.getServerStatusLblBounds());
+        LabelManager.createLabel(serverOnlineLbl, FontManager.getSize30(), new Color(0, 150, 0), BoundsManager.getServerOnlineBounds());
+        LabelManager.createLabel(serverOfflineLbl, FontManager.getSize30(), Color.RED, BoundsManager.getServerOfflineBounds());
+        serverStatusLbl.setVisible(true);
     }
 
     public void addLabelsToMenu() {
@@ -183,6 +193,9 @@ public class MainMenu extends JFrame implements ActionListener {
         mainMenuLbl.add(regSuccessLbl);
         mainMenuLbl.add(userExistsLbl);
         mainMenuLbl.add(userNotFoundLbl);
+        mainMenuLbl.add(serverStatusLbl);
+        mainMenuLbl.add(serverOnlineLbl);
+        mainMenuLbl.add(serverOfflineLbl);
     }
 
     // Sets up the main menu

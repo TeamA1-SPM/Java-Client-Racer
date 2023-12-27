@@ -46,6 +46,9 @@ public class BoundsManager {
     private static final Rectangle regSuccessLblBounds = new Rectangle(x - 140, y + 300, width + 275, height - 10);
     private static final Rectangle userExistsBounds = new Rectangle(x - 120, y + 300, width + 225, height - 10);
     private static final Rectangle userNotFoundLblBounds = new Rectangle(x - 70, y + 300, width + 100, height - 10);
+    private static final Rectangle serverStatusLblBounds = new Rectangle(x - 350, y - 150, width - 185, height - 25);
+    private static final Rectangle serverOnlineBounds = new Rectangle(x - 255, y - 150, width - 195, height - 25);
+    private static final Rectangle serverOfflineBounds = new Rectangle(x - 255, y - 150, width - 185, height - 25);
 
     public static Rectangle getUserLblBounds() { return userLblBounds; }
     public static Rectangle getPwLblBounds() { return pwLblBounds; }
@@ -54,6 +57,9 @@ public class BoundsManager {
     public static Rectangle getRegSuccessLblBounds() { return regSuccessLblBounds; }
     public static Rectangle getUserExistsBounds() { return userExistsBounds; }
     public static Rectangle getUserNotFoundLblBounds() { return userNotFoundLblBounds; }
+    public static Rectangle getServerStatusLblBounds() { return serverStatusLblBounds; }
+    public static Rectangle getServerOnlineBounds() { return serverOnlineBounds; }
+    public static Rectangle getServerOfflineBounds() { return serverOfflineBounds; }
 
     private static final Rectangle userFieldBounds = new Rectangle(x + 125, y, width - 55 , height);
     private static final Rectangle pwFieldBounds = new Rectangle(x + 125, y + 75, width - 55, height);

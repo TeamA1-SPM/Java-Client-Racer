@@ -3,6 +3,7 @@ package main.gamehelper;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import main.menu.MainMenu;
 
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -21,11 +22,13 @@ public class Connection {
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
-                    System.out.println("Connected to server");
+                    MainMenu.getServerOnlineLbl().setVisible(true);
                 }
             }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
                 @Override
-                public void call(Object... args) { System.out.println("Disconnected from server"); }
+                public void call(Object... args) {
+                    MainMenu.getServerOfflineLbl().setVisible(true);
+                }
             });
             socket.connect();
 
