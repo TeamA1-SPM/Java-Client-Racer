@@ -11,7 +11,9 @@ public class BoundsManager {
 
     private static final Rectangle playBtnBounds = new Rectangle(x, y, width, height);
     private static final Rectangle mpBtnBounds = new Rectangle(x, y + 75, width, height);
-    private static final Rectangle exitBtnBounds = new Rectangle(x, y + 150, width, height);
+    private static final Rectangle controlsBtnBounds = new Rectangle(x, y + 150, width, height);
+    private static final Rectangle exitBtnBounds = new Rectangle(x, y + 225, width, height);
+    private static final Rectangle controlsBackBtnBounds = new Rectangle(x, y + 225, width, height);
     private static final Rectangle loginBtnBounds = new Rectangle(x, y, width, height);
     private static final Rectangle regBtnBounds = new Rectangle(x, y + 75, width, height);
     private static final Rectangle mpBackBtnBounds= new Rectangle(x, y + 150, width, height);
@@ -26,7 +28,9 @@ public class BoundsManager {
 
     public static Rectangle getPlayBtnBounds() { return playBtnBounds; }
     public static Rectangle getMpBtnBounds() { return mpBtnBounds; }
+    public static Rectangle getControlsBtnBounds() { return controlsBtnBounds; }
     public static Rectangle getExitBtnBounds() { return exitBtnBounds; }
+    public static Rectangle getControlsBackBtnBounds() { return controlsBackBtnBounds; }
     public static Rectangle getLoginBtnBounds() { return loginBtnBounds; }
     public static Rectangle getRegBtnBounds() { return regBtnBounds; }
     public static Rectangle getMpBackBtnBounds() { return mpBackBtnBounds; }

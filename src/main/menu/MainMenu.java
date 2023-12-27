@@ -32,7 +32,9 @@ public class MainMenu extends JFrame implements ActionListener {
     private static final JLabel serverOfflineLbl = new JLabel("Offline");
     private final JButton playBtn = new JButton();
     private final JButton mpBtn = new JButton();
+    private final JButton controlsBtn = new JButton();
     private final JButton exitBtn = new JButton();
+    private final JButton controlsBackBtn = new JButton();
     private final JButton loginBtn = new JButton();
     private final JButton regBtn = new JButton();
     private final JButton mpBackBtn = new JButton();
@@ -45,15 +47,16 @@ public class MainMenu extends JFrame implements ActionListener {
     private final JButton lbBtn = new JButton();
     private final JButton leaveLobbyBtn = new JButton();
     private ImageIcon menuBackground;
-    private JLabel arrowKeys;
+    private ImageIcon arrowKeys;
     private String username;
     private String password;
     private final Connection connection = new Connection();
-    List<JComponent> mainMenuButtons = Arrays.asList(playBtn, mpBtn, exitBtn);
+    List<JComponent> mainMenuButtons = Arrays.asList(playBtn, mpBtn, controlsBtn, exitBtn);
     List<JComponent> multiplayerButtons = Arrays.asList(loginBtn, regBtn, mpBackBtn);
     List<JComponent> loginButtons = Arrays.asList(continueBtn, loginBackBtn);
     List<JComponent> registerButtons = Arrays.asList(acceptBtn, regBackBtn);
     List<JComponent> preLobbyButtons = Arrays.asList(findLobbyBtn, logoutBtn, lbBtn);
+    List<JComponent> controlsButtons = List.of(controlsBackBtn);
     List<JComponent> lobbyButtons = List.of(leaveLobbyBtn);
     List<JComponent> usernameComponents = Arrays.asList(UserInputManager.getUsernameField(), userLbl);
     List<JComponent> passwordComponents = Arrays.asList(UserInputManager.getPasswordField(), pwLbl);
@@ -61,6 +64,7 @@ public class MainMenu extends JFrame implements ActionListener {
     private boolean registerBool = false;
     private boolean singlePlayer = false;
     private boolean multiPlayer = false;
+    private boolean arrowKeysVisible = false;
 
     public static JLabel getServerOnlineLbl() { return serverOnlineLbl; }
     public static JLabel getServerOfflineLbl() { return serverOfflineLbl; }
@@ -82,7 +86,10 @@ public class MainMenu extends JFrame implements ActionListener {
     public void initButtons() {
         ButtonManager.createButton(playBtn, "Play", BoundsManager.getPlayBtnBounds(), this);
         ButtonManager.createButton(mpBtn, "Multiplayer", BoundsManager.getMpBtnBounds(), this);
+        ButtonManager.createButton(controlsBtn, "Controls", BoundsManager.getControlsBtnBounds(), this);
         ButtonManager.createButton(exitBtn, "Exit", BoundsManager.getExitBtnBounds(), this);
+
+        ButtonManager.createButton(controlsBackBtn, "Back", BoundsManager.getControlsBackBtnBounds(), this);
 
         ButtonManager.createButton(loginBtn, "Login", BoundsManager.getLoginBtnBounds(), this);
         ButtonManager.createButton(regBtn, "Register", BoundsManager.getRegBtnBounds(), this);
@@ -109,15 +116,13 @@ public class MainMenu extends JFrame implements ActionListener {
     // Sets up the background image and corresponding text
     public void setupMenuComponents() {
         menuBackground = new ImageIcon(Objects.requireNonNull(getClass().getResource("/main/images/menu/MenuBackground.png")));
-        arrowKeys = new JLabel(new ImageIcon("/main/images/menu/ArrowKeys.png"));
-        //arrowKeys.setBounds(x, y, width, height);
+        arrowKeys = new ImageIcon(Objects.requireNonNull(getClass().getResource("/main/images/menu/ArrowKeys.png")));
         mainMenuLbl.setFont(FontManager.getSize65());
+        mainMenuLbl.setForeground(new Color(65, 0, 255));
         mainMenuLbl.setHorizontalTextPosition(JLabel.CENTER);
         mainMenuLbl.setVerticalTextPosition(JLabel.TOP);
         mainMenuLbl.setIconTextGap(-150);
         mainMenuLbl.setIcon(menuBackground);
-        //mainMenuLabel.add(arrowKeys);
-        //arrowKeys.setVisible(true);
 
         addAllButtonsToBackground();
         setVisibilityOfAllButtons();
@@ -128,7 +133,10 @@ public class MainMenu extends JFrame implements ActionListener {
     private void addAllButtonsToBackground() {
         addButtonToBackground(mainMenuLbl, playBtn);
         addButtonToBackground(mainMenuLbl, mpBtn);
+        addButtonToBackground(mainMenuLbl, controlsBtn);
         addButtonToBackground(mainMenuLbl, exitBtn);
+
+        addButtonToBackground(mainMenuLbl, controlsBackBtn);
 
         addButtonToBackground(mainMenuLbl, loginBtn);
         addButtonToBackground(mainMenuLbl, regBtn);
@@ -152,6 +160,7 @@ public class MainMenu extends JFrame implements ActionListener {
     }
     public void setVisibilityOfAllButtons() {
         VisibilityManager.setVisibilityOfComponents(mainMenuButtons, true);
+        VisibilityManager.setVisibilityOfComponents(controlsButtons, false);
         VisibilityManager.setVisibilityOfComponents(multiplayerButtons, false);
         VisibilityManager.setVisibilityOfComponents(loginButtons, false);
         VisibilityManager.setVisibilityOfComponents(registerButtons, false);
@@ -206,7 +215,6 @@ public class MainMenu extends JFrame implements ActionListener {
         this.setVisible(Settings.SCREEN_VISIBLE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(mainMenuLbl);
-        //this.add(arrowKeys);
         this.pack();
         this.setLocationRelativeTo(null);
     }
@@ -229,6 +237,22 @@ public class MainMenu extends JFrame implements ActionListener {
             public void call(Object... args) {
                 checkGameMode(); }
         });
+    }
+
+    public void drawArrowKeys(Graphics g) {
+        if (arrowKeysVisible) {
+            int x = 345;
+            int y = 175;
+            int width = arrowKeys.getIconWidth();
+            int height = arrowKeys.getIconHeight();
+            g.drawImage(arrowKeys.getImage(), x, y, width, height, null);
+        }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        drawArrowKeys(g);
     }
 
     public void verifyLoginData() {
@@ -291,8 +315,23 @@ public class MainMenu extends JFrame implements ActionListener {
         setTextOfLabel(mainMenuLbl, "MULTIPLAYER");
     }
 
+    public void controlsClicked() {
+        VisibilityManager.setVisibilityOfComponents(mainMenuButtons, false);
+        VisibilityManager.setVisibilityOfComponents(controlsButtons, true);
+        setTextOfLabel(mainMenuLbl, "CONTROLS");
+        arrowKeysVisible = true;
+        repaint();
+    }
+
     public void exitClicked() {
         System.exit(0);
+    }
+
+    public void controlsBackClicked() {
+        VisibilityManager.setVisibilityOfComponents(mainMenuButtons, true);
+        VisibilityManager.setVisibilityOfComponents(controlsButtons, false);
+        arrowKeysVisible = false;
+        setTextOfLabel(mainMenuLbl, "MAIN MENU");
     }
 
     public void loginClicked() {
@@ -425,19 +464,22 @@ public class MainMenu extends JFrame implements ActionListener {
     // Controls the actions of pressed buttons
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == playBtn)            { playClicked(); }
-        else if (e.getSource() == mpBtn)         { multiplayerClicked(); }
-        else if (e.getSource() == exitBtn)       { exitClicked(); }
-        else if (e.getSource() == loginBtn)      { loginClicked(); }
-        else if (e.getSource() == regBtn)        { registerClicked(); }
-        else if (e.getSource() == mpBackBtn)     { multiplayerBackClicked(); }
-        else if (e.getSource() == continueBtn)   { continueClicked(); }
-        else if (e.getSource() == loginBackBtn)  { loginBackClicked(); }
-        else if (e.getSource() == acceptBtn)     { acceptClicked(); }
-        else if (e.getSource() == regBackBtn)    { registerBackClicked(); }
-        else if (e.getSource() == findLobbyBtn)  { findLobbyClicked(); }
-        else if (e.getSource() == logoutBtn)     { logoutClicked(); }
-        else if (e.getSource() == lbBtn)         { leaderboardClicked(); }
-        else if (e.getSource() == leaveLobbyBtn) { leaveLobbyClicked(); }
+        if (e.getSource() == playBtn)               { playClicked(); }
+        else if (e.getSource() == mpBtn)            { multiplayerClicked(); }
+        else if (e.getSource() == controlsBtn)      { controlsClicked(); }
+        else if (e.getSource() == exitBtn)          { exitClicked(); }
+        else if (e.getSource() == controlsBackBtn)  { controlsBackClicked(); }
+        else if (e.getSource() == loginBtn)         { loginClicked(); }
+        else if (e.getSource() == regBtn)           { registerClicked(); }
+        else if (e.getSource() == mpBackBtn)        { multiplayerBackClicked(); }
+        else if (e.getSource() == continueBtn)      { continueClicked(); }
+        else if (e.getSource() == loginBackBtn)     { loginBackClicked(); }
+        else if (e.getSource() == acceptBtn)        { acceptClicked(); }
+        else if (e.getSource() == regBackBtn)       { registerBackClicked(); }
+        else if (e.getSource() == findLobbyBtn)     { findLobbyClicked(); }
+        else if (e.getSource() == logoutBtn)        { logoutClicked(); }
+        else if (e.getSource() == lbBtn)            { leaderboardClicked(); }
+        else if (e.getSource() == leaveLobbyBtn)    { leaveLobbyClicked(); }
     }
+
 }
