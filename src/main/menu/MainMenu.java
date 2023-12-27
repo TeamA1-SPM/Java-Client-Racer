@@ -13,10 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -27,11 +23,9 @@ public class MainMenu extends JFrame implements ActionListener {
     private final JLabel userLbl = new JLabel("Username:");
     private final JLabel pwLbl = new JLabel("Password:");
     private final JLabel waitingLbl = new JLabel("Waiting for another player...");
-    private final JLabel emptyUserLbl = new JLabel("Username can't be empty!");
-    private final JLabel emptyPwLbl = new JLabel("Password can't be empty!");
     private final JLabel emptyUserAndPwLbl = new JLabel("Username and Password can't be empty!");
     private final JLabel regSuccessLbl = new JLabel("Your registration was successful!");
-    private final JLabel userAlreadyExistsLabel = new JLabel("The user is already registered!");
+    private final JLabel userExistsLbl = new JLabel("The user is already registered!");
     private final JLabel userNotFoundLbl = new JLabel("The user doesn't exist!");
     private final JButton playBtn = new JButton();
     private final JButton mpBtn = new JButton();
@@ -47,13 +41,8 @@ public class MainMenu extends JFrame implements ActionListener {
     private final JButton logoutBtn = new JButton();
     private final JButton lbBtn = new JButton();
     private final JButton leaveLobbyBtn = new JButton();
-    private JTextField usernameField = new JTextField();
-    private JPasswordField passwordField = new JPasswordField();
     private ImageIcon menuBackground;
     private JLabel arrowKeys;
-    private PlayButtonListener playButtonListener;
-    private final List<Character> usernameList = new ArrayList<>();
-    private final List<Character> passwordList = new ArrayList<>();
     private String username;
     private String password;
     private final Connection connection = new Connection();
@@ -63,25 +52,24 @@ public class MainMenu extends JFrame implements ActionListener {
     List<JComponent> registerButtons = Arrays.asList(acceptBtn, regBackBtn);
     List<JComponent> preLobbyButtons = Arrays.asList(findLobbyBtn, logoutBtn, lbBtn);
     List<JComponent> lobbyButtons = List.of(leaveLobbyBtn);
-    boolean isLoginCorrect = false;
-
-    int serverFunctionCounter = 0;
-
-    public Connection getConnection() {
-        return connection;
-    }
+    List<JComponent> usernameComponents = Arrays.asList(UserInputManager.getUsernameField(), userLbl);
+    List<JComponent> passwordComponents = Arrays.asList(UserInputManager.getPasswordField(), pwLbl);
+    private boolean isLoginCorrect = false;
+    private boolean registerBool = false;
+    private boolean singlePlayer = false;
+    private boolean multiPlayer = false;
 
     public MainMenu() {
         init();
         connection.connect();
-        serverFunctionLogin(connection.getSocket());
+        serverFunctions(connection.getSocket());
     }
 
     // Initializes everything
     public void init(){
         initButtons();
-        setupBackground();
-        setupMainMenu();
+        setupMenuComponents();
+        setupMenuWindow();
     }
 
     // Initializes the buttons
@@ -113,7 +101,7 @@ public class MainMenu extends JFrame implements ActionListener {
     }
 
     // Sets up the background image and corresponding text
-    public void setupBackground() {
+    public void setupMenuComponents() {
         menuBackground = new ImageIcon(Objects.requireNonNull(getClass().getResource("/main/images/menu/MenuBackground.png")));
         arrowKeys = new JLabel(new ImageIcon("/main/images/menu/ArrowKeys.png"));
         //arrowKeys.setBounds(x, y, width, height);
@@ -127,7 +115,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
         addAllButtonsToBackground();
         setVisibilityOfAllButtons();
-        addUsernameAndPasswordFields();
+        addUserDataFields();
         setupLabels();
         addLabelsToMenu();
     }
@@ -165,42 +153,40 @@ public class MainMenu extends JFrame implements ActionListener {
         VisibilityManager.setVisibilityOfComponents(lobbyButtons, false);
     }
 
-    public void addUsernameAndPasswordFields() {
-        usernameField = createUserField(12);
-        usernameField.setBounds(BoundsManager.getUserFieldBounds());
-        mainMenuLbl.add(usernameField);
-        usernameField.setVisible(false);
+    public void addUserDataFields() {
+        UserInputManager.setupInputField(UserInputManager.getUsernameField(),10);
+        UserInputManager.getUsernameField().setBounds(BoundsManager.getUserFieldBounds());
+        mainMenuLbl.add(UserInputManager.getUsernameField());
+        UserInputManager.getUsernameField().setVisible(false);
 
-        passwordField = createPasswordField(12);
-        passwordField.setBounds(BoundsManager.getPwFieldBounds());
-        mainMenuLbl.add(passwordField);
-        passwordField.setVisible(false);
+        UserInputManager.setupInputField(UserInputManager.getPasswordField(),10);
+        UserInputManager.getPasswordField().setBounds(BoundsManager.getPwFieldBounds());
+        mainMenuLbl.add(UserInputManager.getPasswordField());
+        UserInputManager.getPasswordField().setVisible(false);
     }
 
     public void setupLabels() {
         LabelManager.createLabel(userLbl, FontManager.getSize40(), Color.BLACK, BoundsManager.getUserLblBounds());
         LabelManager.createLabel(pwLbl, FontManager.getSize40(), Color.BLACK, BoundsManager.getPwLblBounds());
         LabelManager.createLabel(waitingLbl, FontManager.getSize50(), Color.RED, BoundsManager.getWaitingLblBounds());
-        LabelManager.createLabel(emptyUserLbl, FontManager.getSize40(), Color.RED, BoundsManager.getEmptyUserLblBounds());
-        LabelManager.createLabel(emptyPwLbl, FontManager.getSize40(), Color.RED, BoundsManager.getEmptyPwLblBounds());
         LabelManager.createLabel(emptyUserAndPwLbl, FontManager.getSize40(), Color.RED, BoundsManager.getEmptyUserAndPwLblBounds());
         LabelManager.createLabel(regSuccessLbl, FontManager.getSize40(), new Color(0, 150, 0), BoundsManager.getRegSuccessLblBounds());
         LabelManager.createLabel(userNotFoundLbl, FontManager.getSize40(), Color.RED, BoundsManager.getUserNotFoundLblBounds());
+        LabelManager.createLabel(userExistsLbl, FontManager.getSize40(), new Color(255, 130, 0), BoundsManager.getUserExistsBounds());
     }
 
     public void addLabelsToMenu() {
         mainMenuLbl.add(userLbl);
         mainMenuLbl.add(pwLbl);
         mainMenuLbl.add(waitingLbl);
-        mainMenuLbl.add(emptyUserLbl);
-        mainMenuLbl.add(emptyPwLbl);
         mainMenuLbl.add(emptyUserAndPwLbl);
         mainMenuLbl.add(regSuccessLbl);
+        mainMenuLbl.add(userExistsLbl);
         mainMenuLbl.add(userNotFoundLbl);
     }
 
     // Sets up the main menu
-    public void setupMainMenu() {
+    public void setupMenuWindow() {
         this.setSize(menuBackground.getIconWidth(), menuBackground.getIconHeight());
         this.setTitle(Settings.SCREEN_TITLE);
         this.setResizable(Settings.SCREEN_RESIZABLE);
@@ -212,124 +198,78 @@ public class MainMenu extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
     }
 
-    // Creates a username and checks the maximum length of the username
-    public JTextField createUserField(int maxLength) {
-        JTextField usernameField = new JTextField();
-        PlainDocument document = new PlainDocument() {
-            @Override
-            public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-                // Checks if the maximum length is exceeded
-                if ((getLength() + str.length()) <= maxLength) {
-                    super.insertString(offs, str, a);
-                    for (char c : str.toCharArray()) {
-                        usernameList.add(c);
-                    }
-                }
-            }
-            @Override
-            public void remove(int offs, int len) throws BadLocationException {
-                super.remove(offs, len);
-                // Remove characters from the list when the user deletes them
-                for (int i = 0; i < len; i++) {
-                    usernameList.remove(offs);
-                }
-            }
-        };
-        // Assign document to the username field
-        usernameField.setDocument(document);
-        usernameField.setFont(FontManager.getSize30());
-
-        return usernameField;
-    }
-
-    // Creates a password and checks the maximum length of the password
-    public JPasswordField createPasswordField(int maxLength) {
-        JPasswordField passwordField = new JPasswordField();
-        PlainDocument document = new PlainDocument() {
-            @Override
-            public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-                // Checks if the maximum length is exceeded
-                if ((getLength() + str.length()) <= maxLength) {
-                    super.insertString(offs, str, a);
-                    for (char c : str.toCharArray()) {
-                        passwordList.add(c);
-                    }
-                }
-            }
-            @Override
-            public void remove(int offs, int len) throws BadLocationException {
-                super.remove(offs, len);
-                // Remove characters from the list when the user deletes them
-                for (int i = 0; i < len; i++) {
-                    passwordList.remove(offs);
-                }
-            }
-        };
-        // Assign document to the password field
-        passwordField.setDocument(document);
-        passwordField.setFont(FontManager.getSize30());
-
-        return passwordField;
-    }
-
-    // Extracts the content of the ArrayList into a String
-    public String listToString(List<Character> charList) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (char c : charList) {
-            stringBuilder.append(c);
-        }
-        return stringBuilder.toString();
-    }
-
-    // Helper method for the listener
-    public void setPlayButtonListener(PlayButtonListener listener) {
-        this.playButtonListener = listener;
-    }
-
-
-    public void serverFunctionLogin(Socket socket) {
+    public void serverFunctions(Socket socket) {
         socket.on("login_success", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 isLoginCorrect = (boolean) args[0];
-                System.out.println("Login " + isLoginCorrect);
-                serverFunctionCounter++;
+                verifyLoginData();
             }
-        });
-    }
-
-    public void serverFunctionRegister(Socket socket) {
-        socket.on("register_success", new Emitter.Listener() {
+        }).on("register_success", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                boolean register = (boolean) args[0];
-                System.out.println("Register " + register);
+                registerBool = (boolean) args[0];
+                checkIfUserExists();
             }
-        });
-    }
-
-    public void serverFunctionStartGame(Socket socket) {
-        socket.on("start_game", new Emitter.Listener() {
+        }).on("start_game", new Emitter.Listener() {
             @Override
-            public void call(Object... args) { startGame(); }
+            public void call(Object... args) {
+                checkGameMode(); }
         });
     }
 
+    public void verifyLoginData() {
+        if (isLoginCorrect) {
+            emptyUserAndPwLbl.setVisible(false);
+            userNotFoundLbl.setVisible(false);
 
-    public void startGame() {
+            VisibilityManager.setVisibilityOfComponents(loginButtons, false);
+            VisibilityManager.setVisibilityOfComponents(preLobbyButtons, true);
+            VisibilityManager.setVisibilityOfComponents(usernameComponents, false);
+            VisibilityManager.setVisibilityOfComponents(passwordComponents, false);
+
+            UserInputManager.getUsernameField().setText("");
+            UserInputManager.getPasswordField().setText("");
+
+            setTextOfLabel(mainMenuLbl, "PRE-LOBBY");
+        }
+        else {
+            emptyUserAndPwLbl.setVisible(false);
+            userNotFoundLbl.setVisible(true);
+        }
+    }
+
+    public void checkIfUserExists() {
+        if (!registerBool) {
+            emptyUserAndPwLbl.setVisible(false);
+            regSuccessLbl.setVisible(false);
+            userExistsLbl.setVisible(true);
+        } else {
+            userExistsLbl.setVisible(false);
+            emptyUserAndPwLbl.setVisible(false);
+            regSuccessLbl.setVisible(true);
+        }
+    }
+
+    public void checkGameMode() {
+        if (singlePlayer) {
+            startGame(GameMode.SINGLE_PLAYER);
+        } else if (multiPlayer) {
+            startGame(GameMode.MULTI_PLAYER);
+        }
+    }
+    public void startGame(GameMode mode) {
         connection.ready();
         main.Window window = new Window();
-        Game game = new Game(window, connection, GameMode.MULTI_PLAYER);
-        Thread t1 = new Thread(game);
-        t1.start();
+        Game game = new Game(window, connection, mode);
+        Thread gameThread = new Thread(game);
+        gameThread.start();
         dispose();
     }
 
     public void playClicked() {
-        if (playButtonListener != null) {
-            playButtonListener.playButtonClicked();
-        }
-        dispose();
+        singlePlayer = true;
+        checkGameMode();
     }
 
     public void multiplayerClicked() {
@@ -345,12 +285,8 @@ public class MainMenu extends JFrame implements ActionListener {
     public void loginClicked() {
         VisibilityManager.setVisibilityOfComponents(multiplayerButtons, false);
         VisibilityManager.setVisibilityOfComponents(loginButtons, true);
-
-        usernameField.setVisible(true);
-        userLbl.setVisible(true);
-
-        passwordField.setVisible(true);
-        pwLbl.setVisible(true);
+        VisibilityManager.setVisibilityOfComponents(usernameComponents, true);
+        VisibilityManager.setVisibilityOfComponents(passwordComponents, true);
 
         setTextOfLabel(mainMenuLbl, "LOGIN");
     }
@@ -358,12 +294,8 @@ public class MainMenu extends JFrame implements ActionListener {
     public void registerClicked() {
         VisibilityManager.setVisibilityOfComponents(multiplayerButtons, false);
         VisibilityManager.setVisibilityOfComponents(registerButtons, true);
-
-        usernameField.setVisible(true);
-        userLbl.setVisible(true);
-
-        passwordField.setVisible(true);
-        pwLbl.setVisible(true);
+        VisibilityManager.setVisibilityOfComponents(usernameComponents, true);
+        VisibilityManager.setVisibilityOfComponents(passwordComponents, true);
 
         setTextOfLabel(mainMenuLbl, "REGISTER");
     }
@@ -371,120 +303,66 @@ public class MainMenu extends JFrame implements ActionListener {
     public void multiplayerBackClicked() {
         VisibilityManager.setVisibilityOfComponents(multiplayerButtons, false);
         VisibilityManager.setVisibilityOfComponents(mainMenuButtons, true);
+
         setTextOfLabel(mainMenuLbl, "MAIN MENU");
     }
 
     public void continueClicked() {
-        if (usernameList.isEmpty() || passwordList.isEmpty()) {
+        if (UserInputManager.getUsernameList().isEmpty() || UserInputManager.getPasswordList().isEmpty()) {
             emptyUserAndPwLbl.setVisible(true);
             userNotFoundLbl.setVisible(false);
         }
         else {
-
-            username = listToString(usernameList);
-            password = listToString(passwordList);
+            username = UserInputManager.listToString(UserInputManager.getUsernameList());
+            password = UserInputManager.listToString(UserInputManager.getPasswordList());
             connection.login(username, password);
-
-            System.out.println("Counter: " + serverFunctionCounter);
-            System.out.println("Boolean: " + isLoginCorrect);
-
-            if (!isLoginCorrect) {
-                emptyUserAndPwLbl.setVisible(false);
-                userNotFoundLbl.setVisible(true);
-            }
-            else {
-                emptyUserAndPwLbl.setVisible(false);
-                userNotFoundLbl.setVisible(false);
-
-                VisibilityManager.setVisibilityOfComponents(loginButtons, false);
-                VisibilityManager.setVisibilityOfComponents(preLobbyButtons, true);
-
-                userLbl.setVisible(false);
-                usernameField.setVisible(false);
-                usernameField.setText("");
-
-                pwLbl.setVisible(false);
-                passwordField.setVisible(false);
-                passwordField.setText("");
-
-                setTextOfLabel(mainMenuLbl, "PRE-LOBBY");
-            }
         }
     }
 
     public void loginBackClicked() {
         VisibilityManager.setVisibilityOfComponents(loginButtons, false);
         VisibilityManager.setVisibilityOfComponents(multiplayerButtons, true);
+        VisibilityManager.setVisibilityOfComponents(usernameComponents, false);
+        VisibilityManager.setVisibilityOfComponents(passwordComponents, false);
+
         emptyUserAndPwLbl.setVisible(false);
         userNotFoundLbl.setVisible(false);
 
-        userLbl.setVisible(false);
-        usernameField.setVisible(false);
-        usernameField.setText("");
-
-        pwLbl.setVisible(false);
-        passwordField.setVisible(false);
-        passwordField.setText("");
+        UserInputManager.getUsernameField().setText("");
+        UserInputManager.getPasswordField().setText("");
 
         // Empties the lists after pressing the back button
-        usernameList.clear();
-        passwordList.clear();
+        UserInputManager.getUsernameList().clear();
+        UserInputManager.getPasswordList().clear();
 
         setTextOfLabel(mainMenuLbl, "MULTIPLAYER");
     }
 
     public void acceptClicked() {
-        // TODO check if username is already registered (display message if yes)
-        // TODO ask server people why users.json doesn't get updated anymore
-        if (usernameList.isEmpty() || passwordList.isEmpty()) {
+        if (UserInputManager.getUsernameList().isEmpty() || UserInputManager.getPasswordList().isEmpty()) {
             emptyUserAndPwLbl.setVisible(true);
-            //emptyUserLbl.setVisible(false);
-            //emptyPwLbl.setVisible(false);
+            userExistsLbl.setVisible(false);
             regSuccessLbl.setVisible(false);
         }
-        /*
-        else if (usernameList.isEmpty()) {
-            emptyUserLbl.setVisible(true);
-            emptyPwLbl.setVisible(false);
-            emptyUserAndPwLbl.setVisible(false);
-            regSuccessLbl.setVisible(false);
-        }
-        else if (passwordList.isEmpty()){
-            emptyPwLbl.setVisible(true);
-            emptyUserLbl.setVisible(false);
-            emptyUserAndPwLbl.setVisible(false);
-            regSuccessLbl.setVisible(false);
-        }
-        */
         else {
-            //emptyUserLbl.setVisible(false);
-            //emptyPwLbl.setVisible(false);
-            emptyUserAndPwLbl.setVisible(false);
-            regSuccessLbl.setVisible(true);
-
-            username = listToString(usernameList);
-            password = listToString(passwordList);
+            username = UserInputManager.listToString(UserInputManager.getUsernameList());
+            password = UserInputManager.listToString(UserInputManager.getPasswordList());
             connection.register(username, password);
-            serverFunctionRegister(connection.getSocket());
         }
     }
 
     public void registerBackClicked() {
         VisibilityManager.setVisibilityOfComponents(registerButtons, false);
         VisibilityManager.setVisibilityOfComponents(multiplayerButtons, true);
+        VisibilityManager.setVisibilityOfComponents(usernameComponents, false);
+        VisibilityManager.setVisibilityOfComponents(passwordComponents, false);
 
-        emptyUserLbl.setVisible(false);
-        emptyPwLbl.setVisible(false);
         emptyUserAndPwLbl.setVisible(false);
+        userExistsLbl.setVisible(false);
         regSuccessLbl.setVisible(false);
 
-        userLbl.setVisible(false);
-        usernameField.setVisible(false);
-        usernameField.setText("");
-
-        pwLbl.setVisible(false);
-        passwordField.setVisible(false);
-        passwordField.setText("");
+        UserInputManager.getUsernameField().setText("");
+        UserInputManager.getPasswordField().setText("");
 
         setTextOfLabel(mainMenuLbl, "MULTIPLAYER");
     }
@@ -494,31 +372,26 @@ public class MainMenu extends JFrame implements ActionListener {
         VisibilityManager.setVisibilityOfComponents(lobbyButtons, true);
 
         waitingLbl.setVisible(true);
-        setTextOfLabel(mainMenuLbl, "LOBBY");
+        multiPlayer = true;
         connection.findLobby();
-        serverFunctionStartGame(connection.getSocket());
-        //if (playButtonListener != null) {
-        //playButtonListener.playButtonClicked();
-        //}
-        //dispose();
+
+        setTextOfLabel(mainMenuLbl, "LOBBY");
     }
 
     public void logoutClicked() {
         VisibilityManager.setVisibilityOfComponents(preLobbyButtons, false);
         VisibilityManager.setVisibilityOfComponents(loginButtons, true);
+        VisibilityManager.setVisibilityOfComponents(usernameComponents, true);
+        VisibilityManager.setVisibilityOfComponents(passwordComponents, true);
 
-        userLbl.setVisible(true);
-        usernameField.setVisible(true);
-        usernameField.setText("");
-
-        passwordField.setVisible(true);
-        pwLbl.setVisible(true);
-        passwordField.setText("");
+        UserInputManager.getUsernameField().setText("");
+        UserInputManager.getPasswordField().setText("");
 
         // Empties the lists after pressing the back button
-        usernameList.clear();
-        passwordList.clear();
+        UserInputManager.getUsernameList().clear();
+        UserInputManager.getPasswordList().clear();
 
+        connection.logout();
         setTextOfLabel(mainMenuLbl, "LOGIN");
     }
 
@@ -532,6 +405,7 @@ public class MainMenu extends JFrame implements ActionListener {
         VisibilityManager.setVisibilityOfComponents(preLobbyButtons, true);
 
         waitingLbl.setVisible(false);
+        multiPlayer = false;
         setTextOfLabel(mainMenuLbl, "PRE-LOBBY");
     }
 
