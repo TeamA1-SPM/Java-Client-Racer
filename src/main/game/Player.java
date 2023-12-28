@@ -20,7 +20,7 @@ public class Player {
     private double upDown = 0;
     private final SpritesLoader spritesLoader;
 
-    
+
     private String name;
 
     public Player(String name, double maxPosition, SpritesLoader spritesLoader) {
@@ -31,7 +31,7 @@ public class Player {
 
     public void update(InputListener keyListener){
 
-        // Player control actions left nad right
+        // Player control actions left and right
         if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
             if (speed > 0){
                 steer = -1;
@@ -60,13 +60,11 @@ public class Player {
     }
 
     public void renderPlayer(Graphics2D g2D){
-        SpriteName spriteName = getPlayerSpriteName();
-
         double scale = CAMERA_DEPTH/PLAYER_Z;
         double destX = (double)SCREEN_WIDTH/2;
         double destY = (double)SCREEN_HEIGHT-7;
 
-        spritesLoader.render(g2D, spriteName,scale, destX, destY + calcBounce(), -0.5, -1, 0 );
+        spritesLoader.render(g2D, getPlayerSpriteName(), scale, destX, destY + calcBounce(), -0.5, -1, 0 );
     }
 
     private double calcBounce(){
@@ -140,5 +138,8 @@ public class Player {
     public int getSteer(){ return steer; }
 
     public void setUpDown(double upDown){ this.upDown = upDown; }
+    public double getUpDown(){
+        return upDown;
+    }
 
 }

@@ -5,17 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// FEATURES&#10;- server countdown activation&#10;- add wait for lobby ready">
-      <change afterPath="$PROJECT_DIR$/src/main/helper/Car.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/helper/EnemyPlayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/music/MusicPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/CarSimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/CarSimulation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/Physics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Physics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Road.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/RoadCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/RoadCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/helper/Segment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Segment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/helper/Sprite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/RoadSideObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/helper/Car.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Car.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/helper/CarSimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/CarSimulation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/helper/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Connection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/tracks/RoadParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tracks/RoadParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,7 +34,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="menu-features" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -88,7 +88,7 @@
       <recent name="E:\GIT\Java-Client-Racer\src\main\images\menu" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Race1">
+  <component name="RunManager" selected="Application.Race2">
     <configuration name="Race1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="Java-Client-Racer" />
@@ -182,6 +182,7 @@
       <workItem from="1703444286711" duration="510000" />
       <workItem from="1703444825827" duration="8000" />
       <workItem from="1703603079284" duration="975000" />
+      <workItem from="1703765682835" duration="4482000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />

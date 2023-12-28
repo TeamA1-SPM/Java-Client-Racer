@@ -108,8 +108,11 @@ public class Physics {
             if(player.getSpeed() > car.getSpeed()){
                 if(overlap(player.getPlayerX(), PLAYER_W, car.getOffset(), car.getWidth(), 0.8)){
                     double carSpeed = car.getSpeed();
-                    player.setSpeed(carSpeed * (carSpeed/player.getSpeed()));
-
+                    if(carSpeed == 0){
+                        player.setSpeed(MAX_SPEED/5);
+                    }else{
+                        player.setSpeed(carSpeed * (carSpeed/player.getSpeed()));
+                    }
                     player.setPosition(car.getPosition() - PLAYER_Z);
                 }
             }

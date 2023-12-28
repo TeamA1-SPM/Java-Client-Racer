@@ -14,24 +14,16 @@ public class Road {
 
     private final ArrayList<Segment> segments;
     private final int trackLength;
-    private Segment playerSegment;
+    private ArrayList<Car> carList;
 
-    private final CarSimulation carSim;
-
-
-    public Road(ArrayList<Segment> segments, ArrayList<Car> carList){
+    public Road(ArrayList<Segment> segments){
         this.segments = segments;
-        trackLength = SEGMENT_LENGTH * segments.size();
-        playerSegment = findSegment(PLAYER_Z);
-
-        this.carSim = new CarSimulation(carList, trackLength);
-
+        this.trackLength = SEGMENT_LENGTH * segments.size();
+        this.carList = new ArrayList<>();
     }
 
-    public void update(Segment playerSegment) {
-
-        this.playerSegment = playerSegment;
-        carSim.update();
+    public void update(ArrayList<Car> carList) {
+        this.carList = carList;
     }
 
     public void render(Graphics2D g2 , Player player, SpritesLoader spritesLoader){
@@ -39,6 +31,8 @@ public class Road {
 
         Segment baseSegment = findSegment(position);
         double basePercent = percentRemaining(position);
+
+        Segment playerSegment = findSegment(position + PLAYER_Z);
         double playerPercent = percentRemaining(position + PLAYER_Z);
 
         double playerY = interpolate(playerSegment.getP1World().getY(), playerSegment.getP2World().getY(), playerPercent);
@@ -83,7 +77,7 @@ public class Road {
         for(int n = (DRAW_DISTANCE - 1) ; n > 0 ; n--) {
             int index = (baseSegment.getIndex() + n) % segments.size();
             segment = segments.get(index);
-            ArrayList<Car> carList = carSim.getSegmentCars(index);
+            ArrayList<Car> carList = getSegmentCars(index);
 
             // render cars
             for(int i = 0; i < carList.size(); i++){
@@ -113,6 +107,19 @@ public class Road {
                 spritesLoader.render(g2, roadSideObject.getName(), spriteScale, spriteX, spriteY,offset, -1, segment.getClip());
             }
         }
+    }
+
+    public ArrayList<Car> getSegmentCars(int index){
+        ArrayList<Car> segmentCars = new ArrayList<>();
+        int startPosition = index * SEGMENT_LENGTH;
+        for (Car car: carList) {
+            double carPosition = car.getPosition();
+            if(carPosition >= startPosition && carPosition <= startPosition + SEGMENT_LENGTH){
+                segmentCars.add(car);
+            }
+        }
+
+        return segmentCars;
     }
 
     private double interpolate(double a, double b, double percent) {
@@ -209,9 +216,5 @@ public class Road {
 
     public ArrayList<Segment> getSegments(){
         return segments;
-    }
-
-    public ArrayList<Car> getSegmentCars(int index){
-        return carSim.getSegmentCars(index);
     }
 }

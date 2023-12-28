@@ -20,7 +20,7 @@ public class Car {
     public SpriteName getName(){
         return name;
     }
-    public void setName(SpriteName name){ this.name = name; }
+    public void setSpriteName(SpriteName name){ this.name = name; }
 
     public double getOffset(){
         return offset;

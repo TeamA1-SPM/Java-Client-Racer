@@ -36,6 +36,7 @@ public class RoadCreator {
 
     public RoadCreator(SpritesLoader spritesLoader){
         this.spritesLoader = spritesLoader;
+        this.carList = new ArrayList<>();
     }
 
 

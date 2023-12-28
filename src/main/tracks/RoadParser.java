@@ -19,12 +19,33 @@ import static main.constants.SpriteName.*;
 
 public class RoadParser{
     private String jsonPath = "./src/main/tracks/" ; //assign your JSON String here
-
+    private SpritesLoader spritesLoader;
     private ArrayList<Segment> segmentList;
-    private ArrayList<Car> carList;
+    private final ArrayList<Car> carList = new ArrayList<>();
 
 
-    public ArrayList<Segment> parse(String fileName, SpritesLoader spritesLoader) {
+    public RoadParser(SpritesLoader spritesLoader){
+        this.spritesLoader = spritesLoader;
+    }
+
+    public ArrayList<Segment> getTrack(int number){
+        String fileName;
+        switch (number){
+            case 1:
+                fileName = "track01.json";
+                break;
+            default:
+                fileName = "track01.json";
+                break;
+        }
+        return parse(fileName);
+    }
+
+    public ArrayList<Car> getCarList(){
+        return carList;
+    }
+
+    private ArrayList<Segment> parse(String fileName) {
         segmentList = new ArrayList<>();
         try {
             JSONParser parser = new JSONParser();
@@ -66,9 +87,9 @@ public class RoadParser{
                     double offset = Double.parseDouble(jsonSprite.get("offset").toString());
                     double position = Double.parseDouble(jsonSprite.get("z").toString());
                     double speed = Double.parseDouble(jsonSprite.get("speed").toString());
-
-                    Car car = new Car(name, offset, position,speed,spritesLoader.getSpriteWidth(name));
-                    carList.add(car);
+                    double width = spritesLoader.getSpriteWidth(name);
+                    Car car = new Car(name, offset, position, speed, width);
+                    this.carList.add(car);
                 }
 
 
@@ -87,12 +108,7 @@ public class RoadParser{
         } catch (Exception e) {
             System.out.println(e);
         }
-
         return segmentList;
-    }
-
-    public ArrayList<Car> getCarList(){
-        return carList;
     }
 
     private void addStartFinish(){
@@ -151,6 +167,4 @@ public class RoadParser{
             default -> PLAYER_STRAIGHT;
         };
     }
-
-
 }

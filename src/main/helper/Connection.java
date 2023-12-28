@@ -83,6 +83,12 @@ public class Connection {
         }
     }
 
+    public void sendPosition(double position, double playerX, double steer, double upDown){
+        if(socket != null) {
+            socket.emit(SEND_POSITION, position, playerX, steer, upDown);
+        }
+    }
+
 
 
 

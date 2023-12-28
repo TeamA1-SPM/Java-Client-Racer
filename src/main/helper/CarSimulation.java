@@ -1,64 +1,75 @@
 package main.helper;
 
+import main.constants.SpriteName;
+import main.game.Player;
 
-import main.helper.Car;
-import main.helper.RoadSideObject;
-
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import static main.constants.Settings.*;
 
 public class CarSimulation {
     private ArrayList<Car> carList;
-    private double maxPosition;
+    private final double maxPosition;
 
-    private Car player;
-    private Car enemy;
+    private Car playerCar;
+    private Car enemyCar;
 
     public CarSimulation(ArrayList<Car> carList, double maxPosition){
         this.carList = carList;
-        this. maxPosition = maxPosition;
+        this.maxPosition = maxPosition;
     }
 
-    private void setPlayerSprites(Car player){
-        int index = carList.indexOf(player);
+    public void addPlayer(Player player){
+        playerCar = new Car(null,player.getPlayerX(),PLAYER_Z - SEGMENT_LENGTH,0, PLAYER_W);
+        carList.add(playerCar);
+    }
+
+    public void addEnemy(EnemyPlayer enemy){
+        if(enemy != null){
+            this.enemyCar = new Car(enemy.getSpriteName(),enemy.getPlayerX(), PLAYER_Z,0, PLAYER_W);
+            carList.add(enemyCar);
+        }
+    }
+
+    private void updatePlayerSprites(Car car, double position, double x){
+        int index = carList.indexOf(car);
         Car s = carList.get(index);
-        s.setPosition(player.getPosition());
-        s.setOffset(player.getOffset());
+        s.setPosition(position);
+        s.setOffset(x);
     }
 
-    public void update(){
+    public void update(Player player, EnemyPlayer enemy){
 
-        //setPlayerSprites(player);
-        //setPlayerSprites(enemy);
+        updatePlayerSprites(playerCar,(player.getPosition() + PLAYER_Z) - SEGMENT_LENGTH, player.getPlayerX());
+
+        if(enemy != null){
+            enemyCar.setSpriteName(enemy.getSpriteName());
+            updatePlayerSprites(enemyCar, enemy.getPosition() + PLAYER_Z, enemy.getPlayerX());
+        }
 
         for(Car car: carList){
             // calculate overtake
             double offset = car.getOffset();
             offset += updateCarOffset(car);
             car.setOffset(offset);
+            // move forward
             increaseNPCPosition(car);
         }
+    }
 
-        carList.sort(Comparator.comparing(Car::getPosition).reversed());
+    public ArrayList<Car> getCarList(){
+        return carList;
     }
 
 
-    public ArrayList<Car> getSegmentCars(int index){
+    private ArrayList<Car> getSegmentCars(double segmentStart){
         ArrayList<Car> segmentCars = new ArrayList<>();
-
-        double segmentStart = index * SEGMENT_LENGTH;
-        double segmentEnd = segmentStart + SEGMENT_LENGTH;
-
         for (Car car: carList) {
             double carPosition = car.getPosition();
-            if(carPosition >= segmentStart && carPosition <= segmentEnd){
+            if(carPosition >= segmentStart && carPosition <= segmentStart + SEGMENT_LENGTH){
                 segmentCars.add(car);
             }
         }
-
         return segmentCars;
     }
 
@@ -72,10 +83,34 @@ public class CarSimulation {
         car.setPosition(position);
     }
 
+
+    // look ahead and evade other cars
     private double updateCarOffset(Car car){
         double position = car.getPosition();
+        double segmentStart = position - (position%SEGMENT_LENGTH);
+        double result;
 
-        //for(int pos = position )
+        // look ahead 20 segments
+        for(int counter = 1; counter <= 20; counter++){
+            segmentStart += SEGMENT_LENGTH;
+            if(segmentStart >= maxPosition){
+                segmentStart -= maxPosition;
+            }
+
+            ArrayList<Car> segmentCars = getSegmentCars(segmentStart);
+
+            for (Car otherCar : segmentCars) {
+                if ((car.getSpeed() > otherCar.getSpeed()) && overlap(car.getOffset(), car.getWidth(), otherCar.getOffset(), otherCar.getWidth(), 1.2)) {
+                    if (otherCar.getOffset() > 0.5)
+                        result = -1;
+                    else if (otherCar.getOffset() < -0.5)
+                        result = 1;
+                    else
+                        result = (car.getOffset() > otherCar.getOffset()) ? 1 : -1;
+                    return result * 1 / counter * (car.getSpeed() - otherCar.getSpeed()) / MAX_SPEED;
+                }
+            }
+        }
 
         if(car.getOffset() < -0.9){
             return 0.1;

@@ -13,6 +13,7 @@ import main.tracks.RoadParser;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static main.constants.GameState.*;
 import static main.constants.GameMode.*;
@@ -28,9 +29,11 @@ public class Game implements Runnable {
     private Connection connection;
     private SpritesLoader spriteLoader;
     private Player player;
+    private EnemyPlayer enemy;
     private Race race;
     private Background background;
     private Road road;
+    private CarSimulation carSim;
     private HUD hud;
     private Physics gamePhysics;
     RoadParser roadParser;
@@ -61,25 +64,25 @@ public class Game implements Runnable {
         background = new Background();
         hud = new HUD();
 
-        roadParser = new RoadParser();
-        // TODO temporary solution for creating roads
-        RoadCreator roadCreator = new RoadCreator(spriteLoader);
 
-        ArrayList<Segment> roadSegments;
+        roadParser = new RoadParser(spriteLoader);
 
-        //roadSegments = roadCreator.createV1StraightRoad();
-        //roadSegments = roadCreator.createV2CurvyRoad();
-        //roadSegments = roadCreator.createV3HillRoad();
-        roadSegments = roadCreator.createV4Final();
-        //roadSegments = parser.parse("track01.json");
+        ArrayList<Segment> roadSegments = roadParser.getTrack(1);
+        ArrayList<Car> roadCars = roadParser.getCarList();
 
 
-        road = new Road(roadSegments, roadCreator.getCarList());
+        road = new Road(roadSegments);
+        carSim = new CarSimulation(roadCars, road.getTrackLength());
+
+
         player = new Player("TestDrive", road.getTrackLength(), spriteLoader);
+        player.setPlayerX(new Random().nextDouble(1));
+
+
         gamePhysics = new Physics(player);
 
         // TODO maxLaps needs to be adjusted somewhere
-        race = new Race(6, road.getTrackLength(), connection, gameMode);
+        race = new Race(1, road.getTrackLength(), connection, gameMode);
 
         gameState = READY;
     }
@@ -87,7 +90,6 @@ public class Game implements Runnable {
 
     // server activated methods
     private void serverFunctions(Socket socket){
-
         // get best lap times from server
         socket.on(GET_BEST_LAP_TIMES, new Emitter.Listener() {
             @Override
@@ -98,8 +100,15 @@ public class Game implements Runnable {
         }).on(SERVER_COUNTDOWN, new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println(args[0]);
                 race.setCountdown(args[0]);
+            }
+        }).on(GET_POSITION, new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                enemy.setPosition(args[0]);
+                enemy.setPlayerX(args[1]);
+                enemy.setSteer(args[2]);
+                enemy.setUpDown(args[3]);
             }
         });
     }
@@ -109,9 +118,11 @@ public class Game implements Runnable {
     public void run() {
 
         race.setGameState(COUNTDOWN);
+        this.carSim.addPlayer(player);
         switch (gameMode){
             case MULTI_PLAYER:
-                //connection.ready();
+                this.enemy = new EnemyPlayer("Enemy");
+                this.carSim.addEnemy(enemy);
                 break;
             case SINGLE_PLAYER:
                 timer.startCountdown();
@@ -122,7 +133,6 @@ public class Game implements Runnable {
                 timer.startCountdown();
                 break;
         }
-
 
         // single frame
         while (gameState != END) {
@@ -143,12 +153,14 @@ public class Game implements Runnable {
 
         // update parallax scrolling background
         background.update(playerSegment.getCurve(), player.getSpeed());
+        // simulate npc car movement
+        carSim.update(player, enemy);
+        // update npc cars on the road
+        road.update(carSim.getCarList());
+        // update player speed and position
 
         switch (race.getGameState()) {
             case RUNNING:
-                // update npc cars on the road
-                road.update(playerSegment);
-                // update player speed and position
                 player.update(keyListener);
                 // updates collision
                 gamePhysics.update(playerSegment, segmentCars);
@@ -161,9 +173,12 @@ public class Game implements Runnable {
                 }
                 break;
             case RESULT:
-                road.update(playerSegment);
                 // TODO show result
                 break;
+        }
+
+        if(gameMode == MULTI_PLAYER){
+            connection.sendPosition(player.getPosition(), player.getPlayerX(), player.getSteer(), player.getUpDown());
         }
     }
 
