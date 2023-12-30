@@ -7,19 +7,16 @@ import javax.swing.text.PlainDocument;
 import java.util.ArrayList;
 import java.util.List;
 
+import static main.menuhelper.FontManager.*;
+
 public class UserInputManager {
 
-    private static final List<Character> usernameList = new ArrayList<>();
-    private static final List<Character> passwordList = new ArrayList<>();
+    public static final List<Character> UsernameList = new ArrayList<>();
+    public static final List<Character> PasswordList = new ArrayList<>();
 
-    public static List<Character> getUsernameList() { return usernameList; }
-    public static List<Character> getPasswordList() { return passwordList; }
+    public static final JTextField UsernameField = new JTextField();;
+    public static final JPasswordField PasswordField = new JPasswordField();;
 
-    private static final JTextField usernameField = new JTextField();;
-    private static final JPasswordField passwordField = new JPasswordField();;
-
-    public static JTextField getUsernameField() { return usernameField; }
-    public static JPasswordField getPasswordField() { return passwordField; }
 
     // Sets up a username or password field and checks the maximum length
     public static void setupInputField(JComponent component, int maxLength) {
@@ -31,9 +28,9 @@ public class UserInputManager {
                     super.insertString(offs, str, a);
                     for (char c : str.toCharArray()) {
                         if (component instanceof JPasswordField) {
-                            passwordList.add(c);
+                            PasswordList.add(c);
                         } else if (component instanceof JTextField) {
-                            usernameList.add(c);
+                            UsernameList.add(c);
                         }
                     }
                 }
@@ -44,20 +41,20 @@ public class UserInputManager {
                 // Remove characters from the list when the user deletes them
                 for (int i = 0; i < len; i++) {
                     if (component instanceof JPasswordField) {
-                        passwordList.remove(offs);
+                        PasswordList.remove(offs);
                     } else if (component instanceof JTextField) {
-                        usernameList.remove(offs);
+                        UsernameList.remove(offs);
                     }
                 }
             }
         };
         // Assign document to the field
         if (component instanceof JPasswordField) {
-            passwordField.setDocument(document);
-            passwordField.setFont(FontManager.getSize30());
+            PasswordField.setDocument(document);
+            PasswordField.setFont(FontSize30);
         } else if (component instanceof JTextField) {
-            usernameField.setDocument(document);
-            usernameField.setFont(FontManager.getSize30());
+            UsernameField.setDocument(document);
+            UsernameField.setFont(FontSize30);
         }
     }
 

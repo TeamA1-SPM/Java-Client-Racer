@@ -9,4 +9,13 @@ public class VisibilityManager {
             component.setVisible(isVisible);
         }
     }
+
+    public static void showComponents(List<JComponent> components) {
+        setVisibilityOfComponents(components, true);
+    }
+
+    public static void hideComponents(List<JComponent> components) {
+        setVisibilityOfComponents(components, false);
+    }
+
 }

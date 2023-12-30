@@ -28,6 +28,9 @@ public class HUD {
                 renderStats(race, speed);
                 break;
             case COUNTDOWN:
+                // TODO show player names
+                drawVersusRectangles();
+                drawPlayerNames();
                 renderOverlay(race.getCountdown(), spritesLoader);
                 break;
             case RESULT:
@@ -148,4 +151,21 @@ public class HUD {
         g2D.drawString(text, startX, hudHeight / 2 + 20);
     }
 
+    private void drawVersusText(String text, int x, int y) {
+        g2D.setColor(HUD_FONT);
+        g2D.setFont(new Font("Calibri", Font.BOLD, 30));
+        g2D.drawString(text, x, y);
+    }
+    private void drawVersusRectangles() {
+        drawRect(300, 175, 190, elemHeight, Color.WHITE);
+        drawRect(492, 175, 38, elemHeight, Color.WHITE);
+        drawRect(532, 175, 190, elemHeight, Color.WHITE);
+    }
+    private void drawPlayerNames() {
+        //drawText(315, getPlayer1Name());
+        //drawText(600, getPlayer2Name());
+        drawVersusText("Player 1", 345, 208);
+        drawVersusText("VS", 495, 208);
+        drawVersusText("Player 2", 577, 208);
+    }
 }

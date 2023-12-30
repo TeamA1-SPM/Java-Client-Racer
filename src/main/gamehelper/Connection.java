@@ -23,10 +23,12 @@ public class Connection {
                 @Override
                 public void call(Object... args) {
                     MainMenu.getServerOnlineLbl().setVisible(true);
+                    MainMenu.getServerOfflineLbl().setVisible(false);
                 }
             }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
+                    MainMenu.getServerOnlineLbl().setVisible(false);
                     MainMenu.getServerOfflineLbl().setVisible(true);
                 }
             });
@@ -46,6 +48,7 @@ public class Connection {
             HashMap<String, String> dict = new HashMap<>();
             dict.put("username", username);
             dict.put("passwort", password);
+            dict.put("loggedIn", "false");
             socket.emit(REGISTER, dict);
         }
     }
@@ -65,6 +68,12 @@ public class Connection {
     public void findLobby(){
         if(socket != null) {
             socket.emit(FIND_LOBBY);
+        }
+    }
+
+    public void leaveLobby(){
+        if(socket != null) {
+            socket.emit(LEAVE_LOBBY);
         }
     }
 

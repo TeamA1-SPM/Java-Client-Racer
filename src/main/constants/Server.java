@@ -8,6 +8,7 @@ public class Server {
     public static final String LOGIN = "login";                         // player login function
     public static final String LOGOUT = "logout";                       // player logout function
     public static final String FIND_LOBBY = "find_lobby";
+    public static final String LEAVE_LOBBY = "leave_lobby";
     public static final String START_GAME = "game_rendered";
     public static final String END_GAME = "end_game";
     public static final String FINISH_RACE = "finished_race";
@@ -18,4 +19,6 @@ public class Server {
     public static final String GET_BEST_LAP_TIMES = "best_lap_times";
     public static final String SERVER_COUNTDOWN = "countdown";
     public static final String GET_POSITION = "epp";
+    public static final String GET_PLAYER1_NAME = "player1";
+    public static final String GET_PLAYER2_NAME = "player2";
 }

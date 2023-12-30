@@ -39,6 +39,12 @@ public class Game implements Runnable {
     RoadParser roadParser;
     private GameState gameState = LOADING;
     private final GameMode gameMode;
+    private static String player1Name;
+    private static String player2Name;
+
+    public static String getPlayer1Name() { return player1Name; }
+
+    public static String getPlayer2Name() { return player2Name; }
 
     public Game(JFrame context, Connection connection, GameMode gameMode) {
       this.context = context;
@@ -103,6 +109,17 @@ public class Game implements Runnable {
             public void call(Object... args) {
                 System.out.println(args[0]);
                 race.setCountdown(args[0]);
+            }
+        }).on(FIND_LOBBY, new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                player1Name = (String) args[0];
+                player2Name = (String) args[1];
+            }
+        }).on(GET_PLAYER2_NAME, new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                player2Name = (String) args[0];
             }
         });
     }
