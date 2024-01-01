@@ -1,6 +1,7 @@
 package main;
 
 import main.constants.GameMode;
+import main.helper.GameSetup;
 
 import javax.swing.*;
 
@@ -19,7 +20,8 @@ public class Main {
             public void playButtonClicked() {
                 // Gets executed after the "PLAY"-Button is pressed
                 Window window = new Window();
-                Game game = new Game(window, menu.getConnection(), GameMode.SINGLE_PLAYER);
+                GameSetup setup = new GameSetup(GameMode.SINGLE_PLAYER,1,3,"SinglePlayer");
+                Game game = new Game(window, menu.getConnection(), setup);
                 Thread t1 = new Thread(game);
                 t1.start();
 

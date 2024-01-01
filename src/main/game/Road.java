@@ -80,13 +80,12 @@ public class Road {
             ArrayList<Car> carList = getSegmentCars(index);
 
             // render cars
-            for(int i = 0; i < carList.size(); i++){
-                Car car = carList.get(i);
+            for (Car car : carList) {
                 double percent = percentRemaining(car.getPosition());
-                double spriteScale = interpolate(CAMERA_DEPTH/segment.getP1Camera().getZ(), CAMERA_DEPTH/segment.getP2Camera().getZ(), percent);
-                double spriteX = interpolate(segment.getP1Screen().getX(),segment.getP2Screen().getX(),percent) + (spriteScale * car.getOffset() * ROAD_WIDTH * SCREEN_WIDTH/2);
-                double spriteY = interpolate(segment.getP1Screen().getY(),segment.getP2Screen().getY(),percent);
-                spritesLoader.render(g2, car.getName(), spriteScale, spriteX, spriteY,-0.5, -1, segment.getClip());
+                double spriteScale = interpolate(CAMERA_DEPTH / segment.getP1Camera().getZ(), CAMERA_DEPTH / segment.getP2Camera().getZ(), percent);
+                double spriteX = interpolate(segment.getP1Screen().getX(), segment.getP2Screen().getX(), percent) + (spriteScale * car.getOffset() * ROAD_WIDTH * SCREEN_WIDTH / 2);
+                double spriteY = interpolate(segment.getP1Screen().getY(), segment.getP2Screen().getY(), percent);
+                spritesLoader.render(g2, car.getName(), spriteScale, spriteX, spriteY, -0.5, -1, segment.getClip());
             }
 
             // render roadside objects
@@ -179,16 +178,16 @@ public class Road {
         // render lanes
         if(segment.isLane()){
             int lanes = LANES;
-            int l1 = w1/Math.max(32, 8*lanes);
-            int l2 = w2/Math.max(32, 8*lanes);
+            int l1 = w1/ 32;
+            int l2 = w2/ 32;
 
-            int lanew1 = w1*2/lanes;
-            int lanew2 = w2*2/lanes;
-            int lanex1 = x1 - w1 + lanew1;
-            int lanex2 = x2 - w2 + lanew2;
+            int laneW1 = w1*2/lanes;
+            int laneW2 = w2*2/lanes;
+            int laneX1 = x1 - w1 + laneW1;
+            int laneX2 = x2 - w2 + laneW2;
 
-            for(int lane = 1 ; lane < lanes ; lanex1 += lanew1, lanex2 += lanew2, lane++){
-                Polygon pLane = createPolygon(lanex1 - l1/2, y1, lanex1 + l1/2, y1, lanex2 + l2/2, y2, lanex2 - l2/2, y2);
+            for(int lane = 1 ; lane < lanes ; laneX1 += laneW1, laneX2 += laneW2, lane++){
+                Polygon pLane = createPolygon(laneX1 - l1/2, y1, laneX1 + l1/2, y1, laneX2 + l2/2, y2, laneX2 - l2/2, y2);
                 g2.setColor(LANE);
                 g2.fillPolygon(pLane);
             }

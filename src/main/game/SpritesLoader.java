@@ -43,8 +43,8 @@ class SpriteCoordinates {
 
 
 public class SpritesLoader {
-    private HashMap<SpriteName, SpriteCoordinates> spritesMap = new HashMap<>();
-    private String path = "../images/sprites.png";
+    private final HashMap<SpriteName, SpriteCoordinates> spritesMap = new HashMap<>();
+    private final String path = "../images/sprites.png";
     private Image image;
 
     public SpritesLoader(){

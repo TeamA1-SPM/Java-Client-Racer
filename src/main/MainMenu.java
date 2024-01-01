@@ -5,6 +5,7 @@ import io.socket.emitter.Emitter;
 import main.constants.GameMode;
 import main.constants.Settings;
 import main.helper.Connection;
+import main.helper.GameSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -287,7 +288,9 @@ public class MainMenu extends JFrame implements ActionListener {
                 connection.ready();
 
                 Window window = new Window();
-                Game game = new Game(window, connection, GameMode.MULTI_PLAYER);
+                GameSetup setup = new GameSetup(GameMode.MULTI_PLAYER, 1,3,"player 1");
+                setup.setMultiplayerParameters("player 2","player1");
+                Game game = new Game(window, connection, setup);
                 Thread t1 = new Thread(game);
                 t1.start();
 

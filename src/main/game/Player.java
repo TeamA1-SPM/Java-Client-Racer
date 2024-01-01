@@ -20,8 +20,7 @@ public class Player {
     private double upDown = 0;
     private final SpritesLoader spritesLoader;
 
-
-    private String name;
+    private final String name;
 
     public Player(String name, double maxPosition, SpritesLoader spritesLoader) {
         this.name = name;

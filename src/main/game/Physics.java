@@ -59,7 +59,7 @@ public class Physics {
             player.setPlayerX(playerX - dx);
         }
 
-        // player offroad check
+        // player off-road check
         if ((playerX < -1) || (playerX > 1)) {
             if (speed > OFF_ROAD_LIMIT) {
                 player.setAccel(OFF_ROAD_DECEL);
@@ -88,12 +88,11 @@ public class Physics {
 
         if ((playerX < -1) || (playerX > 1)){
             ArrayList<RoadSideObject> roadSideRoadSideObjects = playerSegment.getRoadsideList();
-            for(int n = 0; n < roadSideRoadSideObjects.size() ; n++) {
-                RoadSideObject roadSideObject = roadSideRoadSideObjects.get(n);
+            for (RoadSideObject roadSideObject : roadSideRoadSideObjects) {
                 double spriteW = roadSideObject.getWidth();
 
-                if (overlap(playerX, PLAYER_W, (roadSideObject.getOffset() + spriteW/2 * (roadSideObject.getOffset() > 0 ? 1 : -1)), spriteW,0.0)) {
-                    player.setSpeed(MAX_SPEED/5);
+                if (overlap(playerX, (roadSideObject.getOffset() + spriteW / 2 * (roadSideObject.getOffset() > 0 ? 1 : -1)), spriteW, 0.0)) {
+                    player.setSpeed(MAX_SPEED / 5);
                     player.setPosition(playerSegment.getP1World().getZ() - PLAYER_Z);
                     break;
                 }
@@ -103,15 +102,14 @@ public class Physics {
 
     // npc car collision check
     private void carCollision(){
-        for (int i = 0; i < segmentCars.size(); i++){
-            Car car = segmentCars.get(i);
-            if(player.getSpeed() > car.getSpeed()){
-                if(overlap(player.getPlayerX(), PLAYER_W, car.getOffset(), car.getWidth(), 0.8)){
+        for (Car car : segmentCars) {
+            if (player.getSpeed() > car.getSpeed()) {
+                if (overlap(player.getPlayerX(), car.getOffset(), car.getWidth(), 0.8)) {
                     double carSpeed = car.getSpeed();
-                    if(carSpeed == 0){
-                        player.setSpeed(MAX_SPEED/5);
-                    }else{
-                        player.setSpeed(carSpeed * (carSpeed/player.getSpeed()));
+                    if (carSpeed == 0) {
+                        player.setSpeed(MAX_SPEED / 5);
+                    } else {
+                        player.setSpeed(carSpeed * (carSpeed / player.getSpeed()));
                     }
                     player.setPosition(car.getPosition() - PLAYER_Z);
                 }
@@ -120,10 +118,10 @@ public class Physics {
     }
 
     // calculation for sprite overlap
-    private boolean overlap(double x1, double w1, double x2, double w2, double percent){
+    private boolean overlap(double x1, double x2, double w2, double percent){
         double half = (percent != 0) ? percent / 2 : (double) 1 / 2;
-        double min1 = x1 - (w1 * half);
-        double max1 = x1 + (w1 * half);
+        double min1 = x1 - (PLAYER_W * half);
+        double max1 = x1 + (PLAYER_W * half);
         double min2 = x2 - (w2 * half);
         double max2 = x2 + (w2 * half);
 

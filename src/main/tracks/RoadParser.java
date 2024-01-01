@@ -18,26 +18,21 @@ import static main.constants.SpriteName.*;
 
 
 public class RoadParser{
-    private String jsonPath = "./src/main/tracks/" ; //assign your JSON String here
-    private SpritesLoader spritesLoader;
+    private final String jsonPath = "./src/main/tracks/" ; //assign your JSON String here
+    private final SpritesLoader spritesLoader;
     private ArrayList<Segment> segmentList;
     private final ArrayList<Car> carList = new ArrayList<>();
-
 
     public RoadParser(SpritesLoader spritesLoader){
         this.spritesLoader = spritesLoader;
     }
 
     public ArrayList<Segment> getTrack(int number){
-        String fileName;
-        switch (number){
-            case 1:
-                fileName = "track01.json";
-                break;
-            default:
-                fileName = "track01.json";
-                break;
-        }
+        String fileName = switch (number) {
+            case 2 -> "track02.json";
+            case 3 -> "track03.json";
+            default -> "track01.json";
+        };
         return parse(fileName);
     }
 
@@ -50,31 +45,34 @@ public class RoadParser{
         try {
             JSONParser parser = new JSONParser();
             //Use JSONObject for simple JSON and JSONArray for array of JSON.
-            JSONObject data = (JSONObject) parser.parse(new FileReader(jsonPath+fileName));//path to the JSON file.
+            JSONArray data = (JSONArray) parser.parse(new FileReader(jsonPath+fileName));//path to the JSON file.
 
-            JSONArray segmentsArray = (JSONArray) data.get("segments");
-
-            for(int i = 0; i < segmentsArray.size(); i++){
+            for(int i = 0; i < data.size(); i++){
                 Segment segment = new Segment(i);
 
-                JSONObject jsonSegment = (JSONObject) segmentsArray.get(i);
+                JSONObject jsonSegment = (JSONObject) data.get(i);
 
                 // set p1 world [y,z]
                 JSONArray p1 = (JSONArray) jsonSegment.get("p1");
-                segment.setP1World(new Point(0,stringToInt(p1.get(0).toString()), stringToInt(p1.get(1).toString())));
-                // set p1 world [y,z]
+                String p1WorldY = p1.get(0).toString();
+                String p1WorldZ = p1.get(1).toString();
+                segment.setP1World(new Point(0,stringToInt(p1WorldY), stringToInt(p1WorldZ)));
+
+                // set p2 world [y,z]
                 JSONArray p2 = (JSONArray) jsonSegment.get("p2");
-                segment.setP2World(new Point(0,stringToInt(p2.get(0).toString()), stringToInt(p2.get(1).toString())));
+                String p2WorldY = p2.get(0).toString();
+                String p2WorldZ = p2.get(1).toString();
+                segment.setP2World(new Point(0,stringToInt(p2WorldY), stringToInt(p2WorldZ)));
 
                 // set segment curve
                 double curve = Double.parseDouble(jsonSegment.get("curve").toString());
                 segment.setCurve(curve);
 
                 // set segment roadside sprites
-                JSONArray spriteArray = (JSONArray) jsonSegment.get("sprite");
+                JSONArray spriteArray = (JSONArray) jsonSegment.get("roadside");
                 for (Object o : spriteArray) {
                     JSONObject jsonSprite = (JSONObject) o;
-                    SpriteName name = getSpriteName(jsonSprite.get("source").toString());
+                    SpriteName name = getSpriteName(jsonSprite.get("sprite").toString());
                     double offset = Double.parseDouble(jsonSprite.get("offset").toString());
                     segment.addRoadsideObj(name, offset, spritesLoader.getSpriteWidth(name));
                 }
@@ -85,7 +83,7 @@ public class RoadParser{
                     JSONObject jsonSprite = (JSONObject) o;
                     SpriteName name = getSpriteName(jsonSprite.get("sprite").toString());
                     double offset = Double.parseDouble(jsonSprite.get("offset").toString());
-                    double position = Double.parseDouble(jsonSprite.get("z").toString());
+                    double position = Double.parseDouble(jsonSprite.get("position").toString());
                     double speed = Double.parseDouble(jsonSprite.get("speed").toString());
                     double width = spritesLoader.getSpriteWidth(name);
                     Car car = new Car(name, offset, position, speed, width);
@@ -98,8 +96,6 @@ public class RoadParser{
                 } else {
                     segment.setColorMode(DARK);
                 }
-
-
                 segmentList.add(segment);
             }
 

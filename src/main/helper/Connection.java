@@ -2,7 +2,6 @@ package main.helper;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -18,15 +17,11 @@ public class Connection {
         try {
             socket = IO.socket(URI);
 
-            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    System.out.println("Connected to server");
-                }
-            }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) { System.out.println("Disconnected from server"); }
-            });
+            socket.on(Socket.EVENT_CONNECT, args ->
+                    System.out.println("Connected to server")
+            ).on(Socket.EVENT_DISCONNECT, args ->
+                    System.out.println("Disconnected from server")
+            );
             socket.connect();
 
         } catch (URISyntaxException e) {
@@ -88,8 +83,5 @@ public class Connection {
             socket.emit(SEND_POSITION, position, playerX, steer, upDown);
         }
     }
-
-
-
 
 }
