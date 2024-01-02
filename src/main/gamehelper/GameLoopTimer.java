@@ -1,4 +1,4 @@
-package main.helper;
+package main.gamehelper;
 
 import static main.constants.Settings.FPS;
 

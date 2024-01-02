@@ -2,8 +2,10 @@ package main.constants;
 
 public class Server {
 
+    // server address
+    public static final String URI = "https://racing-server.onrender.com";
+
     // Client invoked
-    public static final String URI = "https://racing-server.onrender.com";           // server address
     public static final String REGISTER = "register";                   // player register function
     public static final String LOGIN = "login";                         // player login function
     public static final String LOGOUT = "logout";                       // player logout function
@@ -12,6 +14,7 @@ public class Server {
     public static final String FINISH_RACE = "finished_race";           // client finished race
     public static final String SEND_LAP_TIME = "lap_time";              // client finished lap
     public static final String SEND_POSITION = "display_player";        // send player position to server
+    public static final String LEAVE_LOBBY = "leave_lobby";        // send player position to server
 
     // Server invoked
     public static final String GET_BEST_LAP_TIMES = "best_lap_times";   // get enemy player lap time

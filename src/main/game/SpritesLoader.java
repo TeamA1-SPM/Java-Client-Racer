@@ -44,7 +44,7 @@ class SpriteCoordinates {
 
 public class SpritesLoader {
     private final HashMap<SpriteName, SpriteCoordinates> spritesMap = new HashMap<>();
-    private final String path = "../images/sprites.png";
+    private final String path = "/main/images/sprites.png";
     private Image image;
 
     public SpritesLoader(){
@@ -138,7 +138,7 @@ public class SpritesLoader {
     }
 
     public void setMarioMode(){
-        loadImage("../images/mario_sprites.png");
+        loadImage("/main/images/mario_sprites.png");
     }
 
 }

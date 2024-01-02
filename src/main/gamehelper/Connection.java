@@ -1,7 +1,8 @@
-package main.helper;
+package main.gamehelper;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import main.menu.MainMenu;
 
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -17,11 +18,13 @@ public class Connection {
         try {
             socket = IO.socket(URI);
 
-            socket.on(Socket.EVENT_CONNECT, args ->
-                    System.out.println("Connected to server")
-            ).on(Socket.EVENT_DISCONNECT, args ->
-                    System.out.println("Disconnected from server")
-            );
+            socket.on(Socket.EVENT_CONNECT, args -> {
+                MainMenu.getServerOnlineLbl().setVisible(true);
+                MainMenu.getServerOfflineLbl().setVisible(false);
+            }).on(Socket.EVENT_DISCONNECT, args -> {
+                MainMenu.getServerOnlineLbl().setVisible(false);
+                MainMenu.getServerOfflineLbl().setVisible(true);
+            });
             socket.connect();
 
         } catch (URISyntaxException e) {
@@ -36,8 +39,9 @@ public class Connection {
     public void register(String username, String password){
         if(socket != null){
             HashMap<String, String> dict = new HashMap<>();
-            dict.put("passwort", password);
             dict.put("username", username);
+            dict.put("passwort", password);
+            dict.put("loggedIn", "false");
             socket.emit(REGISTER, dict);
         }
     }
@@ -57,6 +61,12 @@ public class Connection {
     public void findLobby(){
         if(socket != null) {
             socket.emit(FIND_LOBBY);
+        }
+    }
+
+    public void leaveLobby(){
+        if(socket != null) {
+            socket.emit(LEAVE_LOBBY);
         }
     }
 

@@ -19,7 +19,6 @@ public class HUD {
     // TODO dynamic draw, remove all magic numbers and add scale for each element
     private final int padding = 38;
     private final int elemHeight = hudHeight - 48;
-
     private int pausePos = 1;
 
     public void render(Graphics2D g2D, Race race, double speed, SpritesLoader spritesLoader) {
@@ -33,7 +32,7 @@ public class HUD {
                 renderCountdown(race.getCountdown(), spritesLoader);
                 break;
             case RESULT:
-                //TODO render result screen
+                renderResult();
                 break;
             case PAUSE:
                 renderPauseMenu(spritesLoader);
@@ -53,6 +52,10 @@ public class HUD {
                 spritesLoader.render(g2D, COUNTDOWN_ONE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
                 break;
         }
+    }
+
+    private void renderResult(){
+
     }
 
     private void renderStats(Race race, double speed) {
@@ -76,8 +79,25 @@ public class HUD {
     }
 
     private void renderPauseMenu(SpritesLoader spritesLoader){
+        drawRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_DARK);
         drawPauseSelect(pausePos);
         spritesLoader.render(g2D, PAUSE_MENU, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+    }
+
+    private void drawPauseSelect(int pos){
+        int xMid = SCREEN_WIDTH/2;
+        int yMid = SCREEN_HEIGHT/2;
+        int offset = 50;
+
+        int xStart = xMid - yMid/2;
+        int yStart = yMid;
+        if(pos == 2){
+            yStart += 12;
+        }else{
+            yStart -= 50;
+        }
+
+        drawRect(xStart+offset, yStart, yMid-(2*offset), 50, HUD_BACKGROUND);
     }
 
     public void setPausePos(int pos){
@@ -149,21 +169,6 @@ public class HUD {
             result += min + ".";
         }
         return result + sec + "." + mil;
-    }
-
-    private void drawPauseSelect(int pos){
-        int xMid = SCREEN_WIDTH/2;
-        int yMid = SCREEN_HEIGHT/2;
-
-        int xStart = xMid - yMid/2;
-        int yStart = yMid;
-        if(pos == 2){
-            yStart += 12;
-        }else{
-            yStart -= 50;
-        }
-
-        drawRect(xStart, yStart, yMid, 50, HUD_BACKGROUND);
     }
 
     // draws a rectangle with frame

@@ -2,7 +2,7 @@ package main.game;
 
 import main.constants.GameMode;
 import main.constants.GameState;
-import main.helper.Connection;
+import main.gamehelper.Connection;
 
 import static main.constants.GameMode.*;
 import static main.constants.GameState.*;

@@ -1,8 +1,8 @@
 package main.game;
 
-import main.helper.Car;
-import main.helper.Segment;
-import main.helper.RoadSideObject;
+import main.gamehelper.Segment;
+import main.gamehelper.Car;
+import main.gamehelper.RoadSideObject;
 
 import java.util.ArrayList;
 

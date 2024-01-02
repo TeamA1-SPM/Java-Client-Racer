@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 import main.constants.SpriteName;
-import main.helper.InputListener;
+import main.gamehelper.InputListener;
 
 import static main.constants.Settings.*;
 import static main.constants.SpriteName.*;

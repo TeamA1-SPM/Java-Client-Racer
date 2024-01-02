@@ -4,8 +4,9 @@ package main;
 import io.socket.client.Socket;
 import main.constants.GameMode;
 import main.game.*;
-import main.helper.*;
+import main.gamehelper.*;
 import main.hidden.MarioRoad;
+import main.menu.MainMenu;
 import main.music.MusicPlayer;
 import main.tracks.RoadParser;
 
@@ -35,23 +36,25 @@ public class Game implements Runnable {
     private CarSimulation carSim;
     private HUD hud;
     private Physics gamePhysics;
-    RoadParser roadParser;
     private final GameSetup gameSetup;
+    MusicPlayer musicPlayer;
     private final GameMode gameMode;
+    private final MainMenu menu;
 
-    public Game(JFrame context, Connection connection, GameSetup gameSetup) {
-      this.context = context;
-      this.gameSetup = gameSetup;
-      this.gameMode = gameSetup.getGameMode();
+    public Game(MainMenu menu, JFrame context, Connection connection, GameSetup gameSetup) {
+        this.menu = menu;
+        this.context = context;
+        this.gameSetup = gameSetup;
+        this.gameMode = gameSetup.getGameMode();
 
-      if(gameMode == MULTI_PLAYER){
-          this.connection = connection;
-          // setup emit listener for server activated game functions
-          if(connection != null){
-              serverFunctions(connection.getSocket());
-          }
-      }
-      init();
+        if(gameMode == MULTI_PLAYER){
+            this.connection = connection;
+            // setup emit listener for server activated game functions
+            if(connection != null){
+                serverFunctions(connection.getSocket());
+            }
+        }
+        init();
     }
 
     // initialising the game variables
@@ -60,14 +63,13 @@ public class Game implements Runnable {
         keyListener = new InputListener();
         context.addKeyListener(keyListener);
         timer = new GameLoopTimer();
-        MusicPlayer musicPlayer = new MusicPlayer();
-        musicPlayer.stop();
+        musicPlayer = new MusicPlayer();
 
         spriteLoader = new SpritesLoader();
         background = new Background();
         hud = new HUD();
 
-        roadParser = new RoadParser(spriteLoader);
+        RoadParser roadParser = new RoadParser(spriteLoader);
         road = new Road(roadParser.getTrack(gameSetup.getTrackNr()));
         double maxPosition = road.getTrackLength();
         carSim = new CarSimulation(roadParser.getCarList(), maxPosition);
@@ -127,11 +129,13 @@ public class Game implements Runnable {
                 render();
             }
         }
-
+        // exit game
         exit();
     }
 
     private void exit(){
+        musicPlayer.stop();
+        menu.setVisible(true);
         this.context.dispose();
     }
 
@@ -190,8 +194,7 @@ public class Game implements Runnable {
 
                 if(keyListener.isKeyPressed(KeyEvent.VK_ESCAPE)){
                     keyListener.keyRelease(KeyEvent.VK_ESCAPE);
-                    carSim.isRunning(true);
-                    race.setGameState(RUNNING);
+                    resumeGame();
                 } else if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
                     hud.setPausePos(1);
                 } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
@@ -201,8 +204,7 @@ public class Game implements Runnable {
                     if(pos == 2){
                         race.setGameState(END);
                     }else{
-                        carSim.isRunning(true);
-                        race.setGameState(RUNNING);
+                        resumeGame();
                     }
                 }
 
@@ -228,6 +230,11 @@ public class Game implements Runnable {
 
         // draw buffered image on the screen
         g2D.drawImage(bufferImage,0,0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+    }
+
+    private void resumeGame(){
+        carSim.isRunning(true);
+        race.setGameState(RUNNING);
     }
 }
 

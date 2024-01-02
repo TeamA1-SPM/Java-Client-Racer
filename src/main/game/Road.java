@@ -3,8 +3,8 @@ package main.game;
 import java.awt.*;
 import java.util.ArrayList;
 
-import main.helper.*;
-import main.helper.Point;
+import main.gamehelper.*;
+import main.gamehelper.Point;
 
 import static main.constants.Colors.*;
 import static main.constants.Settings.*;

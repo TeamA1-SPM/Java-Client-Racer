@@ -46,15 +46,15 @@ public class Background {
 
     // load and assign images
     private void loadImages(){
-        String skyPath = "../images/background/sky.png";
+        String skyPath = "/main/images/background/sky.png";
         ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(skyPath)));
         sky = imageIcon.getImage();
 
-        String hillsPath = "../images/background/hills.png";
+        String hillsPath = "/main/images/background/hills.png";
         imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(hillsPath)));
         hills = imageIcon.getImage();
 
-        String treesPath = "../images/background/trees.png";
+        String treesPath = "/main/images/background/trees.png";
         imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(treesPath)));
         trees = imageIcon.getImage();
     }
