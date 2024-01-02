@@ -4,33 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// FEATURES&#10;- show enemy player&#10;- final car simulator">
-      <change afterPath="$PROJECT_DIR$/src/main/helper/GameSetup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/music/racer.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/tracks/track03.json" afterDir="false" />
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// FEATURES&#10;- pause menu implementation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/MainMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/constants/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/GameState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/constants/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/constants/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Settings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/constants/SpriteName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/SpriteName.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/HUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/HUD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Physics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Physics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Race.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Race.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Road.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/RoadCreator.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/game/SpritesLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/SpritesLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/helper/CarSimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/CarSimulation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/helper/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Connection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/helper/InputListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/InputListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/helper/Segment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/helper/Segment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/music/MusicPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/music/MusicPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/music/racer.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/music/racer.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/tracks/RoadParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tracks/RoadParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/tracks/track01.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tracks/track01.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/images/sprites.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/images/sprites.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,31 +49,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "v4---final",
-    "last_opened_file_path": "E:/GIT/Java-Client-Racer/src/main/tracks",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "onboarding.tips.debug.path": "C:/Users/bitco/OneDrive/Desktop/SPM/GIT/Java-Client-Racer/src/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "show.migrate.to.gradle.popup": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;v4---final&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/GIT/Java-Client-Racer/src/main/tracks&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/bitco/OneDrive/Desktop/SPM/GIT/Java-Client-Racer/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\GIT\Java-Client-Racer\src\main\tracks" />
@@ -201,7 +186,8 @@
       <workItem from="1703799768354" duration="412000" />
       <workItem from="1703942684024" duration="5196000" />
       <workItem from="1704025706915" duration="11649000" />
-      <workItem from="1704117959111" duration="17578000" />
+      <workItem from="1704117959111" duration="17998000" />
+      <workItem from="1704196328732" duration="9300000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -331,7 +317,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703771677542</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="// FEATURES&#10;- game pause when press escape&#10;- game music implemented&#10;&#10;// REFACTORING&#10;- game needs GameSetup object to start&#10;- small code optimisations">
+      <option name="closed" value="true" />
+      <created>1704147512888</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1704147512888</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -376,7 +370,9 @@
     <MESSAGE value="// FEATURES&#10;- npc car collision" />
     <MESSAGE value="// FEATURES&#10;- server countdown activation&#10;- add wait for lobby ready" />
     <MESSAGE value="// FEATURES&#10;- show enemy player&#10;- final car simulator" />
-    <option name="LAST_COMMIT_MESSAGE" value="// FEATURES&#10;- show enemy player&#10;- final car simulator" />
+    <MESSAGE value="// FEATURES&#10;- game pause when press escape&#10;- game music implemented&#10;&#10;// REFACTORING&#10;- game needs GameSetup object to start&#10;- small code optimisations" />
+    <MESSAGE value="// FEATURES&#10;- pause menu implementation" />
+    <option name="LAST_COMMIT_MESSAGE" value="// FEATURES&#10;- pause menu implementation" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

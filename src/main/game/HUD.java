@@ -1,19 +1,16 @@
 package main.game;
 
 import main.constants.GameMode;
-import main.constants.SpriteName;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static main.constants.Colors.*;
 import static main.constants.Settings.*;
+import static main.constants.SpriteName.*;
 
 public class HUD {
 
-    private final Font font = new Font("Universal Light", Font.BOLD, 14);
+    private final Font font = new Font("Universal Light", Font.BOLD, 15);
     // HUD size
     private final int hudWidth = SCREEN_WIDTH;
     private final int hudHeight = (int) (SCREEN_HEIGHT * 0.12);
@@ -21,8 +18,9 @@ public class HUD {
     // Element size
     // TODO dynamic draw, remove all magic numbers and add scale for each element
     private final int padding = 38;
-
     private final int elemHeight = hudHeight - 48;
+
+    private int pausePos = 1;
 
     public void render(Graphics2D g2D, Race race, double speed, SpritesLoader spritesLoader) {
         this.g2D = g2D;
@@ -38,12 +36,7 @@ public class HUD {
                 //TODO render result screen
                 break;
             case PAUSE:
-                int xMid = SCREEN_WIDTH/2;
-                int yMid = SCREEN_HEIGHT/2;
-
-                int xStart = xMid - (yMid/2);
-                int yStart = yMid - (yMid/2);
-                drawRect(xStart, yStart, yMid, yMid, HUD_BACKGROUND);
+                renderPauseMenu(spritesLoader);
                 break;
         }
     }
@@ -51,13 +44,13 @@ public class HUD {
     private void renderCountdown(int countdown, SpritesLoader spritesLoader) {
         switch (countdown) {
             case 3:
-                spritesLoader.render(g2D, SpriteName.COUNTDOWN_THREE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+                spritesLoader.render(g2D, COUNTDOWN_THREE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
                 break;
             case 2:
-                spritesLoader.render(g2D, SpriteName.COUNTDOWN_TWO, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+                spritesLoader.render(g2D, COUNTDOWN_TWO, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
                 break;
             case 1:
-                spritesLoader.render(g2D, SpriteName.COUNTDOWN_ONE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+                spritesLoader.render(g2D, COUNTDOWN_ONE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
                 break;
         }
     }
@@ -82,6 +75,18 @@ public class HUD {
         drawRound(race.getLap(), race.getMaxLaps());
     }
 
+    private void renderPauseMenu(SpritesLoader spritesLoader){
+        drawPauseSelect(pausePos);
+        spritesLoader.render(g2D, PAUSE_MENU, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+    }
+
+    public void setPausePos(int pos){
+        this.pausePos = pos;
+    }
+
+    public int getPausePos(){
+        return pausePos;
+    }
 
     private void drawBackground() {
         drawRect(0, 0, hudWidth, hudHeight, HUD_BACKGROUND);
@@ -144,6 +149,21 @@ public class HUD {
             result += min + ".";
         }
         return result + sec + "." + mil;
+    }
+
+    private void drawPauseSelect(int pos){
+        int xMid = SCREEN_WIDTH/2;
+        int yMid = SCREEN_HEIGHT/2;
+
+        int xStart = xMid - yMid/2;
+        int yStart = yMid;
+        if(pos == 2){
+            yStart += 12;
+        }else{
+            yStart -= 50;
+        }
+
+        drawRect(xStart, yStart, yMid, 50, HUD_BACKGROUND);
     }
 
     // draws a rectangle with frame

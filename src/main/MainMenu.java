@@ -285,16 +285,14 @@ public class MainMenu extends JFrame implements ActionListener {
             public void call(Object... args) {
                 //boolean register = (boolean) args[0];
                 // global oder hier weitere Funktion
-                connection.ready();
-
                 Window window = new Window();
+                // TODO enter player name
                 GameSetup setup = new GameSetup(GameMode.MULTI_PLAYER, 1,3,"player 1");
-                setup.setMultiplayerParameters("player 2","player1");
+                setup.setMultiplayerParameters((String) args[0], (String) args[1]);
                 Game game = new Game(window, connection, setup);
+                connection.ready();
                 Thread t1 = new Thread(game);
                 t1.start();
-
-                dispose();
             }
         });
     }

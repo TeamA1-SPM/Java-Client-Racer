@@ -1,3 +1,3 @@
 package main.constants;
 
-public enum GameState {LOADING, READY, COUNTDOWN, RUNNING, RESULT, PAUSE, END}
+public enum GameState { READY, COUNTDOWN, RUNNING, RESULT, PAUSE, END}
