@@ -8,7 +8,7 @@ import java.io.File;
 public class MusicPlayer {
     Clip clip;
     AudioInputStream audioInputStream;
-    static String filePath = "./src/main/music/racer.wav";
+    static String filePath = "./music/racer.wav";
 
     public MusicPlayer(){
         try {
@@ -18,12 +18,6 @@ public class MusicPlayer {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) {
             System.out.println(e);
-        }
-    }
-
-    public void play(){
-        if(clip != null) {
-            clip.start();
         }
     }
 

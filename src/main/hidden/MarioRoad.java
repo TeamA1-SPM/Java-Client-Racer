@@ -1,7 +1,7 @@
 package main.hidden;
 
 import main.constants.Colors;
-import main.helper.Segment;
+import main.gamehelper.Segment;
 
 import java.awt.*;
 import java.util.ArrayList;

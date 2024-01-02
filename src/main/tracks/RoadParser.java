@@ -3,12 +3,14 @@ package main.tracks;
 
 import main.constants.SpriteName;
 import main.game.SpritesLoader;
-import main.helper.Car;
-import main.helper.Point;
-import main.helper.Segment;
+import main.gamehelper.Car;
+import main.gamehelper.Point;
+import main.gamehelper.Segment;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
@@ -18,7 +20,6 @@ import static main.constants.SpriteName.*;
 
 
 public class RoadParser{
-    private final String jsonPath = "./src/main/tracks/" ; //assign your JSON String here
     private final SpritesLoader spritesLoader;
     private ArrayList<Segment> segmentList;
     private final ArrayList<Car> carList = new ArrayList<>();
@@ -31,6 +32,13 @@ public class RoadParser{
         String fileName = switch (number) {
             case 2 -> "track02.json";
             case 3 -> "track03.json";
+            case 4 -> "track04.json";
+            case 5 -> "track05.json";
+            case 6 -> "track06.json";
+            case 7 -> "track07.json";
+            case 8 -> "track08.json";
+            case 9 -> "track09.json";
+            case 10 -> "track10.json";
             default -> "track01.json";
         };
         return parse(fileName);
@@ -45,7 +53,16 @@ public class RoadParser{
         try {
             JSONParser parser = new JSONParser();
             //Use JSONObject for simple JSON and JSONArray for array of JSON.
-            JSONArray data = (JSONArray) parser.parse(new FileReader(jsonPath+fileName));//path to the JSON file.
+
+            FileReader reader;
+
+            try{
+                reader = new FileReader("./tracks/" + fileName);
+            }catch (FileNotFoundException e){
+                reader = new FileReader("./src/main/tracks/" + fileName);
+            }
+
+            JSONArray data = (JSONArray) parser.parse(reader);//path to the JSON file.
 
             for(int i = 0; i < data.size(); i++){
                 Segment segment = new Segment(i);

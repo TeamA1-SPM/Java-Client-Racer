@@ -1,4 +1,4 @@
-package main.helper;
+package main.gamehelper;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,13 +32,13 @@ public class Segment {
     public Segment(int index){
         this.index = index;
 
-        p1World = new main.helper.Point(0,0,0);
-        p1Camera = new main.helper.Point(0,0,0);
-        p1Screen = new main.helper.Point(0,0,0);
+        p1World = new Point(0,0,0);
+        p1Camera = new Point(0,0,0);
+        p1Screen = new Point(0,0,0);
 
-        p2World = new main.helper.Point(0,0,0);
-        p2Camera = new main.helper.Point(0,0,0);
-        p2Screen = new main.helper.Point(0,0,0);
+        p2World = new Point(0,0,0);
+        p2Camera = new Point(0,0,0);
+        p2Screen = new Point(0,0,0);
 
         this.curve = 0;
 
@@ -99,7 +99,7 @@ public class Segment {
         return p1World;
     }
 
-    public void setP1World(main.helper.Point p1World) {
+    public void setP1World(Point p1World) {
         this.p1World = p1World;
     }
 
@@ -115,7 +115,7 @@ public class Segment {
         return p2World;
     }
 
-    public void setP2World(main.helper.Point p2World) {
+    public void setP2World(Point p2World) {
         this.p2World = p2World;
     }
 
