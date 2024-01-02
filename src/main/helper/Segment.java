@@ -17,19 +17,17 @@ public class Segment {
     private Color colorRumble;
 
     private Point p1World;
-    private Point p1Camera;
-    private Point p1Screen;
+    private final Point p1Camera;
+    private final Point p1Screen;
 
     private Point p2World;
-    private Point p2Camera;
-    private Point p2Screen;
+    private final Point p2Camera;
+    private final Point p2Screen;
 
     private double curve;
     private double clip;
 
-    private final ArrayList<Sprite> roadsideList;
-    private final ArrayList<Sprite> carList;
-
+    private final ArrayList<RoadSideObject> roadsideList;
 
     public Segment(int index){
         this.index = index;
@@ -45,8 +43,6 @@ public class Segment {
         this.curve = 0;
 
         this.roadsideList = new ArrayList<>();
-        this.carList = new ArrayList<>();
-
     }
 
     // sets color mode for each segment type
@@ -111,16 +107,8 @@ public class Segment {
         return p1Camera;
     }
 
-    public void setP1Camera(main.helper.Point p1Camera) {
-        this.p1Camera = p1Camera;
-    }
-
     public Point getP1Screen() {
         return p1Screen;
-    }
-
-    public void setP1Screen(main.helper.Point p1Screen) {
-        this.p1Screen = p1Screen;
     }
 
     public Point getP2World() {
@@ -135,16 +123,8 @@ public class Segment {
         return p2Camera;
     }
 
-    public void setP2Camera(main.helper.Point p2Camera) {
-        this.p2Camera = p2Camera;
-    }
-
     public Point getP2Screen() {
         return p2Screen;
-    }
-
-    public void setP2Screen(Point p2Screen) {
-        this.p2Screen = p2Screen;
     }
 
     public boolean isLooped() {
@@ -167,15 +147,11 @@ public class Segment {
         this.curve = curve;
     }
 
-    public ArrayList<Sprite> getRoadsideList(){
+    public ArrayList<RoadSideObject> getRoadsideList(){
         return roadsideList;
     }
     public void addRoadsideObj(SpriteName name, double offset, double width){
-        roadsideList.add(new Sprite(name, offset, 0, 0, width));
-    }
-    public ArrayList<Sprite> getCarList() { return carList; }
-    public void addCar(SpriteName name, double offset, double z, double speed, double width) {
-        carList.add(new Sprite(name, offset, z, speed, width));
+        roadsideList.add(new RoadSideObject(name, offset, width));
     }
 
     public double getClip() { return clip; }

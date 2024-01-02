@@ -2,19 +2,16 @@ package main;
 
 
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import main.constants.GameMode;
-import main.constants.GameState;
 import main.game.*;
-import main.helper.Connection;
-import main.helper.GameLoopTimer;
-import main.helper.InputListener;
-import main.helper.Segment;
+import main.helper.*;
 import main.hidden.MarioRoad;
+import main.music.MusicPlayer;
 import main.tracks.RoadParser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import static main.constants.GameState.*;
@@ -31,18 +28,22 @@ public class Game implements Runnable {
     private Connection connection;
     private SpritesLoader spriteLoader;
     private Player player;
+    private EnemyPlayer enemy;
     private Race race;
     private Background background;
     private Road road;
+    private CarSimulation carSim;
     private HUD hud;
     private Physics gamePhysics;
     RoadParser roadParser;
-    private GameState gameState = LOADING;
+    private final GameSetup gameSetup;
     private final GameMode gameMode;
 
-    public Game(JFrame context, Connection connection, GameMode gameMode) {
+    public Game(JFrame context, Connection connection, GameSetup gameSetup) {
       this.context = context;
-      this.gameMode = gameMode;
+      this.gameSetup = gameSetup;
+      this.gameMode = gameSetup.getGameMode();
+
       if(gameMode == MULTI_PLAYER){
           this.connection = connection;
           // setup emit listener for server activated game functions
@@ -59,51 +60,40 @@ public class Game implements Runnable {
         keyListener = new InputListener();
         context.addKeyListener(keyListener);
         timer = new GameLoopTimer();
+        MusicPlayer musicPlayer = new MusicPlayer();
+        musicPlayer.stop();
 
         spriteLoader = new SpritesLoader();
         background = new Background();
         hud = new HUD();
 
-        roadParser = new RoadParser();
-        // TODO temporary solution for creating roads
-        RoadCreator roadCreator = new RoadCreator(spriteLoader);
+        roadParser = new RoadParser(spriteLoader);
+        road = new Road(roadParser.getTrack(gameSetup.getTrackNr()));
+        double maxPosition = road.getTrackLength();
+        carSim = new CarSimulation(roadParser.getCarList(), maxPosition);
 
-        ArrayList<Segment> roadSegments;
+        player = new Player(gameSetup.getPlayerName(), maxPosition, spriteLoader);
+        player.setPlayerX(gameSetup.getStartPosition());
 
-        //roadSegments = roadCreator.createV1StraightRoad();
-        //roadSegments = roadCreator.createV2CurvyRoad();
-        //roadSegments = roadCreator.createV3HillRoad();
-        roadSegments = roadCreator.createV4Final();
-        //roadSegments = parser.parse("track01.json");
+        gamePhysics = new Physics(player);
+        race = new Race(gameSetup.getLaps(), maxPosition, connection, gameMode);
 
-
-        road = new Road(roadSegments);
-        player = new Player("TestDrive", road.getTrackLength(), spriteLoader);
-        gamePhysics = new Physics(player, roadSegments);
-
-        // TODO maxLaps needs to be adjusted somewhere
-        race = new Race(6, road.getTrackLength(), connection, gameMode);
-
-        gameState = READY;
     }
 
 
     // server activated methods
     private void serverFunctions(Socket socket){
-
         // get best lap times from server
-        socket.on(GET_BEST_LAP_TIMES, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                race.setBestLapTime(args[0]);
-                race.setBestEnemyTime(args[1]);
-            }
-        }).on(SERVER_COUNTDOWN, new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println(args[0]);
-                race.setCountdown(args[0]);
-            }
+        socket.on(GET_BEST_LAP_TIMES, args -> {
+            race.setBestLapTime(args[0]);
+            race.setBestEnemyTime(args[1]);
+        }).on(SERVER_COUNTDOWN, args ->
+                race.setCountdown(args[0])
+        ).on(GET_POSITION, args -> {
+            enemy.setPosition(args[0]);
+            enemy.setPlayerX(args[1]);
+            enemy.setSteer(args[2]);
+            enemy.setUpDown(args[3]);
         });
     }
 
@@ -112,9 +102,11 @@ public class Game implements Runnable {
     public void run() {
 
         race.setGameState(COUNTDOWN);
+        this.carSim.addPlayer(player);
         switch (gameMode){
             case MULTI_PLAYER:
-                //connection.ready();
+                this.enemy = new EnemyPlayer(gameSetup.getEnemyName());
+                this.carSim.addEnemy(enemy);
                 break;
             case SINGLE_PLAYER:
                 timer.startCountdown();
@@ -126,9 +118,8 @@ public class Game implements Runnable {
                 break;
         }
 
-
         // single frame
-        while (gameState != END) {
+        while (race.getGameState() != END) {
             if(timer.isReady()){
                 // update game logic
                 update();
@@ -136,36 +127,90 @@ public class Game implements Runnable {
                 render();
             }
         }
+
+        exit();
+    }
+
+    private void exit(){
+        this.context.dispose();
     }
 
     // game logic update
     private void update(){
         // get player segment based of player position
         Segment playerSegment = road.findSegment(player.getPosition() + PLAYER_Z);
-
-        // update parallax scrolling background
-        background.update(playerSegment.getCurve(), player.getSpeed());
+        ArrayList<Car> segmentCars = road.getSegmentCars(playerSegment.getIndex());
 
         switch (race.getGameState()) {
             case RUNNING:
+                // update parallax scrolling background
+                background.update(playerSegment.getCurve(), player.getSpeed());
+                // simulate npc car movement
+                carSim.update(player, enemy);
                 // update npc cars on the road
-                road.update(player);
-                // update player speed and position
+                road.update(carSim.getCarList());
+                // update player input
                 player.update(keyListener);
-                // updates collision
-                gamePhysics.update();
+                // updates collision and player position
+                gamePhysics.update(playerSegment, segmentCars);
                 // update laps and lap time
                 race.update(player.getPosition());
+
+                // pause the game
+                if(keyListener.isKeyPressed(KeyEvent.VK_ESCAPE)){
+                    keyListener.keyRelease(KeyEvent.VK_ESCAPE);
+                    race.setGameState(PAUSE);
+                }
+
                 break;
             case COUNTDOWN:
                 if(gameMode == SINGLE_PLAYER || gameMode == MARIO){
                     race.setCountdown(timer.getCountdown());
                 }
+                // simulate npc car movement
+                carSim.update(player, enemy);
+                // update npc cars on the road
+                road.update(carSim.getCarList());
                 break;
             case RESULT:
-                road.update(player);
-                // TODO show result
+                // simulate npc car movement
+                carSim.update(player, enemy);
+                // update npc cars on the road
+                road.update(carSim.getCarList());
                 break;
+            case PAUSE:
+                if(gameMode == MULTI_PLAYER){
+                    // simulate npc car movement
+                    carSim.update(player, enemy);
+                    // update npc cars on the road
+                    road.update(carSim.getCarList());
+                    // update laps and lap time
+                    race.update(player.getPosition());
+                }
+
+                if(keyListener.isKeyPressed(KeyEvent.VK_ESCAPE)){
+                    keyListener.keyRelease(KeyEvent.VK_ESCAPE);
+                    carSim.isRunning(true);
+                    race.setGameState(RUNNING);
+                } else if (keyListener.isKeyPressed(KeyEvent.VK_UP)) {
+                    hud.setPausePos(1);
+                } else if (keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
+                    hud.setPausePos(2);
+                } else if (keyListener.isKeyPressed(KeyEvent.VK_ENTER)) {
+                    int pos = hud.getPausePos();
+                    if(pos == 2){
+                        race.setGameState(END);
+                    }else{
+                        carSim.isRunning(true);
+                        race.setGameState(RUNNING);
+                    }
+                }
+
+                break;
+        }
+
+        if(gameMode == MULTI_PLAYER){
+            connection.sendPosition(player.getPosition(), player.getPlayerX(), player.getSteer(), player.getUpDown());
         }
     }
 

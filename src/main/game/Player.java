@@ -14,15 +14,13 @@ public class Player {
     private double position = 0;
     private final double maxPosition;
     private double playerX = 0;
-    private double playerY = 0;
     private double speed = 0;
     private double accel = 0;
     private int steer = 0;
     private double upDown = 0;
     private final SpritesLoader spritesLoader;
 
-    
-    private String name;
+    private final String name;
 
     public Player(String name, double maxPosition, SpritesLoader spritesLoader) {
         this.name = name;
@@ -30,23 +28,9 @@ public class Player {
         this.spritesLoader = spritesLoader;
     }
 
-    public void accelerate(double accel){
-        this.setSpeed(speed += (accel * STEP));
-    }
-
-    public boolean overlap(double x1, double w1, double x2, double w2, double percent){
-        double half = (percent != 0) ? percent / 2 : (double) 1 / 2;
-        double min1 = x1 - (w1 * half);
-        double max1 = x1 + (w1 * half);
-        double min2 = x2 - (w2 * half);
-        double max2 = x2 + (w2 * half);
-
-        return !((max1 < min2) || (min1 > max2));
-    }
-
     public void update(InputListener keyListener){
 
-        // Player control actions left nad right
+        // Player control actions left and right
         if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
             if (speed > 0){
                 steer = -1;
@@ -75,13 +59,11 @@ public class Player {
     }
 
     public void renderPlayer(Graphics2D g2D){
-        SpriteName spriteName = getPlayerSpriteName();
-
         double scale = CAMERA_DEPTH/PLAYER_Z;
         double destX = (double)SCREEN_WIDTH/2;
-        double destY = (double)SCREEN_HEIGHT-6;
+        double destY = (double)SCREEN_HEIGHT-7;
 
-        spritesLoader.render(g2D, spriteName,scale, destX, destY + calcBounce(), -0.5, -1, 0 );
+        spritesLoader.render(g2D, getPlayerSpriteName(), scale, destX, destY + calcBounce(), -0.5, -1, 0 );
     }
 
     private double calcBounce(){
@@ -139,9 +121,6 @@ public class Player {
         }
     }
 
-    public double getPlayerY() { return playerY; }
-    public void setPlayerY(double playerY) { this.playerY = playerY; }
-
     public double getSpeed(){ return speed; }
     public void setSpeed(double speed){
         if(speed > MAX_SPEED){
@@ -158,5 +137,8 @@ public class Player {
     public int getSteer(){ return steer; }
 
     public void setUpDown(double upDown){ this.upDown = upDown; }
+    public double getUpDown(){
+        return upDown;
+    }
 
 }

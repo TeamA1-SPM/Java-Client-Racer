@@ -1,24 +1,26 @@
 package main.game;
 
-import main.constants.SpriteName;
+import main.constants.GameMode;
 
 import java.awt.*;
 
 import static main.constants.Colors.*;
 import static main.constants.Settings.*;
+import static main.constants.SpriteName.*;
 
 public class HUD {
 
-    private final Font font = new Font("Universal Light", Font.BOLD, 14);
+    private final Font font = new Font("Universal Light", Font.BOLD, 15);
     // HUD size
     private final int hudWidth = SCREEN_WIDTH;
     private final int hudHeight = (int) (SCREEN_HEIGHT * 0.12);
     private Graphics2D g2D;
     // Element size
     // TODO dynamic draw, remove all magic numbers and add scale for each element
-    private int pedding = 38;
+    private final int padding = 38;
+    private final int elemHeight = hudHeight - 48;
 
-    private int elemHeight = hudHeight - 48;
+    private int pausePos = 1;
 
     public void render(Graphics2D g2D, Race race, double speed, SpritesLoader spritesLoader) {
         this.g2D = g2D;
@@ -28,24 +30,27 @@ public class HUD {
                 renderStats(race, speed);
                 break;
             case COUNTDOWN:
-                renderOverlay(race.getCountdown(), spritesLoader);
+                renderCountdown(race.getCountdown(), spritesLoader);
                 break;
             case RESULT:
                 //TODO render result screen
                 break;
+            case PAUSE:
+                renderPauseMenu(spritesLoader);
+                break;
         }
     }
 
-    private void renderOverlay(int countdown, SpritesLoader spritesLoader) {
+    private void renderCountdown(int countdown, SpritesLoader spritesLoader) {
         switch (countdown) {
             case 3:
-                spritesLoader.render(g2D, SpriteName.COUNTDOWN_THREE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+                spritesLoader.render(g2D, COUNTDOWN_THREE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
                 break;
             case 2:
-                spritesLoader.render(g2D, SpriteName.COUNTDOWN_TWO, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+                spritesLoader.render(g2D, COUNTDOWN_TWO, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
                 break;
             case 1:
-                spritesLoader.render(g2D, SpriteName.COUNTDOWN_ONE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+                spritesLoader.render(g2D, COUNTDOWN_ONE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
                 break;
         }
     }
@@ -61,55 +66,69 @@ public class HUD {
         // best lap element
         drawFastestLap(race.getBestLapTime());
         // Enemy best lap element
-        drawEnemyLap(race.getBestEnemyTime());
+        if(race.getMode() == GameMode.MULTI_PLAYER){
+            drawEnemyLap(race.getBestEnemyTime());
+        }
         // Speed element
         drawSpeed(speed);
         // Lap counter element
         drawRound(race.getLap(), race.getMaxLaps());
     }
 
+    private void renderPauseMenu(SpritesLoader spritesLoader){
+        drawPauseSelect(pausePos);
+        spritesLoader.render(g2D, PAUSE_MENU, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
+    }
+
+    public void setPausePos(int pos){
+        this.pausePos = pos;
+    }
+
+    public int getPausePos(){
+        return pausePos;
+    }
 
     private void drawBackground() {
         drawRect(0, 0, hudWidth, hudHeight, HUD_BACKGROUND);
     }
 
     private void drawTime(double time) {
-        drawRect(15, pedding, 120, elemHeight, HUD_GREY);
+        drawRect(15, padding, 120, elemHeight, HUD_GREY);
 
         String text = "Time: " + timeToString(time);
         drawText(20, text);
     }
 
     private void drawLastLap(double time) {
-        drawRect(145, pedding, 180, elemHeight, HUD_YELLOW);
+        drawRect(145, padding, 180, elemHeight, HUD_YELLOW);
 
         String text = "Last Lap: " + timeToString(time);
         drawText(150, text);
     }
 
     private void drawFastestLap(double time) {
-        drawRect(335, pedding, 180, elemHeight, HUD_YELLOW);
+        drawRect(335, padding, 180, elemHeight, HUD_YELLOW);
 
         String text = "Fastest Lap: " + timeToString(time);
         drawText(340, text);
     }
 
     private void drawEnemyLap(double time) {
-        drawRect(525, pedding, 180, elemHeight, HUD_YELLOW);
+        drawRect(525, padding, 180, elemHeight, HUD_YELLOW);
 
         String text = "Enemy Lap: " + timeToString(time);
         drawText(530, text);
     }
 
     private void drawSpeed(double speed) {
-        drawRect(715, pedding, 120, elemHeight, HUD_GREY);
+        drawRect(715, padding, 120, elemHeight, HUD_GREY);
 
         String text = "MPH: " + (int) (speed / 100);
         drawText(720, text);
     }
 
     private void drawRound(int round, int maxRounds) {
-        drawRect(845, pedding, 120, elemHeight, HUD_GREY);
+        drawRect(845, padding, 120, elemHeight, HUD_GREY);
 
         String text = "Round: " + round + " / " + maxRounds;
         drawText(850, text);
@@ -132,6 +151,21 @@ public class HUD {
         return result + sec + "." + mil;
     }
 
+    private void drawPauseSelect(int pos){
+        int xMid = SCREEN_WIDTH/2;
+        int yMid = SCREEN_HEIGHT/2;
+
+        int xStart = xMid - yMid/2;
+        int yStart = yMid;
+        if(pos == 2){
+            yStart += 12;
+        }else{
+            yStart -= 50;
+        }
+
+        drawRect(xStart, yStart, yMid, 50, HUD_BACKGROUND);
+    }
+
     // draws a rectangle with frame
     private void drawRect(int startX, int startY, int width, int height, Color color) {
         g2D.setColor(color);
@@ -147,5 +181,4 @@ public class HUD {
         // TODO add offset remove magic number 20. Title overlap problem.
         g2D.drawString(text, startX, hudHeight / 2 + 20);
     }
-
 }

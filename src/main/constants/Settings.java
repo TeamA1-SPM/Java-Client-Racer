@@ -3,8 +3,8 @@ package main.constants;
 public class Settings {
 
     // Window settings
-    public static final int SCREEN_WIDTH = 1024;    // logical canvas width
-    public static final int SCREEN_HEIGHT = 768;    // logical canvas height
+    public static int SCREEN_WIDTH = 1024;    // logical canvas width
+    public static int SCREEN_HEIGHT = 768;    // logical canvas height
     public static final String SCREEN_TITLE = "Racer Java Client";  // game title
     public static final boolean SCREEN_RESIZABLE = false;           // window resize
     public static final boolean SCREEN_VISIBLE = true;              // window visible
@@ -25,7 +25,6 @@ public class Settings {
     public static final int ROAD_WIDTH = 2000;
     public static final int SEGMENT_LENGTH = 200;
     public static final int RUMBLE_LENGTH = 3;
-    public static final int TOTAL_CARS = 200;
 
     // Player
     public static final double CENTRIFUGAL = 0.3;

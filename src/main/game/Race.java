@@ -23,7 +23,7 @@ public class Race {
     private int lap = 1;
     private final int maxLaps;
 
-    private GameMode mode;
+    private final GameMode mode;
 
 
     public Race(int maxLaps, double trackLength, Connection connection, GameMode mode){
@@ -89,6 +89,10 @@ public class Race {
         } else {
             return ((Number) str).doubleValue();
         }
+    }
+
+    public GameMode getMode(){
+        return mode;
     }
 
     public GameState getGameState(){

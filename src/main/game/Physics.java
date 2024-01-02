@@ -1,7 +1,8 @@
 package main.game;
 
+import main.helper.Car;
 import main.helper.Segment;
-import main.helper.Sprite;
+import main.helper.RoadSideObject;
 
 import java.util.ArrayList;
 
@@ -10,21 +11,16 @@ import static main.constants.Settings.*;
 public class Physics {
 
     private final Player player;
-    private final double maxPosition;
-    ArrayList<Segment> roadSegments;
+    ArrayList<Car> segmentCars;
     Segment playerSegment;
 
-
-
-    public Physics(Player player, ArrayList<Segment> roadSegments){
+    public Physics(Player player){
         this.player = player;
-        this.roadSegments = roadSegments;
-        this.maxPosition = roadSegments.size() * SEGMENT_LENGTH;
     }
 
-    public void update(){
-        int playerIndex = (int) ( ((player.getPosition() + PLAYER_Z)/SEGMENT_LENGTH)%roadSegments.size() );
-        this.playerSegment = roadSegments.get(playerIndex);
+    public void update(Segment playerSegment, ArrayList<Car> segmentCars){
+        this.playerSegment = playerSegment;
+        this.segmentCars = segmentCars;
 
         // player X position
         playerXPosition();
@@ -63,10 +59,10 @@ public class Physics {
             player.setPlayerX(playerX - dx);
         }
 
-        // player offroad check
+        // player off-road check
         if ((playerX < -1) || (playerX > 1)) {
             if (speed > OFF_ROAD_LIMIT) {
-                player.accelerate(OFF_ROAD_DECEL);
+                player.setAccel(OFF_ROAD_DECEL);
             }
         }
     }
@@ -91,13 +87,12 @@ public class Physics {
         double playerX = player.getPlayerX();
 
         if ((playerX < -1) || (playerX > 1)){
-            ArrayList<Sprite> roadSideSprites = playerSegment.getRoadsideList();
-            for(int n = 0; n < roadSideSprites.size() ; n++) {
-                Sprite sprite  = roadSideSprites.get(n);
-                double spriteW = sprite.getWidth();
+            ArrayList<RoadSideObject> roadSideRoadSideObjects = playerSegment.getRoadsideList();
+            for (RoadSideObject roadSideObject : roadSideRoadSideObjects) {
+                double spriteW = roadSideObject.getWidth();
 
-                if (overlap(playerX, PLAYER_W, (sprite.getOffset() + spriteW/2 * (sprite.getOffset() > 0 ? 1 : -1)), spriteW,0.0)) {
-                    player.setSpeed(MAX_SPEED/5);
+                if (overlap(playerX, (roadSideObject.getOffset() + spriteW / 2 * (roadSideObject.getOffset() > 0 ? 1 : -1)), spriteW, 0.0)) {
+                    player.setSpeed(MAX_SPEED / 5);
                     player.setPosition(playerSegment.getP1World().getZ() - PLAYER_Z);
                     break;
                 }
@@ -107,14 +102,15 @@ public class Physics {
 
     // npc car collision check
     private void carCollision(){
-        ArrayList<Sprite> carList = playerSegment.getCarList();
-        for (int i = 0; i < carList.size(); i++){
-            Sprite car = carList.get(i);
-            if(player.getSpeed() > car.getSpeed()){
-                if(overlap(player.getPlayerX(), PLAYER_W, car.getOffset(), car.getWidth(), 0.8)){
+        for (Car car : segmentCars) {
+            if (player.getSpeed() > car.getSpeed()) {
+                if (overlap(player.getPlayerX(), car.getOffset(), car.getWidth(), 0.8)) {
                     double carSpeed = car.getSpeed();
-                    player.setSpeed(carSpeed * (carSpeed/player.getSpeed()));
-
+                    if (carSpeed == 0) {
+                        player.setSpeed(MAX_SPEED / 5);
+                    } else {
+                        player.setSpeed(carSpeed * (carSpeed / player.getSpeed()));
+                    }
                     player.setPosition(car.getPosition() - PLAYER_Z);
                 }
             }
@@ -122,10 +118,10 @@ public class Physics {
     }
 
     // calculation for sprite overlap
-    private boolean overlap(double x1, double w1, double x2, double w2, double percent){
+    private boolean overlap(double x1, double x2, double w2, double percent){
         double half = (percent != 0) ? percent / 2 : (double) 1 / 2;
-        double min1 = x1 - (w1 * half);
-        double max1 = x1 + (w1 * half);
+        double min1 = x1 - (PLAYER_W * half);
+        double max1 = x1 + (PLAYER_W * half);
         double min2 = x2 - (w2 * half);
         double max2 = x2 + (w2 * half);
 
