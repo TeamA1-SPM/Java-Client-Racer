@@ -55,6 +55,7 @@ public class Game implements Runnable {
                 serverFunctions(connection.getSocket());
             }
             this.enemy = new EnemyPlayer(gameSetup.getEnemyName());
+            this.enemy.setPlayerX(gameSetup.getStartPosition() * -1);
         }
         init();
     }
@@ -76,12 +77,11 @@ public class Game implements Runnable {
         double maxPosition = road.getTrackLength();
         carSim = new CarSimulation(roadParser.getCarList(), maxPosition);
 
-        player = new Player(gameSetup.getPlayerName(), maxPosition, spriteLoader);
+        player = new Player(maxPosition, spriteLoader);
         player.setPlayerX(gameSetup.getStartPosition());
 
         gamePhysics = new Physics(player);
         race = new Race(gameSetup.getLaps(), maxPosition, connection, gameMode);
-
         result = new Result(gameSetup.getPlayerName());
     }
 
@@ -176,6 +176,10 @@ public class Game implements Runnable {
                 // update laps and lap time
                 race.update(player.getPosition());
 
+                if(gameMode == MULTI_PLAYER){
+                    connection.sendPosition(player.getPosition(), player.getPlayerX(), player.getSteer(), player.getUpDown());
+                }
+
                 // pause the game
                 if(keyListener.isKeyPressed(KeyEvent.VK_ESCAPE)){
                     keyListener.keyRelease(KeyEvent.VK_ESCAPE);
@@ -237,10 +241,6 @@ public class Game implements Runnable {
                 }
 
                 break;
-        }
-
-        if(gameMode == MULTI_PLAYER){
-            connection.sendPosition(player.getPosition(), player.getPlayerX(), player.getSteer(), player.getUpDown());
         }
     }
 

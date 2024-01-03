@@ -9,16 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// FEATURES&#10;- menu merge">
-      <change afterPath="$PROJECT_DIR$/src/main/gamehelper/Result.java" afterDir="false" />
+    <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="&#10;// DEBUG&#10;- test track &quot;track03.json&quot; added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/constants/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/game/HUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/HUD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gamehelper/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/gamehelper/Connection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/menu/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/menu/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/music/racer.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/tracks/track03.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/Player.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,33 +66,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "E:/GIT/Java-Client-Racer/src/main/tracks",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "onboarding.tips.debug.path": "C:/Users/bitco/OneDrive/Desktop/SPM/GIT/Java-Client-Racer/src/Main.java",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "configurable.group.build",
-    "show.migrate.to.gradle.popup": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/GIT/Java-Client-Racer/src/main/tracks&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/bitco/OneDrive/Desktop/SPM/GIT/Java-Client-Racer/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.build&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\GIT\Java-Client-Racer\src\main\tracks" />
@@ -206,7 +200,9 @@
       <workItem from="1704211500119" duration="515000" />
       <workItem from="1704212031053" duration="13453000" />
       <workItem from="1704227010077" duration="330000" />
-      <workItem from="1704270088961" duration="11347000" />
+      <workItem from="1704270088961" duration="11547000" />
+      <workItem from="1704284547429" duration="61000" />
+      <workItem from="1704294774987" duration="779000" />
     </task>
     <task id="LOCAL-00001" summary="GameLoop barebone like V1 JavaScript version&#10;Quick and dirty: no comments, all in one Class, no structure&#10;- added music, images and sprites files&#10;- created JFrame Window&#10;- added KeyListener&#10;- added update()&#10;&#10;!!!missing rendering function!!!">
       <option name="closed" value="true" />
@@ -320,7 +316,23 @@
       <option name="project" value="LOCAL" />
       <updated>1703061547623</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="// FEATURES&#10;- show result v1&#10;&#10;// REFACTORING&#10;- Server functions renamed&#10;&#10;// DEBUG&#10;- fix enemy player null">
+      <option name="closed" value="true" />
+      <created>1704284300539</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1704284300539</updated>
+    </task>
+    <task id="LOCAL-00016" summary="&#10;// DEBUG&#10;- test track &quot;track03.json&quot; added">
+      <option name="closed" value="true" />
+      <created>1704284602827</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1704284602827</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -364,7 +376,9 @@
     <MESSAGE value="// BUG FIX&#10;- removed traffic jams" />
     <MESSAGE value="// FEATURES&#10;- npc car collision" />
     <MESSAGE value="// FEATURES&#10;- menu merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="// FEATURES&#10;- menu merge" />
+    <MESSAGE value="// FEATURES&#10;- show result v1&#10;&#10;// REFACTORING&#10;- Server functions renamed&#10;&#10;// DEBUG&#10;- fix enemy player null" />
+    <MESSAGE value="&#10;// DEBUG&#10;- test track &quot;track03.json&quot; added" />
+    <option name="LAST_COMMIT_MESSAGE" value="&#10;// DEBUG&#10;- test track &quot;track03.json&quot; added" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

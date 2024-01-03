@@ -20,10 +20,7 @@ public class Player {
     private double upDown = 0;
     private final SpritesLoader spritesLoader;
 
-    private final String name;
-
-    public Player(String name, double maxPosition, SpritesLoader spritesLoader) {
-        this.name = name;
+    public Player(double maxPosition, SpritesLoader spritesLoader) {
         this.maxPosition = maxPosition;
         this.spritesLoader = spritesLoader;
     }
