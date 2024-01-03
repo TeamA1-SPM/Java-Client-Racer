@@ -1,6 +1,7 @@
 package main.game;
 
 import main.constants.GameMode;
+import main.gamehelper.Result;
 
 import java.awt.*;
 
@@ -21,6 +22,8 @@ public class HUD {
     private final int elemHeight = hudHeight - 48;
     private int pausePos = 1;
 
+    private Result result;
+
     public void render(Graphics2D g2D, Race race, double speed, SpritesLoader spritesLoader) {
         this.g2D = g2D;
 
@@ -40,6 +43,16 @@ public class HUD {
         }
     }
 
+
+    public void setResult(Result result){ this.result = result; }
+    public void setPausePos(int pos){
+        this.pausePos = pos;
+    }
+    public int getPausePos(){
+        return pausePos;
+    }
+
+
     private void renderCountdown(int countdown, SpritesLoader spritesLoader) {
         switch (countdown) {
             case 3:
@@ -55,7 +68,11 @@ public class HUD {
     }
 
     private void renderResult(){
+        int xMid = SCREEN_WIDTH / 2;
+        int yMid = SCREEN_HEIGHT / 2;
+        int size = 300;
 
+        drawRect(xMid - (size/2),yMid - (size/2), size, size, SCREEN_DARK);
     }
 
     private void renderStats(Race race, double speed) {
@@ -98,14 +115,6 @@ public class HUD {
         }
 
         drawRect(xStart+offset, yStart, yMid-(2*offset), 50, HUD_BACKGROUND);
-    }
-
-    public void setPausePos(int pos){
-        this.pausePos = pos;
-    }
-
-    public int getPausePos(){
-        return pausePos;
     }
 
     private void drawBackground() {

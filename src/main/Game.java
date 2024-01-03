@@ -37,6 +37,7 @@ public class Game implements Runnable {
     private HUD hud;
     private Physics gamePhysics;
     private final GameSetup gameSetup;
+    private Result result;
     MusicPlayer musicPlayer;
     private final GameMode gameMode;
     private final MainMenu menu;
@@ -53,6 +54,7 @@ public class Game implements Runnable {
             if(connection != null){
                 serverFunctions(connection.getSocket());
             }
+            this.enemy = new EnemyPlayer(gameSetup.getEnemyName());
         }
         init();
     }
@@ -80,6 +82,7 @@ public class Game implements Runnable {
         gamePhysics = new Physics(player);
         race = new Race(gameSetup.getLaps(), maxPosition, connection, gameMode);
 
+        result = new Result(gameSetup.getPlayerName());
     }
 
 
@@ -87,15 +90,29 @@ public class Game implements Runnable {
     private void serverFunctions(Socket socket){
         // get best lap times from server
         socket.on(GET_BEST_LAP_TIMES, args -> {
+            // args (my_time, enemy_time)
             race.setBestLapTime(args[0]);
             race.setBestEnemyTime(args[1]);
-        }).on(SERVER_COUNTDOWN, args ->
-                race.setCountdown(args[0])
-        ).on(GET_POSITION, args -> {
+        }).on(GET_SERVER_COUNTDOWN, args -> {
+            // args (countdown)
+            race.setCountdown(args[0]);
+        }).on(GET_POSITION, args -> {
+            // args (position, playerX, steer, gradient)
             enemy.setPosition(args[0]);
             enemy.setPlayerX(args[1]);
             enemy.setSteer(args[2]);
             enemy.setUpDown(args[3]);
+        }).on(GET_RESULT, args -> {
+            System.out.println("Game Over");
+            // args (enemy_name, my_best_lap, enemy_best_lap, won_bool)
+            result.setEnemyName((String)args[0]);
+            result.setPlayerBestTime(args[1]);
+            result.setEnemyBestTime(args[2]);
+            result.setPlayerWon((boolean)args[3]);
+
+            System.out.println("Player: " + result.getPlayerName());
+            System.out.println("Enemy: " + result.getEnemyName());
+            System.out.println("Won: " + result.getPlayerWon());
         });
     }
 
@@ -107,7 +124,6 @@ public class Game implements Runnable {
         this.carSim.addPlayer(player);
         switch (gameMode){
             case MULTI_PLAYER:
-                this.enemy = new EnemyPlayer(gameSetup.getEnemyName());
                 this.carSim.addEnemy(enemy);
                 break;
             case SINGLE_PLAYER:
@@ -177,10 +193,22 @@ public class Game implements Runnable {
                 road.update(carSim.getCarList());
                 break;
             case RESULT:
+
+                if(gameMode != MULTI_PLAYER){
+                    result.setPlayerBestTime(race.getBestLapTime());
+                    result.setPlayerWon(true);
+                }
+                hud.setResult(result);
+
                 // simulate npc car movement
                 carSim.update(player, enemy);
                 // update npc cars on the road
                 road.update(carSim.getCarList());
+
+                if(keyListener.isKeyPressed(KeyEvent.VK_ENTER)){
+                    race.setGameState(END);
+                }
+
                 break;
             case PAUSE:
                 if(gameMode == MULTI_PLAYER){

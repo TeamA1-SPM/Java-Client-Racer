@@ -42,31 +42,31 @@ public class Connection {
             dict.put("username", username);
             dict.put("passwort", password);
             dict.put("loggedIn", "false");
-            socket.emit(REGISTER, dict);
+            socket.emit(SEND_REGISTER, dict);
         }
     }
 
     public void login(String username, String password){
         if(socket != null) {
-            socket.emit(LOGIN, username, password);
+            socket.emit(SEND_LOGIN, username, password);
         }
     }
 
     public void logout(){
         if(socket != null) {
-            socket.emit(LOGOUT);
+            socket.emit(SEND_LOGOUT);
         }
     }
 
     public void findLobby(){
         if(socket != null) {
-            socket.emit(FIND_LOBBY);
+            socket.emit(SEND_FIND_LOBBY);
         }
     }
 
     public void leaveLobby(){
         if(socket != null) {
-            socket.emit(LEAVE_LOBBY);
+            socket.emit(SEND_LEAVE_LOBBY);
         }
     }
 
@@ -78,13 +78,13 @@ public class Connection {
 
     public void sendFinishedRace(){
         if(socket != null) {
-            socket.emit(FINISH_RACE);
+            socket.emit(SEND_FINISH_RACE);
         }
     }
 
     public void ready(){
         if(socket != null) {
-            socket.emit(START_GAME);
+            socket.emit(SEND_START_GAME);
         }
     }
 

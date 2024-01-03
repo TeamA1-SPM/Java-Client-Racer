@@ -244,10 +244,11 @@ public class MainMenu extends JFrame implements ActionListener {
         }).on("start_game", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                GameSetup setup = new GameSetup(GameMode.MULTI_PLAYER,1,3,username);
+                GameSetup setup = new GameSetup(GameMode.MULTI_PLAYER,3,1,username);
                 setup.setMultiplayerParameters((String)args[0], (String)args[1]);
                 connection.ready();
-                startGame(setup); }
+                startGame(setup);
+            }
         });
     }
 
@@ -344,12 +345,14 @@ public class MainMenu extends JFrame implements ActionListener {
 
     public void startGame(GameSetup setup) {
         this.setVisible(false);
+
         if(setup.getGameMode() == GameMode.MULTI_PLAYER){
             VisibilityManager.hideComponents(lobbyButtons);
             VisibilityManager.showComponents(preLobbyButtons);
             waitingLbl.setVisible(false);
             setTextOfLabel(mainMenuLbl, "PRE-LOBBY");
         }
+
         main.Window window = new Window();
         Game game = new Game(this, window, connection, setup);
         Thread gameThread = new Thread(game);
@@ -357,7 +360,7 @@ public class MainMenu extends JFrame implements ActionListener {
     }
 
     public void playClicked() {
-        GameSetup setup = new GameSetup(GameMode.SINGLE_PLAYER,1,3,"");
+        GameSetup setup = new GameSetup(GameMode.SINGLE_PLAYER,3,1,"");
         startGame(setup);
     }
 
