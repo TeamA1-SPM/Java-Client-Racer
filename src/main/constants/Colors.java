@@ -21,8 +21,8 @@ public class Colors {
     public static final Color HUD_YELLOW = new Color(255, 200, 0, 150);
     public static final Color HUD_FRAME = new Color(0, 0, 0);
     public static final Color HUD_FONT = new Color(0, 0, 0);
+    public static final Color HUD_FONT_GREEN = new Color(17, 87, 17);
+    public static final Color HUD_FONT_RED = new Color(70, 2, 2);
     public static final Color SCREEN_DARK = new Color(0, 0, 0, 80);
-
-
 
 }

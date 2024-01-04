@@ -244,7 +244,7 @@ public class MainMenu extends JFrame implements ActionListener {
         }).on("start_game", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                GameSetup setup = new GameSetup(GameMode.MULTI_PLAYER,3,1,username);
+                GameSetup setup = new GameSetup(GameMode.MULTI_PLAYER,1,1,username);
                 setup.setMultiplayerParameters((String)args[0], (String)args[1]);
                 connection.ready();
                 startGame(setup);
@@ -360,7 +360,7 @@ public class MainMenu extends JFrame implements ActionListener {
     }
 
     public void playClicked() {
-        GameSetup setup = new GameSetup(GameMode.SINGLE_PLAYER,3,1,"");
+        GameSetup setup = new GameSetup(GameMode.SINGLE_PLAYER,1,1,"PLAYER");
         startGame(setup);
     }
 

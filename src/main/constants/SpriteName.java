@@ -43,6 +43,11 @@ public enum SpriteName {
     COUNTDOWN_TWO,
     COUNTDOWN_ONE,
 
-    PAUSE_MENU
+    PAUSE_MENU,
+    RESULT,
+    PRESS_ENTER,
+    WAITING,
+    WIN,
+    LOSE
 
 }

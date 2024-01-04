@@ -11,8 +11,8 @@ import static main.constants.Settings.*;
 public class Physics {
 
     private final Player player;
-    ArrayList<Car> segmentCars;
-    Segment playerSegment;
+    private ArrayList<Car> segmentCars;
+    private Segment playerSegment;
 
     public Physics(Player player){
         this.player = player;

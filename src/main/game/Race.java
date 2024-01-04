@@ -91,10 +91,6 @@ public class Race {
         }
     }
 
-    public GameMode getMode(){
-        return mode;
-    }
-
     public GameState getGameState(){
         return gameState;
     }

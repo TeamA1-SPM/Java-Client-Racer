@@ -70,7 +70,7 @@ public class Game implements Runnable {
 
         spriteLoader = new SpritesLoader();
         background = new Background();
-        hud = new HUD();
+        hud = new HUD(gameSetup);
 
         RoadParser roadParser = new RoadParser(spriteLoader);
         road = new Road(roadParser.getTrack(gameSetup.getTrackNr()));
@@ -103,16 +103,13 @@ public class Game implements Runnable {
             enemy.setSteer(args[2]);
             enemy.setUpDown(args[3]);
         }).on(GET_RESULT, args -> {
-            System.out.println("Game Over");
             // args (enemy_name, my_best_lap, enemy_best_lap, won_bool)
             result.setEnemyName((String)args[0]);
             result.setPlayerBestTime(args[1]);
             result.setEnemyBestTime(args[2]);
             result.setPlayerWon((boolean)args[3]);
 
-            System.out.println("Player: " + result.getPlayerName());
-            System.out.println("Enemy: " + result.getEnemyName());
-            System.out.println("Won: " + result.getPlayerWon());
+            race.setGameState(RESULT);
         });
     }
 
@@ -150,6 +147,7 @@ public class Game implements Runnable {
     }
 
     private void exit(){
+        // TODO send leave race to server
         musicPlayer.stop();
         menu.setVisible(true);
         this.context.dispose();
@@ -173,13 +171,14 @@ public class Game implements Runnable {
                 player.update(keyListener);
                 // updates collision and player position
                 gamePhysics.update(playerSegment, segmentCars);
-                // update laps and lap time
-                race.update(player.getPosition());
 
                 if(gameMode == MULTI_PLAYER){
                     connection.sendPosition(player.getPosition(), player.getPlayerX(), player.getSteer(), player.getUpDown());
                 }
 
+
+                // update laps and lap time
+                race.update(player.getPosition());
                 // pause the game
                 if(keyListener.isKeyPressed(KeyEvent.VK_ESCAPE)){
                     keyListener.keyRelease(KeyEvent.VK_ESCAPE);

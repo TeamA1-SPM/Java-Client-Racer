@@ -3,7 +3,7 @@ package main.constants;
 public class Server {
 
     // server address
-    public static final String URI = "https://racing-server.onrender.com";
+    public static final String URI = "https://racing-server-test.onrender.com";
 
     // Client invoked
     public static final String SEND_REGISTER = "register";                  // player register function

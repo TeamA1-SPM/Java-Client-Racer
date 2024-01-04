@@ -98,6 +98,11 @@ public class SpritesLoader {
         spritesMap.put(COUNTDOWN_THREE, new SpriteCoordinates(1382,1370,96,106));
 
         spritesMap.put(PAUSE_MENU, new SpriteCoordinates(1088,1372,106,104));
+        spritesMap.put(RESULT, new SpriteCoordinates(944,1372,112,25));
+        spritesMap.put(PRESS_ENTER, new SpriteCoordinates(919,1425,157,25));
+        spritesMap.put(WAITING, new SpriteCoordinates(747,1440,107,37));
+        spritesMap.put(WIN, new SpriteCoordinates(744,1373,138,25));
+        spritesMap.put(LOSE, new SpriteCoordinates(744,1402,157,25));
     }
 
     private void loadImage(String path){

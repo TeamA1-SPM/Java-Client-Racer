@@ -1,6 +1,7 @@
 package main.game;
 
 import main.constants.GameMode;
+import main.gamehelper.GameSetup;
 import main.gamehelper.Result;
 
 import java.awt.*;
@@ -21,8 +22,13 @@ public class HUD {
     private final int padding = 38;
     private final int elemHeight = hudHeight - 48;
     private int pausePos = 1;
-
     private Result result;
+    private GameSetup setup;
+
+
+    public HUD(GameSetup setup){
+        this.setup = setup;
+    }
 
     public void render(Graphics2D g2D, Race race, double speed, SpritesLoader spritesLoader) {
         this.g2D = g2D;
@@ -35,7 +41,9 @@ public class HUD {
                 renderCountdown(race.getCountdown(), spritesLoader);
                 break;
             case RESULT:
-                renderResult();
+                if(result != null){
+                    renderResult(spritesLoader);
+                }
                 break;
             case PAUSE:
                 renderPauseMenu(spritesLoader);
@@ -54,6 +62,29 @@ public class HUD {
 
 
     private void renderCountdown(int countdown, SpritesLoader spritesLoader) {
+
+        if(setup.getGameMode() == GameMode.MULTI_PLAYER){
+
+            int startX1 = (SCREEN_WIDTH/3);
+            int startX2 = (SCREEN_WIDTH * 2/3);
+            int y = SCREEN_HEIGHT / 4;
+
+            drawRect(0, y - 40, SCREEN_WIDTH, 60, HUD_BACKGROUND);
+
+            int fontSize = 28;
+            Font font = new Font("Universal Light", Font.BOLD, fontSize);
+
+            g2D.setFont(font);
+            g2D.setColor(Color.WHITE);
+
+            String player1 = setup.getPlayerName();
+            String player2 = setup.getEnemyName();
+
+            g2D.drawString(player1, startX1, y);
+            g2D.drawString(player2, startX2, y);
+            g2D.drawString("VS", SCREEN_WIDTH/2, y);
+        }
+
         switch (countdown) {
             case 3:
                 spritesLoader.render(g2D, COUNTDOWN_THREE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
@@ -67,12 +98,69 @@ public class HUD {
         }
     }
 
-    private void renderResult(){
-        int xMid = SCREEN_WIDTH / 2;
-        int yMid = SCREEN_HEIGHT / 2;
-        int size = 300;
+    private void renderResult(SpritesLoader spritesLoader){
+        int width = 300;
+        int height = 400;
 
-        drawRect(xMid - (size/2),yMid - (size/2), size, size, SCREEN_DARK);
+        if(setup.getGameMode() == GameMode.MULTI_PLAYER){
+            width = 600;
+        }
+
+        int xStart = (SCREEN_WIDTH - width) / 2;
+        int yStart = (SCREEN_HEIGHT - height)/ 2;
+
+        drawRect(xStart,yStart, width, height, HUD_BACKGROUND);
+        drawRect(xStart + 20, yStart + 65, width - 40, height - 110, HUD_GREY);
+
+        // title
+        spritesLoader.render(g2D, RESULT, 0.0005, (double) SCREEN_WIDTH /2, (double) SCREEN_HEIGHT /2, -0.5, -3.9, 0);
+
+        if(result.getPlayerWon() == null){
+            // waiting for other player to finish
+            spritesLoader.render(g2D, WAITING, 0.0005, (double) SCREEN_WIDTH /2, (double) SCREEN_HEIGHT /2, -0.5, -0.5, 0);
+        }else{
+            if(setup.getGameMode() == GameMode.MULTI_PLAYER){
+                renderPlayerResult(result.getPlayerName(), result.getPlayerBestTime(), SCREEN_WIDTH/3, result.getPlayerWon());
+                renderPlayerResult(result.getEnemyName(), result.getEnemyBestTime(), (SCREEN_WIDTH * 2)/3, !result.getPlayerWon());
+            }else{
+                renderPlayerResult(result.getPlayerName(), result.getPlayerBestTime(), SCREEN_WIDTH/2, result.getPlayerWon());
+            }
+
+            if(result.getPlayerWon()){
+                // show player win
+                spritesLoader.render(g2D, WIN, 0.0004, (double) SCREEN_WIDTH /2, (double) SCREEN_HEIGHT /2, -0.5, 2.5, 0);
+            } else if (!result.getPlayerWon()) {
+                // show player lose
+                spritesLoader.render(g2D, LOSE, 0.0004, (double) SCREEN_WIDTH /2, (double) SCREEN_HEIGHT /2, -0.5, 2.5, 0);
+            }
+        }
+
+        // footer
+        spritesLoader.render(g2D, PRESS_ENTER, 0.0003, (double) SCREEN_WIDTH /2, (double) SCREEN_HEIGHT /2, -0.5, 5.8, 0);
+    }
+
+    private void renderPlayerResult(String name, double bestTime, int axis, boolean win){
+        int fontSize = 28;
+        Font font = new Font("Universal Light", Font.BOLD, fontSize);
+        g2D.setFont(font);
+        g2D.setColor(HUD_FONT);
+
+        String bestLapTitle = "best lap:";
+        String playerName = name;
+        if(playerName == null || playerName.isEmpty()){
+            playerName = "PLAYER";
+        }
+
+        axis -= (int) (fontSize * (playerName.length()/2) * 0.75);
+
+        g2D.drawString(playerName, axis, (SCREEN_HEIGHT /2) - 70);
+        g2D.drawString(bestLapTitle, axis, (SCREEN_HEIGHT /2) - 10);
+        if(win){
+            g2D.setColor(HUD_FONT_GREEN);
+        }else{
+            g2D.setColor(HUD_FONT_RED);
+        }
+        g2D.drawString(timeToString(bestTime),axis , (SCREEN_HEIGHT /2) + 40);
     }
 
     private void renderStats(Race race, double speed) {
@@ -86,7 +174,7 @@ public class HUD {
         // best lap element
         drawFastestLap(race.getBestLapTime());
         // Enemy best lap element
-        if(race.getMode() == GameMode.MULTI_PLAYER){
+        if(setup.getGameMode() == GameMode.MULTI_PLAYER){
             drawEnemyLap(race.getBestEnemyTime());
         }
         // Speed element
