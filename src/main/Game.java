@@ -190,6 +190,9 @@ public class Game implements Runnable {
                 if(gameMode == SINGLE_PLAYER || gameMode == MARIO){
                     race.setCountdown(timer.getCountdown());
                 }
+                if(race.getCountdown() == 2){
+                    carSim.isRunning(true);
+                }
                 // simulate npc car movement
                 carSim.update(player, enemy);
                 // update npc cars on the road

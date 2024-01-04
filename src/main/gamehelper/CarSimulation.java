@@ -12,7 +12,7 @@ public class CarSimulation {
     private Car playerCar;
     private Car enemyCar;
 
-    private boolean isRunning = true;
+    private boolean isRunning = false;
 
     public CarSimulation(ArrayList<Car> carList, double maxPosition){
         this.carList = carList;
