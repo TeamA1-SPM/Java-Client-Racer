@@ -15,10 +15,12 @@ public class Server {
     public static final String SEND_LAP_TIME = "lap_time";                  // client finished lap
     public static final String SEND_POSITION = "display_player";            // send player position to server
     public static final String SEND_LEAVE_LOBBY = "leave_lobby";            // send player position to server
+    public static final String SEND_BEST_TRACK_TIMES = "best_track_times";
 
     // Server invoked
     public static final String GET_BEST_LAP_TIMES = "best_lap_times";   // get enemy player lap time
     public static final String GET_SERVER_COUNTDOWN = "countdown";      // get countdown from server
     public static final String GET_POSITION = "epp";                    // get enemy position from server
-    public static final String GET_RESULT = "end_game";                // get game results
+    public static final String GET_RESULT = "end_game";                 // get game results
+    public static final String GET_SCOREBOARD = "score_board";          // get score board data
 }

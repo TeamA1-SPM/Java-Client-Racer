@@ -94,4 +94,9 @@ public class Connection {
         }
     }
 
+    public void bestTrackTimes(int track) {
+        if(socket != null) {
+            socket.emit("best_track_times", track);
+        }
+    }
 }
