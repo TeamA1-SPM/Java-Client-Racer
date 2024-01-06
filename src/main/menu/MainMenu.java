@@ -20,6 +20,7 @@ import java.util.Objects;
 
 import static main.menuhelper.BoundsManager.*;
 import static main.menuhelper.FontManager.*;
+import static main.menuhelper.TableManager.*;
 import static main.menuhelper.UserInputManager.*;
 
 import org.json.JSONArray;
@@ -75,14 +76,14 @@ public class MainMenu extends JFrame implements ActionListener {
     private boolean isLoginCorrect = false;
     private boolean registerBool = false;
     private boolean arrowKeysVisible = false;
-    private boolean lbBtnPressed = false;
+    public static boolean lbBtnPressed = false;
 
     // Other required variables
     private ImageIcon menuBackground;
     private ImageIcon arrowKeys;
     private String username;
     private String password;
-    private final String[] leaderboard = new String[20];
+    public static String[] leaderboardData;
     private final Connection connection = new Connection();
 
     // Online and Offline Status gets updated in the Connection class
@@ -160,45 +161,33 @@ public class MainMenu extends JFrame implements ActionListener {
             @Override
             public void call(Object... args) {
 
-                int leaderboardIndex = 0; // Index für leaderboard
-                for (Object arg : args) {  // Iterieren über alle args-Elemente
-                    System.out.println(args[0]);
-                    //System.out.println(args[1]);
-                    if (arg instanceof JSONArray) {
-                        JSONArray jsonArray = (JSONArray) arg;
+                JSONArray jsonArray = (JSONArray) args[0];
+                leaderboardData = new String[jsonArray.length()];
 
-                        try {
-                            // Iterieren über das JSONArray und Extrahieren jedes Elements
-                            for (int i = 0; i < jsonArray.length() && leaderboardIndex < leaderboard.length; i++) {
-                                Object item = jsonArray.get(i); // Holen des Elements am Index i
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    try {
+                        Object value = jsonArray.get(i);
 
-                                if (item instanceof JSONArray) {
-                                    JSONArray innerArray = (JSONArray) item;
-                                    for (int k = 0; k < innerArray.length() && leaderboardIndex < leaderboard.length; k++) {
-                                        leaderboard[leaderboardIndex++] = innerArray.optString(k, null);
-                                    }
-                                } else {
-                                    if (item instanceof String) {
-                                        // Wenn das Element ein String ist
-                                        leaderboard[leaderboardIndex++] = (String) item;
-                                    } else if (item != null) {
-                                        // Für andere Typen (wie Zahlen), konvertieren Sie es zu einem String
-                                        leaderboard[leaderboardIndex++] = item.toString();
-                                    }
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (value instanceof Double) {
+                            value = convertSecondsToTimeString((Double) value);
                         }
-                    }
-                }
+                        // Saving as String (so it is drawable later)
+                        leaderboardData[i] = String.valueOf(value);
 
-                // Zum Testen: Ausgabe des aktualisierten Leaderboards
-                for (int i = 0; i < leaderboard.length; i++) {
-                    System.out.println(leaderboard[i]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
+    }
+
+    // Conversion from double (seconds) to time format
+    private String convertSecondsToTimeString(Double seconds) {
+        int minutes = (int) (seconds / 60);
+        int sec = (int) (seconds % 60);
+        int millisecond = (int) ((seconds - seconds.intValue()) * 1000);
+        return String.format("%d.%02d.%03d", minutes, sec, millisecond);
     }
 
 
@@ -332,104 +321,12 @@ public class MainMenu extends JFrame implements ActionListener {
         }
     }
 
-    private void drawTable(Graphics g) {
-        if (lbBtnPressed) {
-            // White Background
-            drawRect(g, 275, 175, 450, 450, Color.BLACK);
-
-            Graphics2D g2 = (Graphics2D) g;
-            float lineWidth = 4.0f;
-            g2.setStroke(new BasicStroke(lineWidth));
-
-            // Horizontal lines
-            g.drawLine(275, 175, 725, 175);
-            g.drawLine(275, 225, 725, 225);
-            g.drawLine(275, 265, 725, 265);
-            g.drawLine(275, 305, 725, 305);
-            g.drawLine(275, 345, 725, 345);
-            g.drawLine(275, 385, 725, 385);
-            g.drawLine(275, 425, 725, 425);
-            g.drawLine(275, 465, 725, 465);
-            g.drawLine(275, 505, 725, 505);
-            g.drawLine(275, 545, 725, 545);
-            g.drawLine(275, 585, 725, 585);
-            g.drawLine(275, 625, 725, 625);
-
-            // Vertical lines
-            g.drawLine(275, 175, 275, 625);
-            g.drawLine(360, 175, 360, 625);
-            g.drawLine(575, 175, 575, 625);
-            g.drawLine(725, 175, 725, 625);
-
-            // Column headlines
-            drawText(g, "Rank", 280, 210, Color.RED, FontSize35);
-            drawText(g, "Player", 365, 210, Color.RED, FontSize35);
-            drawText(g, "Time", 580, 210, Color.RED, FontSize35);
-
-            // Text positions of rank data
-            drawText(g, "1", 280, 257, Color.BLUE, FontSize30);
-            drawText(g, "2", 280, 297, Color.BLUE, FontSize30);
-            drawText(g, "3", 280, 337, Color.BLUE, FontSize30);
-            drawText(g, "4", 280, 377, Color.BLUE, FontSize30);
-            drawText(g, "5", 280, 417, Color.BLUE, FontSize30);
-            drawText(g, "6", 280, 457, Color.BLUE, FontSize30);
-            drawText(g, "7", 280, 497, Color.BLUE, FontSize30);
-            drawText(g, "8", 280, 537, Color.BLUE, FontSize30);
-            drawText(g, "9", 280, 577, Color.BLUE, FontSize30);
-            drawText(g, "10", 280, 617, Color.BLUE, FontSize30);
-
-            // Text positions of player data
-            drawText(g, leaderboard[0], 365, 257, Color.BLUE, FontSize30);
-            /*
-            drawText(g, leaderboard[2], 365, 297, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[4], 365, 337, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[6], 365, 377, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[8], 365, 417, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[10], 365, 457, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[12], 365, 497, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[14], 365, 537, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[16], 365, 577, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[18], 365, 617, Color.BLUE, FontSize30);
-            */
-
-
-            // Text positions of time data
-            drawText(g, leaderboard[1], 580, 257, Color.BLUE, FontSize30);
-            /*
-            drawText(g, leaderboard[3], 580, 297, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[5], 580, 337, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[7], 580, 377, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[9], 580, 417, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[11], 580, 457, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[13], 580, 497, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[15], 580, 537, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[17], 580, 577, Color.BLUE, FontSize30);
-            drawText(g, leaderboard[19], 580, 617, Color.BLUE, FontSize30);
-            */
-
-
-
-        }
-    }
-
+    // Draws the controls and the leaderboard
     @Override
     public void paint(Graphics g) {
         super.paint(g);
         drawArrowKeys(g);
         drawTable(g);
-    }
-
-    private void drawRect(Graphics g, int x, int y, int width, int height, Color color) {
-        g.setColor(Color.WHITE);
-        g.fillRect(x, y, width, height);
-        g.setColor(color);
-        g.drawRect(x, y, width, height);
-    }
-
-    private void drawText(Graphics g, String text, int x, int y, Color color, Font font) {
-        g.setColor(color);
-        g.setFont(font);
-        g.drawString(text, x, y);
     }
 
     // Verifies the login data
@@ -648,10 +545,8 @@ public class MainMenu extends JFrame implements ActionListener {
 
     // Executes certain actions after pressing the leaderboard button
     private void leaderboardClicked() {
-        // TODO implement a complete dynamic display of a match history
         VisibilityManager.hideComponents(preLobbyButtons);
         VisibilityManager.showComponents(matchHistoryButtons);
-
 
         setTextOfLabel(mainMenuLbl, "LEADERBOARD");
         lbBtnPressed = true;

@@ -36,7 +36,7 @@ public class BoundsManager {
     public static final Rectangle NoInputBounds = new Rectangle(x - 200, y + 300, width + 400, height - 10);
     public static final Rectangle RegSuccessBounds = new Rectangle(x - 140, y + 300, width + 275, height - 10);
     public static final Rectangle UserExistsBounds = new Rectangle(x - 120, y + 300, width + 225, height - 10);
-    public static final Rectangle LoginFailedBounds = new Rectangle(x - 70, y + 300, width + 100, height - 10);
+    public static final Rectangle LoginFailedBounds = new Rectangle(x - 30, y + 300, width + 55, height - 10);
     public static final Rectangle ServerBounds = new Rectangle(x - 350, y - 150, width - 185, height - 25);
     public static final Rectangle ServerOnlineBounds = new Rectangle(x - 255, y - 150, width - 195, height - 25);
     public static final Rectangle ServerOfflineBounds = new Rectangle(x - 255, y - 150, width - 185, height - 25);

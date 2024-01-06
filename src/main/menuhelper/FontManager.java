@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class FontManager {
 
+    // Different font sizes
     public static final Font FontSize30 = new Font("Calibri", Font.BOLD, 30);
     public static final Font FontSize35 = new Font("Calibri", Font.BOLD, 35);
     public static final Font FontSize40 = new Font("Calibri", Font.BOLD, 40);
