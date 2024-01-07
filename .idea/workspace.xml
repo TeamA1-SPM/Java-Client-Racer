@@ -12,8 +12,9 @@
     <list default="true" id="89b3e5cb-fd23-4198-8647-e397f1e86915" name="Changes" comment="// FEATURES&#10;- result screen finished&#10;- show player names at gamestart">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/constants/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constants/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/game/HUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/game/HUD.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/menu/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/menu/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/music/MusicPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/music/MusicPlayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +86,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "onboarding.tips.debug.path": "C:/Users/bitco/OneDrive/Desktop/SPM/GIT/Java-Client-Racer/src/Main.java",
-    "project.structure.last.edited": "Artifacts",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "run.code.analysis.last.selected.profile": "pProject Default",

@@ -1,6 +1,5 @@
 package main;
 
-
 import io.socket.client.Socket;
 import main.constants.GameMode;
 import main.game.*;
@@ -86,7 +85,7 @@ public class Game implements Runnable {
     }
 
 
-    // server activated methods
+    // server activated functions
     private void serverFunctions(Socket socket){
         // get best lap times from server
         socket.on(GET_BEST_LAP_TIMES, args -> {
@@ -116,7 +115,6 @@ public class Game implements Runnable {
     // main game loop
     @Override
     public void run() {
-
         race.setGameState(COUNTDOWN);
         this.carSim.addPlayer(player);
         switch (gameMode){
@@ -146,8 +144,8 @@ public class Game implements Runnable {
         exit();
     }
 
+    // end game
     private void exit(){
-        // TODO send leave race to server
         musicPlayer.stop();
         menu.setVisible(true);
         this.context.dispose();
@@ -214,7 +212,6 @@ public class Game implements Runnable {
                 if(keyListener.isKeyPressed(KeyEvent.VK_ENTER)){
                     race.setGameState(END);
                 }
-                connection.bestTrackTimes(1);
                 break;
             case PAUSE:
                 if(gameMode == MULTI_PLAYER){
@@ -262,6 +259,7 @@ public class Game implements Runnable {
         g2D.drawImage(bufferImage,0,0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
     }
 
+    // resume game after pause
     private void resumeGame(){
         carSim.isRunning(true);
         race.setGameState(RUNNING);

@@ -11,19 +11,18 @@ import static main.constants.Settings.*;
 import static main.constants.SpriteName.*;
 
 public class HUD {
-
     private final Font font = new Font("Universal Light", Font.BOLD, 15);
     // HUD size
     private final int hudWidth = SCREEN_WIDTH;
     private final int hudHeight = (int) (SCREEN_HEIGHT * 0.12);
     private Graphics2D g2D;
+    private Result result;
+    private final GameSetup setup;
+
     // Element size
-    // TODO dynamic draw, remove all magic numbers and add scale for each element
     private final int padding = 38;
     private final int elemHeight = hudHeight - 48;
     private int pausePos = 1;
-    private Result result;
-    private GameSetup setup;
 
 
     public HUD(GameSetup setup){
@@ -38,6 +37,9 @@ public class HUD {
                 renderStats(race, speed);
                 break;
             case COUNTDOWN:
+                if(setup.getGameMode() == GameMode.MULTI_PLAYER){
+                    drawPlayerNames();
+                }
                 renderCountdown(race.getCountdown(), spritesLoader);
                 break;
             case RESULT:
@@ -62,29 +64,6 @@ public class HUD {
 
 
     private void renderCountdown(int countdown, SpritesLoader spritesLoader) {
-
-        if(setup.getGameMode() == GameMode.MULTI_PLAYER){
-
-            int startX1 = (SCREEN_WIDTH/3);
-            int startX2 = (SCREEN_WIDTH * 2/3);
-            int y = SCREEN_HEIGHT / 4;
-
-            drawRect(0, y - 40, SCREEN_WIDTH, 60, HUD_BACKGROUND);
-
-            int fontSize = 28;
-            Font font = new Font("Universal Light", Font.BOLD, fontSize);
-
-            g2D.setFont(font);
-            g2D.setColor(Color.WHITE);
-
-            String player1 = setup.getPlayerName();
-            String player2 = setup.getEnemyName();
-
-            g2D.drawString(player1, startX1, y);
-            g2D.drawString(player2, startX2, y);
-            g2D.drawString("VS", SCREEN_WIDTH/2, y);
-        }
-
         switch (countdown) {
             case 3:
                 spritesLoader.render(g2D, COUNTDOWN_THREE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
@@ -96,6 +75,29 @@ public class HUD {
                 spritesLoader.render(g2D, COUNTDOWN_ONE, 0.0005, (double) SCREEN_WIDTH / 2, (double) SCREEN_HEIGHT / 2, -0.5, -0.7, 0);
                 break;
         }
+    }
+
+    private void drawPlayerNames(){
+        int startX1 = (SCREEN_WIDTH/3) - 60;
+        int startX2 = (SCREEN_WIDTH * 2/3);
+        int y = SCREEN_HEIGHT / 4;
+
+        drawRect(0, y - 100, SCREEN_WIDTH, 120, HUD_BACKGROUND);
+
+        int fontSize = 28;
+        Font font = new Font("Universal Light", Font.BOLD, fontSize);
+
+        g2D.setFont(font);
+        g2D.setColor(Color.WHITE);
+
+        String player1 = setup.getPlayerName();
+        String player2 = setup.getEnemyName();
+
+        g2D.drawString(player1, startX1, y);
+        g2D.drawString(player2, startX2, y);
+        g2D.setColor(HUD_GREY);
+        g2D.drawString("VS", (SCREEN_WIDTH/2) - 28, SCREEN_HEIGHT / 4);
+        g2D.drawString("Track " + setup.getTrackNr(), (SCREEN_WIDTH/2) - 58, (SCREEN_HEIGHT / 4) - 50);
     }
 
     private void renderResult(SpritesLoader spritesLoader){
@@ -119,6 +121,7 @@ public class HUD {
             // waiting for other player to finish
             spritesLoader.render(g2D, WAITING, 0.0005, (double) SCREEN_WIDTH /2, (double) SCREEN_HEIGHT /2, -0.5, -0.5, 0);
         }else{
+            // show result
             if(setup.getGameMode() == GameMode.MULTI_PLAYER){
                 renderPlayerResult(result.getPlayerName(), result.getPlayerBestTime(), SCREEN_WIDTH/3, result.getPlayerWon());
                 renderPlayerResult(result.getEnemyName(), result.getEnemyBestTime(), (SCREEN_WIDTH * 2)/3, !result.getPlayerWon());
@@ -127,10 +130,10 @@ public class HUD {
             }
 
             if(result.getPlayerWon()){
-                // show player win
+                // show player win spite
                 spritesLoader.render(g2D, WIN, 0.0004, (double) SCREEN_WIDTH /2, (double) SCREEN_HEIGHT /2, -0.5, 2.5, 0);
-            } else if (!result.getPlayerWon()) {
-                // show player lose
+            } else {
+                // show player lose spite
                 spritesLoader.render(g2D, LOSE, 0.0004, (double) SCREEN_WIDTH /2, (double) SCREEN_HEIGHT /2, -0.5, 2.5, 0);
             }
         }
@@ -257,8 +260,8 @@ public class HUD {
         int min = (int) (time / 60);
 
         time = time % 60;
-
         int sec = (int) time;
+
         time = time % 1;
         int mil = (int) (time * 1000);
 
@@ -280,7 +283,6 @@ public class HUD {
     private void drawText(int startX, String text) {
         g2D.setColor(HUD_FONT);
         // draws text in the middle of the hud
-        // TODO add offset remove magic number 20. Title overlap problem.
         g2D.drawString(text, startX, hudHeight / 2 + 20);
     }
 }

@@ -94,7 +94,6 @@ public class MainMenu extends JFrame implements ActionListener {
     public MainMenu() {
         init();
         connection.connect();
-        connection.bestTrackTimes(1);
         serverFunctions(connection.getSocket());
     }
 
@@ -178,6 +177,7 @@ public class MainMenu extends JFrame implements ActionListener {
                         e.printStackTrace();
                     }
                 }
+                repaint();
             }
         });
     }
@@ -551,7 +551,6 @@ public class MainMenu extends JFrame implements ActionListener {
 
         setTextOfLabel(mainMenuLbl, "LEADERBOARD");
         lbBtnPressed = true;
-        repaint();
     }
 
     // Executes certain actions after pressing the (leaderboard) back button
