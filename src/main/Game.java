@@ -214,7 +214,7 @@ public class Game implements Runnable {
                 if(keyListener.isKeyPressed(KeyEvent.VK_ENTER)){
                     race.setGameState(END);
                 }
-
+                connection.bestTrackTimes(1);
                 break;
             case PAUSE:
                 if(gameMode == MULTI_PLAYER){

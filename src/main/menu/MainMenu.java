@@ -545,6 +545,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
     // Executes certain actions after pressing the leaderboard button
     private void leaderboardClicked() {
+        connection.bestTrackTimes(1);
         VisibilityManager.hideComponents(preLobbyButtons);
         VisibilityManager.showComponents(matchHistoryButtons);
 
