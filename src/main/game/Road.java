@@ -9,7 +9,13 @@ import main.gamehelper.Point;
 import static main.constants.Colors.*;
 import static main.constants.Settings.*;
 
-
+/*
+ * Road layer
+ * - get the updated car list
+ * - render road segments
+ * - render road side objects
+ * - render npc cars
+ */
 public class Road {
 
     private final ArrayList<Segment> segments;
@@ -94,20 +100,21 @@ public class Road {
 
 
                 double spriteScale = CAMERA_DEPTH / segment.getP1Camera().getZ();
-                double spriteX = segment.getP1Screen().getX() + (spriteScale * roadSideObject.getOffset() * ROAD_WIDTH * SCREEN_WIDTH/2);
+                double spriteX = segment.getP1Screen().getX() + (spriteScale * roadSideObject.offset() * ROAD_WIDTH * SCREEN_WIDTH/2);
                 double spriteY = segment.getP1Screen().getY();
 
                 double offset = 0;
 
-                if(roadSideObject.getOffset() < 0){
+                if(roadSideObject.offset() < 0){
                     offset = -1;
                 }
 
-                spritesLoader.render(g2, roadSideObject.getName(), spriteScale, spriteX, spriteY,offset, -1, segment.getClip());
+                spritesLoader.render(g2, roadSideObject.name(), spriteScale, spriteX, spriteY,offset, -1, segment.getClip());
             }
         }
     }
 
+    // @return nps cars in one segment bsed on given segment index
     public ArrayList<Car> getSegmentCars(int index){
         ArrayList<Car> segmentCars = new ArrayList<>();
         int startPosition = index * SEGMENT_LENGTH;
@@ -208,6 +215,7 @@ public class Road {
         return trackLength;
     }
 
+    // @ return segment based on given position
     public Segment findSegment(double position) {
         int index = (int)(position/SEGMENT_LENGTH)%segments.size();
         return segments.get(index);

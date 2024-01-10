@@ -10,48 +10,36 @@ import java.util.Objects;
 import static main.constants.Settings.*;
 import static main.constants.SpriteName.*;
 
-
-class SpriteCoordinates {
-
-    int x;
-    int y;
-    int w;
-    int h;
-
-    public SpriteCoordinates(int x, int y, int w, int h){
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-    }
-
-    public int getX(){
-        return x;
-    }
-    public int getY(){
-        return y;
-    }
-    public int getW(){
-        return w;
-    }
-    public int getH(){
-        return h;
-    }
+/**
+ * @param x sprite start x position
+ * @param y sprite start y position
+ * @param w sprite width
+ * @param h sprite height
+ */ /*
+ * png cutout coordinates
+ */
+record SpriteCoordinates(int x, int y, int w, int h) {
 
 
 }
 
-
+/*
+ * Manages all game sprites
+ * - cutout base on coordinates
+ * - scale
+ * - draw on given position
+ */
 public class SpritesLoader {
     private final HashMap<SpriteName, SpriteCoordinates> spritesMap = new HashMap<>();
-    private final String path = "/main/images/sprites.png";
     private Image image;
 
     public SpritesLoader(){
         addCoordinates();
-        loadImage(this.path);
+        String path = "/main/images/sprites.png";
+        loadImage(path);
     }
 
+    // png cutout coordinates
     private void addCoordinates(){
 
         spritesMap.put(BILLBOARD01, new SpriteCoordinates( 625, 375, 300, 170 ));
@@ -105,13 +93,15 @@ public class SpritesLoader {
         spritesMap.put(LOSE, new SpriteCoordinates(744,1402,157,25));
     }
 
+    // load sprite png file
     private void loadImage(String path){
         ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(path)));
         image = imageIcon.getImage();
     }
 
+    // @return scaled sprite width
     public double getSpriteWidth(SpriteName name){
-        return spritesMap.get(name).getW() * SPRITE_SCALE;
+        return spritesMap.get(name).w() * SPRITE_SCALE;
     }
 
     public void render(Graphics2D g2D, SpriteName name, double scale, double destX, double destY, double offsetX, double offsetY, double clipY){
@@ -124,21 +114,21 @@ public class SpritesLoader {
 
         SpriteCoordinates sC = spritesMap.get(name);
 
-        //  scale for projection AND relative to roadWidth (for tweakUI)
-        double destW  = (sC.getW() * scale * widthMid) * (SPRITE_SCALE * ROAD_WIDTH);
-        double destH  = (sC.getH() * scale * widthMid) * (SPRITE_SCALE * ROAD_WIDTH);
+        //  scale for projection AND relative to roadWidth
+        double destW  = (sC.w() * scale * widthMid) * (SPRITE_SCALE * ROAD_WIDTH);
+        double destH  = (sC.h() * scale * widthMid) * (SPRITE_SCALE * ROAD_WIDTH);
 
         destX = destX + (destW * offsetX);
         destY = destY + (destH * offsetY);
 
         double clipH = clipY != 0 ? Math.max(0, destY + destH - clipY) : 0;
-
+        // only draw when in view
         if (clipH < destH){
             double destX2 = destW + destX;
             double destY2 = (destH - clipH) + destY;
-            double srcX2 = sC.getX() + sC.getW();
-            double srcY2 = sC.getY() + ((sC.getH() - (sC.getH()*clipH/destH)));
-            g2D.drawImage(image, (int)destX, (int)destY, (int)destX2, (int)destY2 , sC.getX(), sC.getY(), (int)srcX2, (int)srcY2,null);
+            double srcX2 = sC.x() + sC.w();
+            double srcY2 = sC.y() + ((sC.h() - (sC.h()*clipH/destH)));
+            g2D.drawImage(image, (int)destX, (int)destY, (int)destX2, (int)destY2 , sC.x(), sC.y(), (int)srcX2, (int)srcY2,null);
         }
     }
 

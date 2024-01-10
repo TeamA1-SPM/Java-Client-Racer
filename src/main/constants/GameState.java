@@ -1,3 +1,4 @@
 package main.constants;
 
-public enum GameState { READY, COUNTDOWN, RUNNING, RESULT, PAUSE, END}
+// possible game states inside the game loop
+public enum GameState { COUNTDOWN, RUNNING, RESULT, PAUSE, END}

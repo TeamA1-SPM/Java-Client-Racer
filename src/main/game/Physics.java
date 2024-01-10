@@ -8,6 +8,12 @@ import java.util.ArrayList;
 
 import static main.constants.Settings.*;
 
+/*
+ * in game physics calculation
+ * - calc player x and z position
+ * - roadside objects collision
+ * - npc car collision
+ */
 public class Physics {
 
     private final Player player;
@@ -89,9 +95,9 @@ public class Physics {
         if ((playerX < -1) || (playerX > 1)){
             ArrayList<RoadSideObject> roadSideRoadSideObjects = playerSegment.getRoadsideList();
             for (RoadSideObject roadSideObject : roadSideRoadSideObjects) {
-                double spriteW = roadSideObject.getWidth();
+                double spriteW = roadSideObject.width();
 
-                if (overlap(playerX, (roadSideObject.getOffset() + spriteW / 2 * (roadSideObject.getOffset() > 0 ? 1 : -1)), spriteW, 0.0)) {
+                if (overlap(playerX, (roadSideObject.offset() + spriteW / 2 * (roadSideObject.offset() > 0 ? 1 : -1)), spriteW, 0.0)) {
                     player.setSpeed(MAX_SPEED / 5);
                     player.setPosition(playerSegment.getP1World().getZ() - PLAYER_Z);
                     break;

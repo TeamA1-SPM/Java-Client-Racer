@@ -1,5 +1,6 @@
 package main.constants;
 
+// names of all available sprites
 public enum SpriteName {
     BILLBOARD01,
     BILLBOARD02,

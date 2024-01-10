@@ -8,9 +8,19 @@ import static main.constants.GameMode.*;
 import static main.constants.GameState.*;
 import static main.constants.Settings.*;
 
+/*
+ * Manages the race parameters
+ * - game state
+ * - check if player finished the race
+ * - set times
+ * - count laps
+ * - countdown
+ * multiplayer:
+ * - send lap time
+ * - send race finished
+ */
 public class Race {
     private Connection connection;
-
     private GameState gameState;
     private int countdown = 4;
     private double currentLapTime = 0;
@@ -31,7 +41,6 @@ public class Race {
         if(mode == MULTI_PLAYER){
             this.connection = connection;
         }
-
         this.maxLaps = maxLaps;
         this.trackMid = trackLength/2;
     }
@@ -40,17 +49,7 @@ public class Race {
         // lap is finished
         if(isLapFinished(playerPosition)){
             startNewLap();
-            // multi player mode
-            if(mode == MULTI_PLAYER){
-                connection.sendLapTime(getLastLapTime());
-            }else{
-                // single player mode
-                if(bestLapTime == 0){
-                    bestLapTime = lastLapTime;
-                } else if (lastLapTime < bestLapTime) {
-                    bestLapTime = lastLapTime;
-                }
-            }
+            setStats();
         }
         // race is finished
         if(lap > maxLaps){
@@ -62,6 +61,7 @@ public class Race {
         currentLapTime += STEP;
     }
 
+    // check if player crossed checkpoint and finish line
     private boolean isLapFinished(double playerPosition){
         // player crossed checkpoint
         if(playerPosition > trackMid & playerPosition < (trackMid + PLAYER_Z)){
@@ -71,6 +71,21 @@ public class Race {
         return crossedCheckPoint && playerPosition < PLAYER_Z;
     }
 
+    // refresh best lap time
+    private void setStats(){
+        // multi player mode
+        if(mode == MULTI_PLAYER){
+            connection.sendLapTime(getLastLapTime());
+        }else{
+            // single player mode
+            if(bestLapTime == 0){
+                bestLapTime = lastLapTime;
+            } else if (lastLapTime < bestLapTime) {
+                bestLapTime = lastLapTime;
+            }
+        }
+    }
+
     private void startNewLap(){
         lastLapTime = currentLapTime;
         currentLapTime = 0;
@@ -78,11 +93,12 @@ public class Race {
         lap++;
     }
 
-    private double getFormatedTime(double time){
+    private double getFormattedTime(double time){
         time = (int)(time * 10000);
         return time/10000 ;
     }
 
+    // convert server send time object to double
     private double objectToDouble(Object str){
         if (!(str instanceof Number)) {
             return 0.0;
@@ -99,8 +115,8 @@ public class Race {
     }
 
     // returns time in seconds
-    public double getCurrentLapTime() { return getFormatedTime(currentLapTime); }
-    public double getLastLapTime() { return getFormatedTime(lastLapTime) ; }
+    public double getCurrentLapTime() { return getFormattedTime(currentLapTime); }
+    public double getLastLapTime() { return getFormattedTime(lastLapTime) ; }
     public double getBestLapTime() { return bestLapTime; }
 
     public void setBestLapTime(Object bestLapTime) {
@@ -117,6 +133,7 @@ public class Race {
     public int getCountdown() {
         return countdown;
     }
+    // switch game state if countdown is 0
     public void setCountdown(Object countdown) {
         if(gameState == COUNTDOWN){
             int result = (int)objectToDouble(countdown);

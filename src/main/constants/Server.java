@@ -1,11 +1,12 @@
 package main.constants;
 
+// Multiplayer server function names
 public class Server {
 
     // server address
-    public static final String URI = "https://racing-server-test.onrender.com";
+    public static final String URI = "https://racing-server.onrender.com";
 
-    // Client invoked
+    // Client invoked on server
     public static final String SEND_REGISTER = "register";                  // player register function
     public static final String SEND_LOGIN = "login";                        // player login function
     public static final String SEND_LOGOUT = "logout";                      // player logout function
@@ -16,7 +17,7 @@ public class Server {
     public static final String SEND_POSITION = "display_player";            // send player position to server
     public static final String SEND_LEAVE_LOBBY = "leave_lobby";            // send player position to server
 
-    // Server invoked
+    // Server invoked on client
     public static final String GET_BEST_LAP_TIMES = "best_lap_times";   // get enemy player lap time
     public static final String GET_SERVER_COUNTDOWN = "countdown";      // get countdown from server
     public static final String GET_POSITION = "epp";                    // get enemy position from server

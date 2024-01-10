@@ -4,20 +4,15 @@ import main.constants.SpriteName;
 
 import static main.constants.SpriteName.*;
 
+/*
+ * enemy player representation
+ */
 public class EnemyPlayer {
-    private final String name;
     private double position = 0;
     private double playerX = 0;
     private double steer = 0;
     private double upDown = 0;
 
-    public EnemyPlayer(String name){
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     public double getPosition() {
         return position;
@@ -41,6 +36,7 @@ public class EnemyPlayer {
         this.upDown = objectToDouble(str);
     }
 
+    // @return sprite name to render based on enemy values
     public SpriteName getSpriteName() {
         if(steer < 0){
             if(upDown > 0){
@@ -62,6 +58,7 @@ public class EnemyPlayer {
         return PLAYER_STRAIGHT;
     }
 
+    // convert server send values object to double
     private double objectToDouble(Object str){
         if (!(str instanceof Number)) {
             return 0.0;

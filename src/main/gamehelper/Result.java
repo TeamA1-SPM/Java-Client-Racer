@@ -1,7 +1,10 @@
 package main.gamehelper;
 
+/*
+ * Race result to display on the result screen
+ */
 public class Result {
-    private String playerName;
+    private final String playerName;
     private double playerBestTime;
     private Boolean playerWon = null;
     private String enemyName;
@@ -44,6 +47,7 @@ public class Result {
         return playerWon;
     }
 
+    // convert server send value object to double
     private double objectToDouble(Object str){
         if (!(str instanceof Number)) {
             return 0.0;

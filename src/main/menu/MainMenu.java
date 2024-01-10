@@ -1,7 +1,6 @@
 package main.menu;
 
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import main.Game;
 import main.Window;
 import main.constants.GameMode;
@@ -61,16 +60,16 @@ public class MainMenu extends JFrame implements ActionListener {
     private final JButton leaveLobbyBtn = new JButton();
 
     // Grouped lists of menu components
-    List<JComponent> mainMenuButtons = Arrays.asList(playBtn, mpBtn, controlsBtn, exitBtn);
-    List<JComponent> multiplayerButtons = Arrays.asList(loginBtn, regBtn, mpBackBtn);
-    List<JComponent> loginButtons = Arrays.asList(continueBtn, loginBackBtn);
-    List<JComponent> registerButtons = Arrays.asList(acceptBtn, regBackBtn);
-    List<JComponent> preLobbyButtons = Arrays.asList(findLobbyBtn, logoutBtn, leaderboardBtn);
-    List<JComponent> controlsButtons = List.of(controlsBackBtn);
-    List<JComponent> matchHistoryButtons = List.of(lbBackBtn);
-    List<JComponent> lobbyButtons = List.of(leaveLobbyBtn);
-    List<JComponent> usernameComponents = Arrays.asList(UsernameField, userLbl);
-    List<JComponent> passwordComponents = Arrays.asList(PasswordField, pwLbl);
+    private final List<JComponent> mainMenuButtons = Arrays.asList(playBtn, mpBtn, controlsBtn, exitBtn);
+    private final List<JComponent> multiplayerButtons = Arrays.asList(loginBtn, regBtn, mpBackBtn);
+    private final List<JComponent> loginButtons = Arrays.asList(continueBtn, loginBackBtn);
+    private final List<JComponent> registerButtons = Arrays.asList(acceptBtn, regBackBtn);
+    private final List<JComponent> preLobbyButtons = Arrays.asList(findLobbyBtn, logoutBtn, leaderboardBtn);
+    private final List<JComponent> controlsButtons = List.of(controlsBackBtn);
+    private final List<JComponent> matchHistoryButtons = List.of(lbBackBtn);
+    private final List<JComponent> lobbyButtons = List.of(leaveLobbyBtn);
+    private final List<JComponent> usernameComponents = Arrays.asList(UsernameField, userLbl);
+    private final List<JComponent> passwordComponents = Arrays.asList(PasswordField, pwLbl);
 
     // Booleans for some menu functions
     private boolean isLoginCorrect = false;
@@ -136,49 +135,37 @@ public class MainMenu extends JFrame implements ActionListener {
 
     // Functions that are addressed by the server
     private void serverFunctions(Socket socket) {
-        socket.on("login_success", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                isLoginCorrect = (boolean) args[0];
-                verifyLoginData();
-            }
-        }).on("register_success", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                registerBool = (boolean) args[0];
-                checkIfUserExists();
-            }
-        }).on("start_game", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                GameSetup setup = new GameSetup(GameMode.MULTI_PLAYER, 1, 1, username);
-                setup.setMultiplayerParameters((String)args[0], (String)args[1]);
-                connection.ready();
-                startGame(setup);
-            }
-        }).on("score_board", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
+        socket.on("login_success", args -> {
+            isLoginCorrect = (boolean) args[0];
+            verifyLoginData();
+        }).on("register_success", args -> {
+            registerBool = (boolean) args[0];
+            checkIfUserExists();
+        }).on("start_game", args -> {
+            GameSetup setup = new GameSetup(GameMode.MULTI_PLAYER, 1, 1, username);
+            setup.setMultiplayerParameters((String)args[0], (String)args[1]);
+            connection.ready();
+            startGame(setup);
+        }).on("score_board", args -> {
 
-                JSONArray jsonArray = (JSONArray) args[0];
-                leaderboardData = new String[jsonArray.length()];
+            JSONArray jsonArray = (JSONArray) args[0];
+            leaderboardData = new String[jsonArray.length()];
 
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    try {
-                        Object value = jsonArray.get(i);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    Object value = jsonArray.get(i);
 
-                        if (value instanceof Double) {
-                            value = convertSecondsToTimeString((Double) value);
-                        }
-                        // Saving as String (so it is drawable later)
-                        leaderboardData[i] = String.valueOf(value);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (value instanceof Double) {
+                        value = convertSecondsToTimeString((Double) value);
                     }
+                    // Saving as String (so it is drawable later)
+                    leaderboardData[i] = String.valueOf(value);
+
+                } catch (JSONException e) {
+                    System.out.println(e);
                 }
-                repaint();
             }
+            repaint();
         });
     }
 
@@ -376,14 +363,17 @@ public class MainMenu extends JFrame implements ActionListener {
         }
 
         main.Window window = new Window();
+        window.setLocation(this.getLocation());
         Game game = new Game(this, window, connection, setup);
         Thread gameThread = new Thread(game);
         gameThread.start();
+
+
     }
 
     // Executes certain actions after pressing the play button
     private void playClicked() {
-        GameSetup setup = new GameSetup(GameMode.SINGLE_PLAYER,1,1,"PLAYER");
+        GameSetup setup = new GameSetup(GameMode.SINGLE_PLAYER,2,3,"PLAYER");
         startGame(setup);
     }
 

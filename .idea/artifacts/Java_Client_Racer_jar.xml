@@ -3,14 +3,14 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Java_Client_Racer_jar</output-path>
     <root id="archive" name="Java-Client-Racer.jar">
       <element id="module-output" name="Java-Client-Racer" />
-      <element id="library" level="module" name="JUnit4" module-name="Java-Client-Racer" />
-      <element id="library" level="module" name="JUnit5.8.1" module-name="Java-Client-Racer" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/main/libs/okio-1.15.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/main/libs/json-20090211.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/main/libs/okhttp-3.12.12.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/main/libs/json-simple-1.1.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/main/libs/engine.io-client-2.1.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/main/libs/socket.io-client-2.1.0.jar" path-in-jar="/" />
+      <element id="library" level="module" name="JUnit4" module-name="Java-Client-Racer" />
+      <element id="library" level="module" name="JUnit5.8.1" module-name="Java-Client-Racer" />
     </root>
   </artifact>
 </component>

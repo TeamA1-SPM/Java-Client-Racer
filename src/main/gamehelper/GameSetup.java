@@ -2,6 +2,16 @@ package main.gamehelper;
 
 import main.constants.GameMode;
 
+/*
+ * Interface object between menu and game
+ * - game mode
+ * - track number
+ * - laps
+ * - player name
+ * multiplayer
+ * - enemy player name
+ * - player number (player1 or player2)
+ */
 public class GameSetup {
     private final GameMode mode;
     private final int trackNr;
@@ -38,6 +48,7 @@ public class GameSetup {
         return enemyName;
     }
 
+    // @return player start x position
     public double getStartPosition(){
         if(mode == GameMode.MULTI_PLAYER){
             if(playerNumber.equals("player1")){
@@ -50,6 +61,7 @@ public class GameSetup {
         return 0;
     }
 
+    // set parameters for a multiplayer game
     public void setMultiplayerParameters(String enemyName, String playerNumber){
         this.enemyName = enemyName;
         this.playerNumber = playerNumber;

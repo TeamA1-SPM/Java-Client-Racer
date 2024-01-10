@@ -1,5 +1,11 @@
 package main.gamehelper;
 
+/*
+ * 3D coordinates
+ * - used by world
+ * - used by camera
+ * - used by screen
+ */
 public class Point {
 
     private int x;

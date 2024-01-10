@@ -5,13 +5,16 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioInputStream;
 import java.io.File;
 
+/*
+ * Basic music player implementation
+ */
 public class MusicPlayer {
     Clip clip;
     AudioInputStream audioInputStream;
-    static String filePath = "./music/racer.wav";
 
     public MusicPlayer(){
         try {
+            String filePath = "./music/racer.wav";
             audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);

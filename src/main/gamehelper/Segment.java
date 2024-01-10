@@ -7,6 +7,10 @@ import main.constants.ColorMode;
 import main.constants.SpriteName;
 import static main.constants.Colors.*;
 
+/*
+ * One stripe in the road layer
+ * has different colors for own layers
+ */
 public class Segment {
 
     private final int index;
@@ -16,26 +20,32 @@ public class Segment {
     private Color colorGrass;
     private Color colorRumble;
 
+    // segment start point
     private Point p1World;
     private final Point p1Camera;
     private final Point p1Screen;
 
+    // segment end point
     private Point p2World;
     private final Point p2Camera;
     private final Point p2Screen;
 
     private double curve;
+    // helps to identify covered object
     private double clip;
 
+    // road side objects list
     private final ArrayList<RoadSideObject> roadsideList;
 
     public Segment(int index){
         this.index = index;
 
+        // segment start point
         p1World = new Point(0,0,0);
         p1Camera = new Point(0,0,0);
         p1Screen = new Point(0,0,0);
 
+        // segment end point
         p2World = new Point(0,0,0);
         p2Camera = new Point(0,0,0);
         p2Screen = new Point(0,0,0);

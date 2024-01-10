@@ -1,6 +1,5 @@
 package main.tracks;
 
-
 import main.constants.SpriteName;
 import main.game.SpritesLoader;
 import main.gamehelper.Car;
@@ -18,6 +17,10 @@ import static main.constants.ColorMode.*;
 import static main.constants.Settings.*;
 import static main.constants.SpriteName.*;
 
+/*
+ * Converts a json track file into a segment ArrayList
+ * uses simple json library
+ */
 
 public class RoadParser{
     private final SpritesLoader spritesLoader;
@@ -124,6 +127,7 @@ public class RoadParser{
         return segmentList;
     }
 
+    // add start and finish line to the track
     private void addStartFinish(){
         int index = (int)Math.floor(PLAYER_Z /SEGMENT_LENGTH) % segmentList.size();
 
@@ -137,6 +141,7 @@ public class RoadParser{
         }
     }
 
+    // string to int converter
     private int stringToInt(String number){
         double result;
         if(number.length() > 10){

@@ -2,12 +2,18 @@ package main.gamehelper;
 
 import main.constants.SpriteName;
 
+/*
+ * npc car
+ * used by simulation
+ * is rendered by Road
+ */
+
 public class Car {
-    SpriteName name;
-    double offset;
-    double position;
-    double speed;
-    double width;
+    private SpriteName name;
+    private double offset;
+    private double position;
+    private final double speed;
+    private final double width;
 
     public Car(SpriteName name, double offset, double position, double speed, double width){
         this.name = name;
@@ -36,9 +42,6 @@ public class Car {
 
     public double getSpeed(){
         return speed;
-    }
-    public void setSpeed(double speed){
-        this.position = speed;
     }
 
     public double getWidth(){

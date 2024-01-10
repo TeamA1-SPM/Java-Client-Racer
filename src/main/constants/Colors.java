@@ -2,6 +2,8 @@ package main.constants;
 
 import java.awt.*;
 
+// color palett to use for the game
+
 public class Colors {
 
     // Road colors
@@ -23,6 +25,8 @@ public class Colors {
     public static final Color HUD_FONT = new Color(0, 0, 0);
     public static final Color HUD_FONT_GREEN = new Color(17, 87, 17);
     public static final Color HUD_FONT_RED = new Color(70, 2, 2);
+
+    // overlay colors
     public static final Color SCREEN_DARK = new Color(0, 0, 0, 80);
 
 }

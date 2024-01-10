@@ -3,6 +3,9 @@ package main.gamehelper;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/*
+ * key listener for player input
+ */
 public class InputListener implements KeyListener {
 
     private final boolean[] keyPressed = new boolean[256];

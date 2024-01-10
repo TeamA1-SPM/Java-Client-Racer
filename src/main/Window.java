@@ -16,6 +16,5 @@ public class Window extends JFrame{
         this.setResizable(Settings.SCREEN_RESIZABLE);
         this.setVisible(Settings.SCREEN_VISIBLE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
     }
 }
