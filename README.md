@@ -1,2 +1,4 @@
 # Java-Client-Racer
-Hier wird die Implementierung des Java-Client für das Racing-main.Game umgesetzt.
+Implementierung des Java-Client-Racer:
+also Vorlage diente das Projekt "javascript-racer" auf der Seite codeincomplete.com
+https://codeincomplete.com/articles/javascript-racer
