@@ -108,11 +108,11 @@ public class MainMenu extends JFrame implements ActionListener {
         this.setSize(menuBackground.getIconWidth(), menuBackground.getIconHeight());
         this.setTitle(Settings.SCREEN_TITLE);
         this.setResizable(Settings.SCREEN_RESIZABLE);
+        this.setLocationRelativeTo(null);
         this.setVisible(Settings.SCREEN_VISIBLE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(mainMenuLbl);
         this.pack();
-        this.setLocationRelativeTo(null);
     }
 
     // Sets up all menu components

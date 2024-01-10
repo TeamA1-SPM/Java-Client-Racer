@@ -164,6 +164,7 @@ public class Game implements Runnable {
     // end game functions
     private void exit(){
         musicPlayer.stop();
+        menu.setLocation(this.context.getLocation());
         menu.setVisible(true);
         this.context.dispose();
     }
